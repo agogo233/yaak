@@ -58,7 +58,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { Pop-Location; exit $LASTEXITCODE }
           Pop-Location
 
-      - name: Package & verify portable zip
+      - name: Verify & stage portable exe
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -69,22 +69,13 @@ jobs:
           Remove-Item -Recurse -Force $stage -ErrorAction SilentlyContinue
           New-Item -ItemType Directory -Force -Path $stage | Out-Null
           Copy-Item $exe.FullName (Join-Path $stage $exe.Name)
-          $zip = Join-Path $env:RUNNER_TEMP 'yaak-windows-x64-portable.zip'
-          Remove-Item -Force $zip -ErrorAction SilentlyContinue
-          Compress-Archive -Path "$stage\*" -DestinationPath $zip
-          Add-Type -AssemblyName System.IO.Compression.FileSystem
-          $a = [System.IO.Compression.ZipFile]::OpenRead($zip)
-          $entries = @($a.Entries | Where-Object { $_.Name -ne '' })
-          $nested = @($entries | Where-Object { $_.FullName -match '[/\\]' })
-          $a.Dispose()
-          Write-Output "Zip entries: $($entries.Count)"
-          if ($entries.Count -ne 1) { throw "Expected 1 file in zip, found $($entries.Count) (missing files?)" }
-          if ($nested.Count -ne 0) { throw "Zip must not contain a nested folder: $($nested.FullName -join ', ')" }
-          "PORTABLE_ZIP=$zip" | Out-File -FilePath $env:GITHUB_ENV -Append
+          # Upload the unpacked exe so the downloaded artifact is a single zip layer,
+          # never a zip inside a zip.
+          "PORTABLE_STAGE=$stage" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - uses: actions/upload-artifact@v4
         with:
           name: yaak-windows-x64-portable
-          path: ${{ env.PORTABLE_ZIP }}
+          path: ${{ env.PORTABLE_STAGE }}
           if-no-files-found: error
           retention-days: 7
