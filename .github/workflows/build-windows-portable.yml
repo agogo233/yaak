@@ -1,0 +1,90 @@
+name: Build Windows x64 Portable
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-portable:
+    runs-on: windows-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version: "24"
+          cache: true
+
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ci
+          cache-on-failure: true
+
+      - name: Install Protoc for plugin-runtime
+        uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: vp install
+      - run: npm run bootstrap
+        env:
+          YAAK_TARGET_ARCH: x64
+
+      - name: Set version from Cargo.toml
+        shell: pwsh
+        run: |
+          $m = Select-String -Path crates-tauri/yaak-app-client/Cargo.toml -Pattern '^version\s*=\s*"(.+)"' | Select-Object -First 1
+          $ver = if ($m) { $m.Matches[0].Groups[1].Value } else { "0.0.0" }
+          "YAAK_VERSION=$ver" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Replace version
+        run: npm run replace-version
+        env:
+          YAAK_VERSION: ${{ env.YAAK_VERSION }}
+
+      - name: Build portable exe (no bundle, no sign)
+        shell: pwsh
+        env:
+          YAAK_TARGET_ARCH: x64
+        run: |
+          Push-Location crates-tauri/yaak-app-client
+          node ../../node_modules/@tauri-apps/cli/tauri.js build --config ./tauri.release.conf.json --no-bundle --no-sign
+          if ($LASTEXITCODE -ne 0) { Pop-Location; exit $LASTEXITCODE }
+          Pop-Location
+
+      - name: Package & verify portable zip
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $exe = Get-ChildItem -Path target\release -Filter *.exe -File | Sort-Object Length -Descending | Select-Object -First 1
+          if (-not $exe) { throw "No exe found in target/release" }
+          if ($exe.Length -lt 10MB) { throw "exe too small ($($exe.Length) bytes): $($exe.Name)" }
+          $stage = Join-Path $env:RUNNER_TEMP 'portable-stage'
+          Remove-Item -Recurse -Force $stage -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          Copy-Item $exe.FullName (Join-Path $stage $exe.Name)
+          $zip = Join-Path $env:RUNNER_TEMP 'yaak-windows-x64-portable.zip'
+          Remove-Item -Force $zip -ErrorAction SilentlyContinue
+          Compress-Archive -Path "$stage\*" -DestinationPath $zip
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $a = [System.IO.Compression.ZipFile]::OpenRead($zip)
+          $entries = @($a.Entries | Where-Object { $_.Name -ne '' })
+          $nested = @($entries | Where-Object { $_.FullName -match '[/\\]' })
+          $a.Dispose()
+          Write-Output "Zip entries: $($entries.Count)"
+          if ($entries.Count -ne 1) { throw "Expected 1 file in zip, found $($entries.Count) (missing files?)" }
+          if ($nested.Count -ne 0) { throw "Zip must not contain a nested folder: $($nested.FullName -join ', ')" }
+          "PORTABLE_ZIP=$zip" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: yaak-windows-x64-portable
+          path: ${{ env.PORTABLE_ZIP }}
+          if-no-files-found: error
+          retention-days: 7
