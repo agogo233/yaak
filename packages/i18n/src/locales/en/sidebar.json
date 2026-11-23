@@ -20,6 +20,8 @@
     "restoreChanges": "Restore Changes",
     "restoreConfirmOne": "This will discard uncommitted changes for the selected item.",
     "restoreConfirmMany": "This will discard uncommitted changes for {{count}} selected items.",
-    "restore": "Restore"
+    "restore": "Restore",
+    "toggle": "Toggle sidebar",
+    "addResource": "Add Resource"
   }
 }

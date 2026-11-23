@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import classNames from "classnames";
 import { useMemo, useRef } from "react";
 import { useActiveRequest } from "../hooks/useActiveRequest";
@@ -74,7 +75,7 @@ export function RecentRequestsDropdown({ className }: Props) {
       return [
         {
           key: "no-recent-requests",
-          label: "No recent requests",
+          label: i18n.t("history.noRecent"),
           disabled: true,
         },
       ];

@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { GraphQlIntrospection, HttpRequest } from "@yaakapp-internal/models";
 import { platform } from "@yaakapp-internal/platform";
@@ -80,7 +81,7 @@ export function useIntrospectGraphQL(
       }
 
       if (bodyText === "") {
-        return setError("Empty body returned in response");
+        return setError(i18n.t("graphql.emptyBodyReturned"));
       }
 
       console.log(`Got introspection response for ${baseRequest.url}`, bodyText);
@@ -164,7 +165,7 @@ export function useIntrospectGraphQL(
   );
 
   const reloadFromFile = useCallback(async () => {
-    if (filePath == null) return { ok: false as const, error: "No schema file to reload" };
+    if (filePath == null) return { ok: false as const, error: i18n.t("graphql.noSchemaFile") };
     return introspectFromFile(filePath);
   }, [filePath, introspectFromFile]);
 

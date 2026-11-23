@@ -18,6 +18,35 @@
     "inputAria": "键盘快捷键输入",
     "pressKeys": "按下按键...",
     "cancel": "取消",
-    "save": "保存"
+    "save": "保存",
+    "actions": {
+      "zoomIn": "放大",
+      "zoomOut": "缩小",
+      "zoomReset": "重置为实际大小",
+      "toggleCommandPalette": "切换命令面板",
+      "showCookies": "显示 Cookie",
+      "triggerAutocomplete": "触发自动补全",
+      "editEnvironments": "编辑环境变量",
+      "showKeyboardShortcuts": "显示键盘快捷键",
+      "newRequest": "新建请求",
+      "duplicateRequest": "复制请求",
+      "renameActiveRequest": "重命名当前请求",
+      "sendActiveRequest": "发送当前请求",
+      "previousRequest": "切换到上一个请求",
+      "nextRequest": "切换到下一个请求",
+      "toggleRequestSwitcher": "切换请求切换器",
+      "openSettings": "打开设置",
+      "filterSidebar": "筛选侧边栏",
+      "expandAllFolders": "展开全部文件夹",
+      "collapseAllFolders": "折叠全部文件夹",
+      "deleteSelected": "删除选中的侧边栏项",
+      "duplicateSelected": "复制选中的侧边栏项",
+      "moveSelected": "将选中项移动到工作区",
+      "renameSelected": "重命名选中的侧边栏项",
+      "focusOrToggleSidebar": "聚焦或切换侧边栏",
+      "showContextMenu": "显示上下文菜单",
+      "focusUrl": "聚焦地址栏",
+      "openWorkspaceSettings": "打开工作区设置"
+    }
   }
 }

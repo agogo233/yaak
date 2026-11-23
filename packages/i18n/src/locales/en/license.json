@@ -24,6 +24,18 @@
     "activate": "Activate License",
     "purchase": "Purchase License",
     "licenseKey": "License Key",
-    "submit": "Submit"
+    "submit": "Submit",
+    "personalUse": "Personal Use",
+    "commercialTrial": "Commercial Trial",
+    "statusError": "Error",
+    "pastDue": "Past Due",
+    "updatesPaused": "Updates Paused",
+    "licenseExpired": "License Expired",
+    "newUpdates": "{{count}} New Updates",
+    "expiredOn": "License expired {{date}}",
+    "renewLicense": "Renew License",
+    "enterLicenseKey": "Enter License Key",
+    "remindMeLater": "Remind me Later",
+    "commercialBanner": "Personal use of Yaak is free. If you’re using Yaak at work, please purchase a license."
   }
 }

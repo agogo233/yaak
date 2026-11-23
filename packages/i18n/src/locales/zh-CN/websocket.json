@@ -6,6 +6,8 @@
     "params": "参数",
     "request": "请求",
     "requestDescription": "请求描述",
-    "requestName": "请求名称"
+    "requestName": "请求名称",
+    "connected": "已连接到服务器",
+    "disconnected": "已与服务器断开连接"
   }
 }

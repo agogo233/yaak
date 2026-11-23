@@ -13,6 +13,8 @@
     "rootTypes": "Root Types",
     "stopUsingFile": "Stop Using File",
     "unknownType": "Unknown GraphQL type",
-    "unknownTypeShort": "Unknown Type"
+    "unknownTypeShort": "Unknown Type",
+    "emptyBodyReturned": "Empty body returned in response",
+    "noSchemaFile": "No schema file to reload"
   }
 }

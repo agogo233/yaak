@@ -226,7 +226,7 @@ function GraphQLEditorInner({ request, onChange, baseRequest, ...extraEditorProp
                     ? undefined
                     : {
                         icon: "folder_symlink",
-                        title: revealInFinderText,
+                        title: revealInFinderText(),
                         onClick: () => platform.revealItemInDir(filePath),
                       },
               },

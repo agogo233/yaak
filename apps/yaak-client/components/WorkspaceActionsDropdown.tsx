@@ -116,7 +116,7 @@ export const WorkspaceActionsDropdown = memo(function WorkspaceActionsDropdown({
         onSelect: openWorkspaceSettings,
       },
       {
-        label: revealInFinderText,
+        label: revealInFinderText(),
         hidden: workspaceMeta == null || workspaceMeta.settingSyncDir == null,
         leftSlot: <Icon icon="folder_symlink" />,
         onSelect: async () => {

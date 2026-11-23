@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { HttpRequest } from "@yaakapp-internal/models";
 import { getModel, patchModel, patchModelDebounced } from "@yaakapp-internal/models";
 import type { GenericCompletionOption } from "@yaakapp-internal/plugins";
@@ -347,13 +348,13 @@ export function HttpRequestPane({ style, fullHeight, className, activeRequest }:
       {
         tab: {
           value: TAB_DESCRIPTION,
-          label: "Info",
+          label: i18n.t("request.tabInfo"),
           rightSlot: hasDescription && <CountBadge count={true} />,
         },
         content: (
           <div className="grid grid-rows-[auto_minmax(0,1fr)] h-full">
             <PlainInput
-              label="Request Name"
+              label={i18n.t("request.requestName")}
               hideLabel
               forceUpdateKey={updateKey}
               defaultValue={activeRequest.name}
@@ -364,7 +365,7 @@ export function HttpRequestPane({ style, fullHeight, className, activeRequest }:
             />
             <MarkdownEditor
               name="request-description"
-              placeholder="Request description"
+              placeholder={i18n.t("request.descriptionPlaceholder")}
               defaultValue={activeRequest.description}
               stateKey={`description.${activeRequest.id}`}
               forceUpdateKey={updateKey}

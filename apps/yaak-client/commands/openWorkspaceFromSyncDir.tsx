@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { applySync, calculateSyncFsOnly } from "@yaakapp-internal/sync";
 import { createFastMutation } from "../hooks/useFastMutation";
 import { showSimpleAlert } from "../lib/alert";
@@ -13,7 +14,7 @@ export const openWorkspaceFromSyncDir = createFastMutation<void, void, string>({
       .filter((m) => m)[0];
 
     if (workspace == null) {
-      showSimpleAlert("Failed to Open", "No workspace found in directory");
+      showSimpleAlert(i18n.t("dialog.failedToOpen"), i18n.t("dialog.noWorkspaceFound"));
       return;
     }
 

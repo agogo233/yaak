@@ -24,6 +24,18 @@
     "activate": "激活许可证",
     "purchase": "购买许可证",
     "licenseKey": "许可证密钥",
-    "submit": "提交"
+    "submit": "提交",
+    "personalUse": "个人使用",
+    "commercialTrial": "商业试用",
+    "statusError": "错误",
+    "pastDue": "已逾期",
+    "updatesPaused": "更新已暂停",
+    "licenseExpired": "许可证已过期",
+    "newUpdates": "{{count}} 项新更新",
+    "expiredOn": "许可证已于 {{date}} 过期",
+    "renewLicense": "续订许可证",
+    "enterLicenseKey": "输入许可证密钥",
+    "remindMeLater": "稍后提醒",
+    "commercialBanner": "Yaak 个人使用免费。如果在工作场合使用 Yaak，请购买许可证。"
   }
 }

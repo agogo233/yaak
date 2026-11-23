@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { SegmentedControl } from "@yaakapp-internal/ui";
 import classNames from "classnames";
 import { useRef, useState } from "react";
@@ -67,14 +68,14 @@ export function MarkdownEditor({
       <div className="absolute top-0 right-0 pt-1.5 pr-1.5">
         <SegmentedControl
           name={name}
-          label="View mode"
+          label={i18n.t("response.viewModeLabel")}
           hideLabel
           onChange={setViewMode}
           value={viewMode}
           className="opacity-0 group-focus-within/markdown:opacity-100 group-hover/markdown:opacity-100"
           options={[
-            { icon: "eye", label: "Preview mode", value: "preview" },
-            { icon: "pencil", label: "Edit mode", value: "edit" },
+            { icon: "eye", label: i18n.t("response.previewModeLabel"), value: "preview" },
+            { icon: "pencil", label: i18n.t("response.editModeLabel"), value: "edit" },
           ]}
         />
       </div>

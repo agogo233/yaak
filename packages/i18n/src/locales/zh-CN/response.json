@@ -85,6 +85,10 @@
     "multipartIncomplete": "主体在结束边界前中断；仅显示已到达的部件。",
     "multipartTooDeep": "Multipart 嵌套超过 {{count}} 层；以原始形式显示。",
     "partName": "部件 {{index}}",
-    "iframePreview": "Yaak 响应预览"
+    "iframePreview": "Yaak 响应预览",
+    "viewModeLabel": "查看模式",
+    "previewModeLabel": "预览模式",
+    "editModeLabel": "编辑模式",
+    "previewAlt": "响应预览"
   }
 }

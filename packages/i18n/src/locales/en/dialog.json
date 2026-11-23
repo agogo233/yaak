@@ -26,6 +26,8 @@
     "move": "Move",
     "moveMany": "Move {{count}} Requests",
     "typeToConfirmPrefix": "Type",
-    "typeToConfirmSuffix": "to confirm"
+    "typeToConfirmSuffix": "to confirm",
+    "failedToOpen": "Failed to Open",
+    "noWorkspaceFound": "No workspace found in directory"
   }
 }

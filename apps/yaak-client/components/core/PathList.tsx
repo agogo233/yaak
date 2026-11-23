@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { Icon, type IconProps } from "@yaakapp-internal/ui";
 import classNames from "classnames";
 import { forwardRef, type ReactNode } from "react";
@@ -88,7 +89,7 @@ export const PathList = forwardRef<HTMLDivElement, Props>(function PathList(
         >
           <Icon icon="plus" size="sm" className="text-text-subtlest" />
           {hovering ? (
-            "Drop to add"
+            i18n.t("import.dropToAdd")
           ) : (
             <>
               <span>{addLabel}</span>

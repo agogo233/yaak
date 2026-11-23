@@ -54,7 +54,7 @@ export const RecentHttpResponsesDropdown = function ResponsePane({
     } else if (!hasRecentResponses && !hasShownRecentEmptyState) {
       responseHistoryItems.push({
         type: "content",
-        label: <span className="block px-4 py-1 text-sm text-text-subtle">No recent requests</span>,
+        label: <span className="block px-4 py-1 text-sm text-text-subtle">{i18n.t("history.noRecent")}</span>,
       });
       hasShownRecentEmptyState = true;
     }
@@ -91,7 +91,7 @@ export const RecentHttpResponsesDropdown = function ResponsePane({
   if (!hasRecentResponses && !hasShownRecentEmptyState) {
     responseHistoryItems.push({
       type: "content",
-      label: <span className="block px-4 py-1 text-sm text-text-subtle">No recent requests</span>,
+      label: <span className="block px-4 py-1 text-sm text-text-subtle">{i18n.t("history.noRecent")}</span>,
     });
   }
 

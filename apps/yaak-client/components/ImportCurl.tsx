@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { platform, useCapability } from "@yaakapp-internal/platform";
 import { Icon } from "@yaakapp-internal/ui";
 import * as m from "motion/react-m";
@@ -43,7 +44,7 @@ function ImportCurlButton() {
         className="rounded-full"
         rightSlot={<Icon icon="import" size="sm" />}
         isLoading={isLoading}
-        title="Import Curl command from clipboard"
+        title={i18n.t("import.fromClipboard")}
         onClick={async () => {
           setIsLoading(true);
           try {

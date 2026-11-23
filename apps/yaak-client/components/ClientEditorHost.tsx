@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { platform } from "@yaakapp-internal/platform";
 import {
   Banner,
@@ -61,7 +62,7 @@ function PdfResponseBody({ body, complete }: { body: HttpBodyLoader; complete: b
     return <Banner color="danger">{String(bodyUrl.error)}</Banner>;
   }
   if (bodyUrl.data == null) {
-    return <div>Empty response body</div>;
+    return <div>{i18n.t("response.emptyResponseBody")}</div>;
   }
   return <PdfViewer bodyUrl={bodyUrl.data} />;
 }

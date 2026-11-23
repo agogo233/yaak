@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { HttpResponse, HttpResponseEvent } from "@yaakapp-internal/models";
 import {
   CountBadge,
@@ -217,7 +218,7 @@ function useResponseTextViewerExtras(
         key="save"
         size="sm"
         icon="save"
-        title="Save response to file"
+        title={i18n.t("response.saveResponseToFile")}
         disabled={actionsDisabled}
         onClick={() => saveResponse.mutate()}
         className="border !border-border-subtle"
@@ -226,7 +227,7 @@ function useResponseTextViewerExtras(
         key="copy"
         size="sm"
         icon="copy"
-        title="Copy response body"
+        title={i18n.t("response.copyResponseBody")}
         disabled={actionsDisabled}
         onClick={() => copyResponse.mutate()}
         className="border !border-border-subtle"
@@ -279,10 +280,10 @@ function pushHeaderName(headers: Set<string>, headerName: string): void {
 
 function getRedirectWarningLabel(warning: RedirectDropWarning): string {
   if (warning.droppedBodyCount > 0 && warning.droppedHeaders.length > 0) {
-    return "Dropped body and headers";
+    return i18n.t("response.droppedBodyAndHeaders");
   }
   if (warning.droppedBodyCount > 0) {
-    return "Dropped body";
+    return i18n.t("response.droppedBody");
   }
-  return "Dropped headers";
+  return i18n.t("response.droppedHeaders");
 }

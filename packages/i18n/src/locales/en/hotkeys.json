@@ -18,6 +18,35 @@
     "inputAria": "Keyboard shortcut input",
     "pressKeys": "Press keys...",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "actions": {
+      "zoomIn": "Zoom In",
+      "zoomOut": "Zoom Out",
+      "zoomReset": "Zoom to Actual Size",
+      "toggleCommandPalette": "Toggle Command Palette",
+      "showCookies": "Show Cookies",
+      "triggerAutocomplete": "Trigger Autocomplete",
+      "editEnvironments": "Edit Environments",
+      "showKeyboardShortcuts": "Show Keyboard Shortcuts",
+      "newRequest": "New Request",
+      "duplicateRequest": "Duplicate Request",
+      "renameActiveRequest": "Rename Active Request",
+      "sendActiveRequest": "Send Active Request",
+      "previousRequest": "Go To Previous Request",
+      "nextRequest": "Go To Next Request",
+      "toggleRequestSwitcher": "Toggle Request Switcher",
+      "openSettings": "Open Settings",
+      "filterSidebar": "Filter Sidebar",
+      "expandAllFolders": "Expand All Folders",
+      "collapseAllFolders": "Collapse All Folders",
+      "deleteSelected": "Delete Selected Sidebar Item",
+      "duplicateSelected": "Duplicate Selected Sidebar Item",
+      "moveSelected": "Move Selected to Workspace",
+      "renameSelected": "Rename Selected Sidebar Item",
+      "focusOrToggleSidebar": "Focus or Toggle Sidebar",
+      "showContextMenu": "Show Context Menu",
+      "focusUrl": "Focus URL",
+      "openWorkspaceSettings": "Open Workspace Settings"
+    }
   }
 }

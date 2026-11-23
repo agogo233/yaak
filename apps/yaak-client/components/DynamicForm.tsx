@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Folder, HttpRequest } from "@yaakapp-internal/models";
 import { foldersAtom, httpRequestsAtom } from "@yaakapp-internal/models";
 import type {
@@ -385,7 +386,7 @@ function EditorArg({
                 size="sm"
                 className="my-0.5 opacity-60 group-hover:opacity-100"
                 icon="expand"
-                title="Pop out to large editor"
+                title={i18n.t("common.popOutEditor")}
                 onClick={() => {
                   showDialog({
                     id: "id",

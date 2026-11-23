@@ -50,6 +50,9 @@
     "autoFixJson": "Automatically Fix JSON",
     "autoFixDescription": "Automatically strip comments and trailing commas before sending",
     "jsonSettings": "JSON Settings",
-    "inherited": "Inherited"
+    "inherited": "Inherited",
+    "setContentTypePrefix": "Set Content-Type header",
+    "setContentTypeSuffix": " for current request?",
+    "setHeader": "Set Header"
   }
 }

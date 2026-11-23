@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { HStack } from "@yaakapp-internal/ui";
 import { useMemo } from "react";
 import { useFloatingSidebarHidden } from "../hooks/useFloatingSidebarHidden";
@@ -27,12 +28,12 @@ export function SidebarActions({ floating = false }: Props) {
         }}
         className="pointer-events-auto"
         size="sm"
-        title="Toggle sidebar"
+        title={i18n.t("sidebar.toggle")}
         icon={hidden ? "left_panel_hidden" : "left_panel_visible"}
         iconColor="secondary"
       />
       <CreateDropdown hotKeyAction="model.create">
-        <IconButton size="sm" icon="plus_circle" iconColor="secondary" title="Add Resource" />
+        <IconButton size="sm" icon="plus_circle" iconColor="secondary" title={i18n.t("sidebar.addResource")} />
       </CreateDropdown>
     </HStack>
   );

@@ -20,6 +20,8 @@
     "restoreChanges": "还原更改",
     "restoreConfirmOne": "这将丢弃所选项目的未提交更改。",
     "restoreConfirmMany": "这将丢弃所选的 {{count}} 个项目的未提交更改。",
-    "restore": "还原"
+    "restore": "还原",
+    "toggle": "切换侧边栏",
+    "addResource": "添加资源"
   }
 }

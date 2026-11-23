@@ -50,6 +50,7 @@
     "untitled": "未命名",
     "urlOrFilePath": "URL 或文件路径",
     "variables": "变量",
-    "workspaceLabel": "工作区"
+    "workspaceLabel": "工作区",
+    "fromClipboard": "从剪贴板导入 Curl 命令"
   }
 }

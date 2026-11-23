@@ -26,6 +26,8 @@
     "move": "移动",
     "moveMany": "移动 {{count}} 个请求",
     "typeToConfirmPrefix": "输入",
-    "typeToConfirmSuffix": "以确认"
+    "typeToConfirmSuffix": "以确认",
+    "failedToOpen": "打开失败",
+    "noWorkspaceFound": "目录中未找到工作区"
   }
 }

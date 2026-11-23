@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { HttpRequest } from "@yaakapp-internal/models";
 import { Banner, HStack, InlineCode, VStack } from "@yaakapp-internal/ui";
 import mime from "mime";
@@ -40,12 +41,12 @@ export function BinaryFileEditor({
       {filePath != null && mimeType !== contentType && !ignoreContentType.value && (
         <Banner className="mt-3 py-5!">
           <div className="mb-4 text-center">
-            <div>Set Content-Type header</div>
-            <InlineCode>{mimeType}</InlineCode> for current request?
+            <div>{i18n.t("request.setContentTypePrefix")}</div>
+            <InlineCode>{mimeType}</InlineCode>{i18n.t("request.setContentTypeSuffix")}
           </div>
           <HStack space={1.5} justifyContent="center">
             <Button size="sm" variant="border" onClick={() => ignoreContentType.set(true)}>
-              Ignore
+              {i18n.t("common.ignore")}
             </Button>
             <Button
               variant="solid"
@@ -53,7 +54,7 @@ export function BinaryFileEditor({
               size="sm"
               onClick={() => onChangeContentType(mimeType)}
             >
-              Set Header
+              {i18n.t("request.setHeader")}
             </Button>
           </HStack>
         </Banner>

@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { WebsocketEvent, WebsocketRequest } from "@yaakapp-internal/models";
 import {
   HStack,
@@ -131,13 +132,13 @@ function WebsocketEventRow({
 
   const content =
     messageType === "close" ? (
-      "Disconnected from server"
+      i18n.t("websocket.disconnected")
     ) : messageType === "open" ? (
-      "Connected to server"
+      i18n.t("websocket.connected")
     ) : messageType === "error" ? (
       <span className="text-warning">{message}</span>
     ) : message === "" ? (
-      <em className="italic text-text-subtlest">No content</em>
+      <em className="italic text-text-subtlest">{i18n.t("events.noContent")}</em>
     ) : (
       <span className="text-xs">{message.slice(0, 1000)}</span>
     );

@@ -22,6 +22,8 @@
     "requestName": "Request Name",
     "selectProtoDirectory": "Select Proto Directory",
     "selectProtoFiles": "Select Proto Files",
-    "serviceOrMethodNotSelected": "Service or method not selected"
+    "serviceOrMethodNotSelected": "Service or method not selected",
+    "connectionResponse": "Connection response",
+    "event": "Event"
   }
 }

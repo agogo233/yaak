@@ -20,6 +20,7 @@
     "sendRequest": "发送请求",
     "copyCliSendCommand": "复制 CLI 发送命令",
     "renameRequest": "重命名请求",
-    "deleteRequest": "删除请求"
+    "deleteRequest": "删除请求",
+    "searchOrExecute": "搜索或执行命令"
   }
 }

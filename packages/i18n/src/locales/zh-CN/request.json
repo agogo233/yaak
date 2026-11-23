@@ -50,6 +50,9 @@
     "autoFixJson": "自动修复 JSON",
     "autoFixDescription": "发送前自动去除注释和末尾逗号",
     "jsonSettings": "JSON 设置",
-    "inherited": "继承"
+    "inherited": "继承",
+    "setContentTypePrefix": "设置 Content-Type 请求头",
+    "setContentTypeSuffix": " 用于当前请求？",
+    "setHeader": "设置请求头"
   }
 }

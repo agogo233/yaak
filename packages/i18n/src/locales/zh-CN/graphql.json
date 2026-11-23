@@ -13,6 +13,8 @@
     "rootTypes": "根类型",
     "stopUsingFile": "停止使用该文件",
     "unknownType": "未知 GraphQL 类型",
-    "unknownTypeShort": "未知类型"
+    "unknownTypeShort": "未知类型",
+    "emptyBodyReturned": "响应中返回了空请求体",
+    "noSchemaFile": "没有可重新加载的模式文件"
   }
 }

@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Color } from "@yaakapp-internal/plugins";
 import type { BannerProps } from "@yaakapp-internal/ui";
 import { Banner } from "@yaakapp-internal/ui";
@@ -84,9 +85,9 @@ export function DismissibleBanner({
                 setDismissed(true).catch(console.error);
                 Promise.resolve(onDismiss?.()).catch(console.error);
               }}
-              title="Dismiss message"
+              title={i18n.t("common.dismissMessage")}
             >
-              Dismiss
+              {i18n.t("common.dismiss")}
             </Button>
             {actions?.map((a) => (
               <Button

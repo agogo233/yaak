@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { platform } from "@yaakapp-internal/platform";
 import { debounce } from "@yaakapp-internal/lib";
 import { settingsAtom } from "@yaakapp-internal/models";
@@ -144,34 +145,34 @@ function getHotkeys(): Partial<Record<HotkeyAction, string[]>> {
   return jotaiStore.get(hotkeysAtom);
 }
 
-const hotkeyLabels: Record<HotkeyAction, string> = {
-  "app.zoom_in": "Zoom In",
-  "app.zoom_out": "Zoom Out",
-  "app.zoom_reset": "Zoom to Actual Size",
-  "command_palette.toggle": "Toggle Command Palette",
-  "cookies_editor.show": "Show Cookies",
-  "editor.autocomplete": "Trigger Autocomplete",
-  "environment_editor.toggle": "Edit Environments",
-  "hotkeys.showHelp": "Show Keyboard Shortcuts",
-  "model.create": "New Request",
-  "model.duplicate": "Duplicate Request",
-  "request.rename": "Rename Active Request",
-  "request.send": "Send Active Request",
-  "switcher.next": "Go To Previous Request",
-  "switcher.prev": "Go To Next Request",
-  "switcher.toggle": "Toggle Request Switcher",
-  "settings.show": "Open Settings",
-  "sidebar.filter": "Filter Sidebar",
-  "sidebar.expand_all": "Expand All Folders",
-  "sidebar.collapse_all": "Collapse All Folders",
-  "sidebar.selected.delete": "Delete Selected Sidebar Item",
-  "sidebar.selected.duplicate": "Duplicate Selected Sidebar Item",
-  "sidebar.selected.move": "Move Selected to Workspace",
-  "sidebar.selected.rename": "Rename Selected Sidebar Item",
-  "sidebar.focus": "Focus or Toggle Sidebar",
-  "sidebar.context_menu": "Show Context Menu",
-  "url_bar.focus": "Focus URL",
-  "workspace_settings.show": "Open Workspace Settings",
+const hotkeyLabelKeys: Record<HotkeyAction, string> = {
+  "app.zoom_in": "hotkeys.actions.zoomIn",
+  "app.zoom_out": "hotkeys.actions.zoomOut",
+  "app.zoom_reset": "hotkeys.actions.zoomReset",
+  "command_palette.toggle": "hotkeys.actions.toggleCommandPalette",
+  "cookies_editor.show": "hotkeys.actions.showCookies",
+  "editor.autocomplete": "hotkeys.actions.triggerAutocomplete",
+  "environment_editor.toggle": "hotkeys.actions.editEnvironments",
+  "hotkeys.showHelp": "hotkeys.actions.showKeyboardShortcuts",
+  "model.create": "hotkeys.actions.newRequest",
+  "model.duplicate": "hotkeys.actions.duplicateRequest",
+  "request.rename": "hotkeys.actions.renameActiveRequest",
+  "request.send": "hotkeys.actions.sendActiveRequest",
+  "switcher.next": "hotkeys.actions.previousRequest",
+  "switcher.prev": "hotkeys.actions.nextRequest",
+  "switcher.toggle": "hotkeys.actions.toggleRequestSwitcher",
+  "settings.show": "hotkeys.actions.openSettings",
+  "sidebar.filter": "hotkeys.actions.filterSidebar",
+  "sidebar.expand_all": "hotkeys.actions.expandAllFolders",
+  "sidebar.collapse_all": "hotkeys.actions.collapseAllFolders",
+  "sidebar.selected.delete": "hotkeys.actions.deleteSelected",
+  "sidebar.selected.duplicate": "hotkeys.actions.duplicateSelected",
+  "sidebar.selected.move": "hotkeys.actions.moveSelected",
+  "sidebar.selected.rename": "hotkeys.actions.renameSelected",
+  "sidebar.focus": "hotkeys.actions.focusOrToggleSidebar",
+  "sidebar.context_menu": "hotkeys.actions.showContextMenu",
+  "url_bar.focus": "hotkeys.actions.focusUrl",
+  "workspace_settings.show": "hotkeys.actions.openWorkspaceSettings",
 };
 
 const layoutInsensitiveKeys = [
@@ -200,7 +201,7 @@ export const hotkeyActions: HotkeyAction[] = (
     if (scopeA !== scopeB) {
       return scopeA.localeCompare(scopeB);
     }
-    return hotkeyLabels[a].localeCompare(hotkeyLabels[b]);
+    return hotkeyLabelKeys[a].localeCompare(hotkeyLabelKeys[b]);
   });
 
 interface Callback {
@@ -243,7 +244,7 @@ export function useHotkeyContextValue(): HotkeyContextValue {
     () => ({
       os: platform.osType(),
       bindingFor: (action: HotkeyAction) => hotkeys[action] ?? null,
-      labelFor: (action: HotkeyAction) => hotkeyLabels[action],
+      labelFor: (action: HotkeyAction) => i18n.t(hotkeyLabelKeys[action]),
       register: registerHotkey,
     }),
     [hotkeys],
@@ -340,7 +341,7 @@ function handleKeyDown(e: KeyboardEvent) {
 }
 
 export function useHotkeyLabel(action: HotkeyAction): string {
-  return hotkeyLabels[action];
+  return i18n.t(hotkeyLabelKeys[action]);
 }
 
 export function getHotkeyScope(action: HotkeyAction): string {

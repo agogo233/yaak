@@ -85,6 +85,10 @@
     "multipartIncomplete": "The body ends without its closing boundary; showing the parts that arrived.",
     "multipartTooDeep": "Multipart nested more than {{count}} levels deep; shown raw.",
     "partName": "Part {{index}}",
-    "iframePreview": "Yaak response preview"
+    "iframePreview": "Yaak response preview",
+    "viewModeLabel": "View mode",
+    "previewModeLabel": "Preview mode",
+    "editModeLabel": "Edit mode",
+    "previewAlt": "Response preview"
   }
 }

@@ -112,7 +112,7 @@ const sharableTooltip = (
     tabIndex={-1}
     icon="eye"
     iconSize="sm"
-    content="This environment will be included in Directory Sync and data exports"
+    content={i18n.t("env.includedInSync")}
   />
 );
 

@@ -50,6 +50,7 @@
     "untitled": "Untitled",
     "urlOrFilePath": "URL or file path",
     "variables": "Variables",
-    "workspaceLabel": "Workspace"
+    "workspaceLabel": "Workspace",
+    "fromClipboard": "Import Curl command from clipboard"
   }
 }

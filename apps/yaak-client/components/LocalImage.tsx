@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames";
 import { platform } from "@yaakapp-internal/platform";
@@ -19,7 +20,7 @@ export function LocalImage({ src: srcPath, className }: Props) {
   return (
     <img
       src={src.data}
-      alt="Response preview"
+      alt={i18n.t("response.previewAlt")}
       className={classNames(
         className,
         "transition-opacity",

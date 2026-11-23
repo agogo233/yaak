@@ -22,6 +22,8 @@
     "requestName": "请求名称",
     "selectProtoDirectory": "选择 Proto 目录",
     "selectProtoFiles": "选择 Proto 文件",
-    "serviceOrMethodNotSelected": "未选择服务或方法"
+    "serviceOrMethodNotSelected": "未选择服务或方法",
+    "connectionResponse": "连接响应",
+    "event": "事件"
   }
 }

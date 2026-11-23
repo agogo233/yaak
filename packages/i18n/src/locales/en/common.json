@@ -18,6 +18,26 @@
     "search": "Search",
     "send": "Send",
     "settings": "Settings",
-    "yes": "Yes"
+    "yes": "Yes",
+    "ignore": "Ignore",
+    "dismiss": "Dismiss",
+    "dismissMessage": "Dismiss message",
+    "plainColor": "Plain Color",
+    "showSuggestions": "Show suggestions",
+    "configureEncryption": "Configure encryption",
+    "copyToClipboard": "Copy to clipboard",
+    "createNewRequest": "Create new request",
+    "valueActions": "Value actions",
+    "actionsFor": "{{label}} actions",
+    "popOutEditor": "Pop out to large editor",
+    "routeError": "Route Error 🔥",
+    "stackTrace": "Stack Trace",
+    "goHome": "Go Home",
+    "refresh": "Refresh",
+    "encryptionHelpTitle": "Encrypt passwords, tokens, and other sensitive info when encryption is enabled.",
+    "encryptionHelpSync": "Encrypted data remains secure when syncing to the filesystem or Git, and when exporting or sharing with others.",
+    "revealInFinder": "Reveal in Finder",
+    "showInExplorer": "Show in Explorer",
+    "showInFileManager": "Show in File Manager"
   }
 }

@@ -18,6 +18,26 @@
     "search": "搜索",
     "send": "发送",
     "settings": "设置",
-    "yes": "是"
+    "yes": "是",
+    "ignore": "忽略",
+    "dismiss": "不再显示",
+    "dismissMessage": "关闭此消息",
+    "plainColor": "纯色",
+    "showSuggestions": "显示建议",
+    "configureEncryption": "配置加密",
+    "copyToClipboard": "复制到剪贴板",
+    "createNewRequest": "创建新请求",
+    "valueActions": "值操作",
+    "actionsFor": "{{label}} 操作",
+    "popOutEditor": "弹出到大编辑器",
+    "routeError": "路由错误 🔥",
+    "stackTrace": "堆栈跟踪",
+    "goHome": "回到首页",
+    "refresh": "刷新",
+    "encryptionHelpTitle": "开启加密后，密码、令牌等敏感信息将以加密形式保存。",
+    "encryptionHelpSync": "数据同步到文件系统或 Git，以及导出或分享给他人时，加密数据依然保持安全。",
+    "revealInFinder": "在访达中显示",
+    "showInExplorer": "在资源管理器中显示",
+    "showInFileManager": "在文件管理器中显示"
   }
 }

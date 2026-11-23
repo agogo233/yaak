@@ -5,6 +5,7 @@
     "history": "历史",
     "nothingToDelete": "没有可删除的内容",
     "nothingToDeleteBody": "暂无 HTTP、gRPC 或 WebSocket 历史",
-    "showConnectionHistory": "显示连接历史"
+    "showConnectionHistory": "显示连接历史",
+    "noRecent": "没有最近的请求"
   }
 }

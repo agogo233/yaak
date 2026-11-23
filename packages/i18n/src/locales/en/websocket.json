@@ -6,6 +6,8 @@
     "params": "Params",
     "request": "Request",
     "requestDescription": "Request description",
-    "requestName": "Request Name"
+    "requestName": "Request Name",
+    "connected": "Connected to server",
+    "disconnected": "Disconnected from server"
   }
 }

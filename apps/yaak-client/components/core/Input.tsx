@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import {
   HStack,
   Icon,
@@ -142,7 +143,7 @@ function OptionsPickerDropdown({
         iconSize="sm"
         size="xs"
         icon="chevron_down"
-        title="Show suggestions"
+        title={i18n.t("common.showSuggestions")}
         className="mr-0.5 h-auto! my-0.5 text-text-subtlest @max-[24rem]:hidden"
       />
     </Dropdown>
@@ -336,7 +337,7 @@ function EncryptionInput({
             size="sm"
             variant="border"
             color={tint}
-            aria-label="Configure encryption"
+            aria-label={i18n.t("common.configureEncryption")}
             className={classNames(
               "flex items-center justify-center h-full! px-1!",
               "opacity-70", // Makes it a bit subtler
@@ -344,8 +345,8 @@ function EncryptionInput({
             )}
           >
             <HStack space={0.5}>
-              <Icon size="sm" title="Configure encryption" icon={icon} />
-              <Icon size="xs" title="Configure encryption" icon="chevron_down" />
+              <Icon size="sm" title={i18n.t("common.configureEncryption")} icon={icon} />
+              <Icon size="xs" title={i18n.t("common.configureEncryption")} icon="chevron_down" />
             </HStack>
           </Button>
         </Dropdown>

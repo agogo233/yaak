@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { ensureSyntaxTree, syntaxTree } from "@codemirror/language";
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
 import type { EditorState, Extension, Range } from "@codemirror/state";
@@ -188,7 +189,7 @@ class LargeValueWidget extends WidgetType {
 
     makeTagButton(
       el,
-      this.sniffed == null ? "Value actions" : `${this.sniffed.label} actions`,
+      this.sniffed == null ? i18n.t("common.valueActions") : i18n.t("common.actionsFor", { label: this.sniffed.label }),
       () => fireAndForget(this.openMenu(view, el)),
     );
 

@@ -37,7 +37,7 @@ export function useSettingsView(): { view: SettingsView; callbacks: SettingsCall
       version: appInfo.version,
       dataDir: appInfo.appDataDir,
       logDir: appInfo.appLogDir,
-      revealPathLabel: revealInFinderText,
+      revealPathLabel: revealInFinderText(),
     },
     values: settingsValuesFromModel(settings),
     themes: themesViewFromResolved(activeTheme.data, appearance),

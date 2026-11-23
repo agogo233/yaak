@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { checkLicense } from "@yaakapp-internal/license";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useKeyValue } from "../hooks/useKeyValue";
@@ -7,9 +8,6 @@ import { DismissibleBanner } from "./core/DismissibleBanner";
 import { platform } from "@yaakapp-internal/platform";
 
 const COMMERCIAL_USE_SNOOZE_MS = 7 * 24 * 60 * 60 * 1000;
-const COMMERCIAL_USE_BANNER_MESSAGE =
-  "Personal use of Yaak is free. If you’re using Yaak at work, please purchase a license.";
-
 export function CommercialUseBanner({
   source,
   title,
@@ -69,7 +67,7 @@ export function CommercialUseBanner({
         onShow={handleShow}
         actions={[
           {
-            label: "Purchase License",
+            label: i18n.t("license.purchase"),
             color: "info",
             variant: "solid",
             onClick: () => {
@@ -80,7 +78,7 @@ export function CommercialUseBanner({
       >
         <div className="text-sm">
           <p className="font-semibold text-text">{title}</p>
-          <p className="mt-0.5 text-text-subtle">{COMMERCIAL_USE_BANNER_MESSAGE}</p>
+          <p className="mt-0.5 text-text-subtle">{i18n.t("license.commercialBanner")}</p>
         </div>
       </DismissibleBanner>
     </div>

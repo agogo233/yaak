@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { HStack, Icon } from "@yaakapp-internal/ui";
 import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
@@ -81,7 +82,7 @@ export const WorkspaceHeader = memo(function WorkspaceHeader({
         />
         <IconButton
           icon="search"
-          title="Search or execute a command"
+          title={i18n.t("palette.searchOrExecute")}
           size="sm"
           hotkeyAction="command_palette.toggle"
           iconColor="secondary"
