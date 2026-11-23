@@ -69,7 +69,18 @@ jobs:
           Remove-Item -Recurse -Force $stage -ErrorAction SilentlyContinue
           New-Item -ItemType Directory -Force -Path $stage | Out-Null
           Copy-Item $exe.FullName (Join-Path $stage $exe.Name)
-          # Upload the unpacked exe so the downloaded artifact is a single zip layer,
+          # Stage the runtime resources next to the exe (BaseDirectory::Resource resolves
+          # relative to the exe dir on Windows): plugin runtime (yaaknode), protoc for
+          # gRPC, vendored plugins and static assets. Without them the portable exe
+          # boots but plugins/gRPC are broken.
+          foreach ($dir in @('crates-tauri/yaak-app-client/vendored', 'crates-tauri/yaak-app-client/static')) {
+            if (Test-Path $dir) {
+              Copy-Item -Recurse -Force $dir (Join-Path $stage (Split-Path $dir -Leaf))
+            } else {
+              Write-Warning "Resource dir not found, skipping: $dir"
+            }
+          }
+          # Upload the unpacked files so the downloaded artifact is a single zip layer,
           # never a zip inside a zip.
           "PORTABLE_STAGE=$stage" | Out-File -FilePath $env:GITHUB_ENV -Append
 
