@@ -5,7 +5,15 @@ import {
   type ImportSource,
   type Workspace,
 } from "@yaakapp-internal/models";
-import { Banner, FormattedError, HStack, Icon, VStack, IconTooltip } from "@yaakapp-internal/ui";
+import {
+  Banner,
+  FormattedError,
+  HStack,
+  Icon,
+  VStack,
+  IconTooltip,
+  SegmentedControl,
+} from "@yaakapp-internal/ui";
 import classNames from "classnames";
 import { type ComponentProps, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

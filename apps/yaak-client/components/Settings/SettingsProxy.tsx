@@ -1,6 +1,6 @@
 import { patchModel, settingsAtom } from "@yaakapp-internal/models";
 import type { ProxySetting } from "@yaakapp-internal/models";
-import { Heading, InlineCode, VStack } from "@yaakapp-internal/ui";
+import { InlineCode, SettingsPage } from "@yaakapp-internal/ui";
 import { useAtomValue } from "jotai";
 import { useTranslation } from "react-i18next";
 import { CommercialUseBanner } from "../CommercialUseBanner";
@@ -28,12 +28,11 @@ export function SettingsProxy() {
   };
 
   return (
-    <VStack space={1.5} className="mb-4">
-      <div className="mb-3">
-        <Heading>{t("proxy.title")}</Heading>
-        <p className="text-text-subtle">{t("proxy.titleDesc")}</p>
-      </div>
-      <CommercialUseBanner source="proxy-settings" title={t("proxy.usingForWork")} />
+    <SettingsPage
+      title={t("proxy.title")}
+      description={t("proxy.titleDesc")}
+      banner={<CommercialUseBanner source="proxy-settings" title={t("proxy.usingForWork")} />}
+    >
       <SettingsList className="space-y-8">
         <SettingsSection title={t("proxy.section")}>
           <SettingRowSelect
@@ -160,7 +159,7 @@ export function SettingsProxy() {
           </>
         )}
       </SettingsList>
-    </VStack>
+    </SettingsPage>
   );
 }
 

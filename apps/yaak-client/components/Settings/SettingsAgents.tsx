@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { platform } from "@yaakapp-internal/platform";
 import type { AgentSetupStatus, AppMetaData } from "@yaakapp-internal/rpc-schema";
-import { Banner, Heading, Icon, InlineCode, VStack } from "@yaakapp-internal/ui";
+import { Banner, Icon, InlineCode, SegmentedControl, SettingsPage } from "@yaakapp-internal/ui";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useKeyValue } from "../../hooks/useKeyValue";
@@ -15,13 +15,7 @@ import {
 import { appInfo } from "../../lib/appInfo";
 import { rpc } from "../../lib/rpc";
 import { Link } from "../core/Link";
-import { SegmentedControl } from "../core/SegmentedControl";
-import {
-  SettingCommand,
-  SettingSnippet,
-  SettingsList,
-  SettingsSection,
-} from "../core/SettingRow";
+import { SettingCommand, SettingSnippet, SettingsList, SettingsSection } from "../core/SettingRow";
 import { DeprecatedPluginBanner } from "./SettingsPlugins";
 
 const CLI_INSTALL_COMMAND = "npm install -g @yaakapp/cli";
@@ -60,11 +54,7 @@ export function SettingsAgents() {
   const cli = cliSetup(client);
 
   return (
-    <VStack space={1.5} className="mb-4">
-      <div className="mb-3">
-        <Heading>{t("agents.title")}</Heading>
-        <p className="text-text-subtle">{t("agents.titleDesc")}</p>
-      </div>
+    <SettingsPage title={t("agents.title")} description={t("agents.titleDesc")}>
       <SettingsList>
         <SettingsSection title={null}>
           <div className="pb-4 border-b border-border-subtle">
@@ -143,6 +133,6 @@ export function SettingsAgents() {
           />
         </SettingsSection>
       </SettingsList>
-    </VStack>
+    </SettingsPage>
   );
 }

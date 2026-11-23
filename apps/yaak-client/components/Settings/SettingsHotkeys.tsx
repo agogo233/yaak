@@ -1,8 +1,8 @@
 import { patchModel, settingsAtom } from "@yaakapp-internal/models";
 import {
-  Heading,
   HStack,
   Icon,
+  SettingsPage,
   Table,
   TableBody,
   TableCell,
@@ -96,57 +96,58 @@ export function SettingsHotkeys() {
   }
 
   return (
-    <VStack space={3} className="mb-4">
-      <div className="mb-3">
-        <Heading>{t("hotkeys.title")}</Heading>
-        <p className="text-text-subtle">{t("hotkeys.titleDesc")}</p>
-      </div>
-      <PlainInput
-        label={t("hotkeys.filter")}
-        placeholder={t("hotkeys.filterPlaceholder")}
-        defaultValue={filter}
-        onChange={setFilter}
-        hideLabel
-        containerClassName="max-w-xs"
-      />
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeaderCell>{t("hotkeys.scope")}</TableHeaderCell>
-            <TableHeaderCell>{t("hotkeys.action")}</TableHeaderCell>
-            <TableHeaderCell>{t("hotkeys.shortcut")}</TableHeaderCell>
-            <TableHeaderCell></TableHeaderCell>
-          </TableRow>
-        </TableHead>
-        {/* key={filter} forces re-render on filter change to fix Safari table rendering bug */}
-        <TableBody key={filter}>
-          {filteredActions.map((action) => (
-            <HotkeyRow
-              key={action}
-              action={action}
-              currentKeys={hotkeys[action] ?? []}
-              defaultKeys={defaultHotkeys[action]}
-              onSave={async (keys) => {
-                const newHotkeys = { ...settings.hotkeys };
-                if (arraysEqual(keys, defaultHotkeys[action])) {
-                  // Remove from settings if it matches default (use default)
+    <SettingsPage
+      title={t("hotkeys.title")}
+      description={t("hotkeys.titleDesc")}
+    >
+      <VStack space={3}>
+        <PlainInput
+          label={t("hotkeys.filter")}
+          placeholder={t("hotkeys.filterPlaceholder")}
+          defaultValue={filter}
+          onChange={setFilter}
+          hideLabel
+          containerClassName="max-w-xs"
+        />
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableHeaderCell>{t("hotkeys.scope")}</TableHeaderCell>
+              <TableHeaderCell>{t("hotkeys.action")}</TableHeaderCell>
+              <TableHeaderCell>{t("hotkeys.shortcut")}</TableHeaderCell>
+              <TableHeaderCell></TableHeaderCell>
+            </TableRow>
+          </TableHead>
+          {/* key={filter} forces re-render on filter change to fix Safari table rendering bug */}
+          <TableBody key={filter}>
+            {filteredActions.map((action) => (
+              <HotkeyRow
+                key={action}
+                action={action}
+                currentKeys={hotkeys[action] ?? []}
+                defaultKeys={defaultHotkeys[action]}
+                onSave={async (keys) => {
+                  const newHotkeys = { ...settings.hotkeys };
+                  if (arraysEqual(keys, defaultHotkeys[action])) {
+                    // Remove from settings if it matches default (use default)
+                    delete newHotkeys[action];
+                  } else {
+                    // Store the keys (including empty array to disable)
+                    newHotkeys[action] = keys;
+                  }
+                  await patchModel(settings, { hotkeys: newHotkeys });
+                }}
+                onReset={async () => {
+                  const newHotkeys = { ...settings.hotkeys };
                   delete newHotkeys[action];
-                } else {
-                  // Store the keys (including empty array to disable)
-                  newHotkeys[action] = keys;
-                }
-                await patchModel(settings, { hotkeys: newHotkeys });
-              }}
-              onReset={async () => {
-                const newHotkeys = { ...settings.hotkeys };
-                delete newHotkeys[action];
-                await patchModel(settings, { hotkeys: newHotkeys });
-              }}
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </VStack>
+                  await patchModel(settings, { hotkeys: newHotkeys });
+                }}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </VStack>
+    </SettingsPage>
   );
 }
 

@@ -1,6 +1,6 @@
 import type { ClientCertificate } from "@yaakapp-internal/models";
 import { patchModel, settingsAtom } from "@yaakapp-internal/models";
-import { Heading, HStack, InlineCode, VStack } from "@yaakapp-internal/ui";
+import { HStack, InlineCode, SettingsPage, VStack } from "@yaakapp-internal/ui";
 import { useAtomValue } from "jotai";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -222,25 +222,22 @@ export function SettingsCertificates() {
   };
 
   return (
-    <VStack space={3}>
-      <div className="mb-3">
-        <HStack justifyContent="between" alignItems="start">
-          <div>
-            <Heading>{t("certificates.heading")}</Heading>
-            <p className="text-text-subtle">{t("certificates.headingDesc")}</p>
-          </div>
-          <Button variant="border" size="sm" color="secondary" onClick={handleAdd}>
-            {t("certificates.add")}
-          </Button>
-        </HStack>
-      </div>
-
-      <CommercialUseBanner
-        source="client-certificates"
-        title={t("certificates.usingForWork")}
-      />
-
-      {certificates.length > 0 && (
+    <SettingsPage
+      title={t("certificates.heading")}
+      description={t("certificates.headingDesc")}
+      actions={
+        <Button variant="border" size="sm" color="secondary" onClick={handleAdd}>
+          {t("certificates.add")}
+        </Button>
+      }
+      banner={
+        <CommercialUseBanner
+          source="client-certificates"
+          title={t("certificates.usingForWork")}
+        />
+      }
+    >
+      {certificates.length > 0 ? (
         <VStack space={3}>
           {certificates.map((cert, index) => (
             <CertificateEditor
@@ -253,7 +250,7 @@ export function SettingsCertificates() {
             />
           ))}
         </VStack>
-      )}
-    </VStack>
+      ) : null}
+    </SettingsPage>
   );
 }
