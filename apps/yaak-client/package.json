@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vp dev --force",
-    "build": "vp build",
+    "build": "vp build && node scripts/verify-served-assets.mjs",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
