@@ -2,6 +2,7 @@ import { pluralizeCount } from "@yaakapp-internal/lib/pluralize";
 import { differenceInDays } from "date-fns";
 import { formatDate } from "date-fns/format";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useToggle } from "../../hooks/useToggle";
 import { Banner } from "../Banner";
 import { Button } from "../Button";
@@ -21,6 +22,7 @@ export interface SettingsLicenseProps {
 }
 
 export function SettingsLicense({ view, callbacks }: SettingsLicenseProps) {
+  const { t } = useTranslation();
   const [key, setKey] = useState<string>("");
   const [activateFormVisible, toggleActivateFormVisible] = useToggle(false);
   const license = view.license;
@@ -50,7 +52,7 @@ export function SettingsLicense({ view, callbacks }: SettingsLicenseProps) {
             size="sm"
             onClick={() => callbacks.onDeactivateLicense()}
           >
-            Deactivate License
+            {t("license.deactivate")}
           </Button>
           <Button
             color="secondary"
@@ -60,13 +62,13 @@ export function SettingsLicense({ view, callbacks }: SettingsLicenseProps) {
             }
             rightSlot={<Icon icon="external_link" />}
           >
-            Direct Support
+            {t("license.directSupport")}
           </Button>
         </HStack>
       ) : (
         <HStack space={2}>
           <Button variant="border" color="secondary" size="sm" onClick={toggleActivateFormVisible}>
-            Activate License
+            {t("license.activate")}
           </Button>
           <Button
             size="sm"
@@ -78,7 +80,7 @@ export function SettingsLicense({ view, callbacks }: SettingsLicenseProps) {
               )
             }
           >
-            Purchase License
+            {t("license.purchase")}
           </Button>
         </HStack>
       )}
@@ -96,13 +98,13 @@ export function SettingsLicense({ view, callbacks }: SettingsLicenseProps) {
         >
           <PlainInput
             autoFocus
-            label="License Key"
+            label={t("license.licenseKey")}
             name="key"
             onChange={setKey}
             placeholder="YK1-XXXXX-XXXXX-XXXXX-XXXXX"
           />
           <Button type="submit" color="primary" size="sm" isLoading={license.activating}>
-            Submit
+            {t("license.submit")}
           </Button>
         </VStack>
       )}
@@ -112,13 +114,13 @@ export function SettingsLicense({ view, callbacks }: SettingsLicenseProps) {
 
 function LicenseStatusBanner({
   status,
-  appName,
   callbacks,
 }: {
   status: SettingsLicenseStatus;
   appName: string;
   callbacks: SettingsLicenseProps["callbacks"];
 }) {
+  const { t } = useTranslation();
   const link = (href: string, children: string, noUnderline?: boolean) => (
     <ExternalLink href={href} noUnderline={noUnderline} onOpen={callbacks.onOpenUrl}>
       {children}
@@ -127,19 +129,23 @@ function LicenseStatusBanner({
 
   switch (status.status) {
     case "active":
-      return <Banner color="success">Your license is active 🥳</Banner>;
+      return <Banner color="success">{t("license.activeBanner")}</Banner>;
 
     case "trialing":
       return (
         <Banner color="info" className="max-w-lg">
           <p className="w-full">
             <strong>{pluralizeCount("day", differenceInDays(status.trialEnd, new Date()))}</strong>{" "}
-            {`left to evaluate ${appName} for commercial use.`}
+            {t("license.trialDaysLeft")}
             <br />
-            <span className="opacity-50">Personal use is always free, forever.</span>
+            <span className="opacity-50">{t("license.personalAlwaysFree")}</span>
             <Separator className="my-2" />
             <div className="flex flex-wrap items-center gap-x-2 text-sm text-notice">
-              {link(callbacks.pricingUrl(`app.license.learn.${status.status}`), "Learn More", true)}
+              {link(
+                callbacks.pricingUrl(`app.license.learn.${status.status}`),
+                t("license.learnMore"),
+                true,
+              )}
             </div>
           </p>
         </Banner>
@@ -149,15 +155,20 @@ function LicenseStatusBanner({
       return (
         <Banner color="notice" className="max-w-lg">
           <p className="w-full">
-            Your commercial-use trial has ended.
+            {t("license.trialEnded")}
             <br />
             <span className="opacity-50">
-              {`You may continue using ${appName} for personal use only.`}
-              <br />A license is required for commercial use.
+              {t("license.personalOnly")}
+              <br />
+              {t("license.commercialNeedsLicense")}
             </span>
             <Separator className="my-2" />
             <div className="flex flex-wrap items-center gap-x-2 text-sm text-notice">
-              {link(callbacks.pricingUrl(`app.license.learn.${status.status}`), "Learn More", true)}
+              {link(
+                callbacks.pricingUrl(`app.license.learn.${status.status}`),
+                t("license.learnMore"),
+                true,
+              )}
             </div>
           </p>
         </Banner>
@@ -166,20 +177,21 @@ function LicenseStatusBanner({
     case "inactive":
       return (
         <Banner color="danger">
-          Your license is invalid. Please {link("https://yaak.app/dashboard", "Sign In")} for more
-          details
+          {t("license.invalidPrefix")} {link("https://yaak.app/dashboard", t("license.signIn"))}{" "}
+          {t("license.invalidSuffix")}
         </Banner>
       );
 
     case "expired":
       return (
         <Banner color="notice">
-          Your license expired <strong>{formatDate(status.periodEnd, "MMMM dd, yyyy")}</strong>.
-          Please {link("https://yaak.app/dashboard", "Resubscribe")} to continue receiving updates.
+          {t("license.expiredPrefix")} <strong>{formatDate(status.periodEnd, "MMMM dd, yyyy")}</strong>
+          {t("license.expiredMid")}{" "}
+          {link("https://yaak.app/dashboard", t("license.resubscribe"))} {t("license.expiredSuffix")}
           {status.changesUrl && (
             <>
               <br />
-              {link(status.changesUrl, "What's new in latest builds")}
+              {link(status.changesUrl, t("license.whatsNew"))}
             </>
           )}
         </Banner>
@@ -188,16 +200,17 @@ function LicenseStatusBanner({
     case "past_due":
       return (
         <Banner color="danger">
-          <strong>Your payment method needs attention.</strong>
+          <strong>{t("license.paymentAttention")}</strong>
           <br />
-          To re-activate your license, please {link(status.billingUrl, "update your billing info")}.
+          {t("license.reactivatePrefix")}{" "}
+          {link(status.billingUrl, t("license.updateBilling"))}.
         </Banner>
       );
 
     case "error":
       return (
         <Banner color="danger">
-          License check failed: {status.message} (Code: {status.code})
+          {t("license.checkFailed", { message: status.message, code: status.code })}
         </Banner>
       );
   }

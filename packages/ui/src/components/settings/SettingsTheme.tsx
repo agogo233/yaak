@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { useTranslation } from "react-i18next";
 import type { ButtonProps } from "../Button";
 import { useEditorHost } from "../EditorHost";
 import { ExternalLink } from "../ExternalLink";
@@ -45,8 +46,9 @@ export interface SettingsThemeProps {
 }
 
 export function SettingsTheme({ view, callbacks }: SettingsThemeProps) {
+  const { t } = useTranslation();
   const { Editor } = useEditorHost();
-  const { app, values, themes } = view;
+  const { values, themes } = view;
 
   if (themes == null) {
     return null;
@@ -68,39 +70,39 @@ export function SettingsTheme({ view, callbacks }: SettingsThemeProps) {
 
   return (
     <SettingsPage
-      title="Theme"
+      title={t("theme.title")}
       description={
         <>
           {/* One text node, so the name kerns with the words around it */}
-          {`Make ${app.name} your own by selecting a theme, or`}{" "}
+          {t("theme.makeOwn")}{" "}
           <ExternalLink
             href="https://yaak.app/docs/plugin-development/plugins-quick-start"
             onOpen={callbacks.onOpenUrl}
           >
-            Create Your Own
+            {t("theme.createYourOwn")}
           </ExternalLink>
         </>
       }
     >
       <SettingsList className="space-y-8">
-        <SettingsSection title="Theme">
+        <SettingsSection title={t("theme.title")}>
           <SettingRowSelect
             name="appearance"
-            title="Appearance"
-            description={`Choose whether ${app.name} follows your system appearance or uses a fixed mode.`}
+            title={t("theme.appearance")}
+            description={t("theme.appearanceDesc")}
             value={values.appearance}
             onChange={(appearance) => callbacks.onChange({ appearance })}
             options={[
-              { label: "Automatic", value: "system" },
-              { label: "Light", value: "light" },
-              { label: "Dark", value: "dark" },
+              { label: t("theme.automatic"), value: "system" },
+              { label: t("theme.light"), value: "light" },
+              { label: t("theme.dark"), value: "dark" },
             ]}
           />
           {(values.appearance === "system" || values.appearance === "light") && (
             <SettingRowSelect
               name="lightTheme"
-              title="Light theme"
-              description={`Theme used when ${app.name} is in light mode.`}
+              title={t("theme.lightTheme")}
+              description={t("theme.lightThemeDesc")}
               value={themes.light.id}
               options={lightThemes}
               onChange={(themeLight) => callbacks.onChange({ themeLight })}
@@ -109,8 +111,8 @@ export function SettingsTheme({ view, callbacks }: SettingsThemeProps) {
           {(values.appearance === "system" || values.appearance === "dark") && (
             <SettingRowSelect
               name="darkTheme"
-              title="Dark theme"
-              description={`Theme used when ${app.name} is in dark mode.`}
+              title={t("theme.darkTheme")}
+              description={t("theme.darkThemeDesc")}
               value={themes.dark.id}
               options={darkThemes}
               onChange={(themeDark) => callbacks.onChange({ themeDark })}
@@ -118,7 +120,7 @@ export function SettingsTheme({ view, callbacks }: SettingsThemeProps) {
           )}
         </SettingsSection>
 
-        <SettingsSection title="Preview">
+        <SettingsSection title={t("theme.preview")}>
           <VStack
             space={3}
             className="mt-4 w-full bg-surface p-3 border border-dashed border-border-subtle rounded-sm overflow-x-auto"
@@ -126,7 +128,7 @@ export function SettingsTheme({ view, callbacks }: SettingsThemeProps) {
             <HStack className="text" space={1.5}>
               <Icon icon={themes.resolvedAppearance === "dark" ? "moon" : "sun"} />
               <strong>{themes.active.label}</strong>
-              <em>(preview)</em>
+              <em>({t("theme.previewLabel")})</em>
             </HStack>
             <HStack space={1.5} className="w-full">
               {buttonColors.map((c, i) => (

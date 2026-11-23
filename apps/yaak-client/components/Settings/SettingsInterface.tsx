@@ -3,6 +3,7 @@ import type { Settings } from "@yaakapp-internal/models";
 import { patchModel, settingsAtom } from "@yaakapp-internal/models";
 import { SettingsInterface as SharedSettingsInterface, VStack } from "@yaakapp-internal/ui";
 import { useAtomValue } from "jotai";
+import { useTranslation } from "react-i18next";
 import { activeWorkspaceAtom } from "../../hooks/useActiveWorkspace";
 import { useSettingsView } from "../../hooks/useSettingsView";
 import { showConfirm } from "../../lib/confirm";
@@ -12,6 +13,7 @@ import { Link } from "../core/Link";
 import { SettingRowBoolean, SettingRowSelect, SettingsSection } from "../core/SettingRow";
 
 export function SettingsInterface() {
+  const { t } = useTranslation();
   const workspace = useAtomValue(activeWorkspaceAtom);
   const settings = useAtomValue(settingsAtom);
   const bound = useSettingsView();
@@ -25,10 +27,10 @@ export function SettingsInterface() {
       view={bound.view}
       callbacks={bound.callbacks}
       leadingSections={
-        <SettingsSection title="Workspaces">
+        <SettingsSection title={t("interface.workspaces")}>
           <SettingRowSelect
-            title="Open workspace behavior"
-            description="Choose what happens when opening another workspace."
+            title={t("interface.openBehavior")}
+            description={t("interface.openBehaviorDesc")}
             name="switchWorkspaceBehavior"
             value={
               settings.openWorkspaceNewWindow === true
@@ -43,9 +45,9 @@ export function SettingsInterface() {
               else await patchModel(settings, { openWorkspaceNewWindow: null });
             }}
             options={[
-              { label: "Always ask", value: "ask" },
-              { label: "Open in current window", value: "current" },
-              { label: "Open in new window", value: "new" },
+              { label: t("interface.alwaysAsk"), value: "ask" },
+              { label: t("interface.openCurrentWindow"), value: "current" },
+              { label: t("interface.openNewWindow"), value: "new" },
             ]}
           />
         </SettingsSection>
@@ -60,39 +62,40 @@ export function SettingsInterface() {
 }
 
 function LicenseSettings({ settings }: { settings: Settings }) {
+  const { t } = useTranslation();
   const license = useLicense();
   if (license.check.data?.status !== "personal_use") {
     return null;
   }
 
   return (
-    <SettingsSection title="License">
+    <SettingsSection title={t("interface.license")}>
       <SettingRowBoolean
         checked={settings.hideLicenseBadge}
-        title="Hide personal use badge"
-        description="Hide the personal-use badge from the interface."
+        title={t("interface.hideBadge")}
+        description={t("interface.hideBadgeDesc")}
         onChange={async (hideLicenseBadge) => {
           if (hideLicenseBadge) {
             const confirmed = await showConfirm({
               id: "hide-license-badge",
-              title: "Confirm Personal Use",
-              confirmText: "Confirm",
+              title: t("interface.confirmPersonalUse"),
+              confirmText: t("interface.confirm"),
               description: (
                 <VStack space={3}>
-                  <p>Hey there 👋🏼</p>
+                  <p>{t("interface.personalUseGreeting")}</p>
                   <p>
-                    Yaak is free for personal projects and learning.{" "}
-                    <strong>If you’re using Yaak at work, a license is required.</strong>
+                    {t("interface.licenseBody1")}{" "}
+                    <strong>{t("interface.licenseBody1Strong")}</strong>
                   </p>
                   <p>
-                    Licenses help keep Yaak independent and sustainable.{" "}
+                    {t("interface.licenseBody2")}{" "}
                     <Link href={pricingUrl("app.license.badge-hide-confirm")}>
-                      Purchase a License →
+                      {t("interface.purchaseLicense")}
                     </Link>
                   </p>
                 </VStack>
               ),
-              requireTyping: "Personal Use",
+              requireTyping: t("interface.requireTyping"),
               color: "info",
             });
             if (!confirmed) {

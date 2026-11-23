@@ -83,6 +83,7 @@
     "updateChannelDesc": "选择 Yaak 使用正式版还是测试版。",
     "updates": "更新",
     "usingForWork": "在工作中使用 Yaak？",
+    "workspaceMoved": "工作区专属设置已移至「工作区设置」，可从工作区切换菜单进入。",
     "validateTls": "校验 TLS 证书",
     "validateTlsDesc": "关闭后将跳过服务器证书校验。",
     "version": "版本",

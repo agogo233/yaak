@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { IconButton } from "../IconButton";
 import {
   SettingRow,
@@ -22,21 +23,22 @@ export interface SettingsGeneralProps {
 }
 
 export function SettingsGeneral({ view, callbacks, banner, extraSections }: SettingsGeneralProps) {
+  const { t } = useTranslation();
   const { app, values } = view;
   return (
     <SettingsPage
-      title="General"
-      description="Configure general settings for update behavior and more."
+      title={t("settings.general")}
+      description={t("settings.generalDesc")}
       banner={banner}
     >
       <SettingsList className="space-y-8">
         {view.updates != null && <SettingsUpdatesSection view={view} callbacks={callbacks} />}
 
         {view.feedbackPrompts && (
-          <SettingsSection title="Feedback">
+          <SettingsSection title={t("settings.feedback")}>
             <SettingRowBoolean
-              title="Prompt for feedback"
-              description="Show rare one-time prompts asking how new features are working."
+              title={t("settings.promptFeedback")}
+              description={t("settings.promptFeedbackDesc")}
               checked={values.promptFeedback}
               onChange={(promptFeedback) => callbacks.onChange({ promptFeedback })}
             />
@@ -45,13 +47,13 @@ export function SettingsGeneral({ view, callbacks, banner, extraSections }: Sett
 
         {extraSections}
 
-        <SettingsSection title="App Info">
-          <SettingRow title="Version" description={`Current ${app.name} version.`}>
+        <SettingsSection title={t("settings.appInfo")}>
+          <SettingRow title={t("settings.version")} description={t("settings.versionDesc")}>
             <SettingValue value={app.version} />
           </SettingRow>
           <SettingRow
-            title="Data Directory"
-            description={`Where ${app.name} stores application data.`}
+            title={t("settings.dataDirectory")}
+            description={t("settings.dataDirectoryDesc")}
             controlClassName="min-w-0 max-w-[min(42rem,55vw)] gap-2"
           >
             <SettingValue
@@ -66,8 +68,8 @@ export function SettingsGeneral({ view, callbacks, banner, extraSections }: Sett
             />
           </SettingRow>
           <SettingRow
-            title="Logs Directory"
-            description={`Where ${app.name} writes application logs.`}
+            title={t("settings.logsDirectory")}
+            description={t("settings.logsDirectoryDesc")}
             controlClassName="min-w-0 max-w-[min(42rem,55vw)] gap-2"
           >
             <SettingValue
@@ -95,29 +97,30 @@ export function SettingsUpdatesSection({
   view: Pick<SettingsView, "app" | "values" | "updates">;
   callbacks: Pick<SettingsCallbacks, "onChange" | "onCheckForUpdates">;
 }) {
+  const { t } = useTranslation();
   const { app, values } = view;
   return (
-    <SettingsSection title="Updates">
+    <SettingsSection title={t("settings.updates")}>
       <SettingRow
-        title="Update Channel"
-        description={`Choose whether ${app.name} should use stable releases or beta releases.`}
+        title={t("settings.updateChannel")}
+        description={t("settings.updateChannelDesc")}
       >
         <div className="grid grid-cols-[12rem_auto] gap-1">
           <SettingSelectControl
             name="updateChannel"
-            label="Update Channel"
+            label={t("settings.updateChannel")}
             selectClassName="w-full!"
             value={values.updateChannel}
             onChange={(updateChannel) => callbacks.onChange({ updateChannel })}
             options={[
-              { label: "Stable", value: "stable" },
-              { label: "Beta", value: "beta" },
+              { label: t("settings.stable"), value: "stable" },
+              { label: t("settings.beta"), value: "beta" },
             ]}
           />
           <IconButton
             variant="border"
             size="sm"
-            title="Check for updates"
+            title={t("settings.checkForUpdates")}
             icon="refresh"
             spin={view.updates?.checking ?? false}
             onClick={() => callbacks.onCheckForUpdates()}
@@ -126,20 +129,20 @@ export function SettingsUpdatesSection({
       </SettingRow>
 
       <SettingRowSelect
-        title="Update Behavior"
-        description="Choose whether updates are installed automatically or manually."
+        title={t("settings.updateBehavior")}
+        description={t("settings.updateBehaviorDesc")}
         name="autoupdate"
         value={values.autoupdate ? "auto" : "manual"}
         onChange={(v) => callbacks.onChange({ autoupdate: v === "auto" })}
         options={[
-          { label: "Automatic", value: "auto" },
-          { label: "Manual", value: "manual" },
+          { label: t("settings.automatic"), value: "auto" },
+          { label: t("settings.manual"), value: "manual" },
         ]}
       />
 
       <SettingRowBoolean
-        title="Automatically download updates"
-        description={`Download ${app.name} updates in the background so they are ready to install.`}
+        title={t("settings.autoDownload")}
+        description={t("settings.autoDownloadDesc")}
         disabled={!values.autoupdate}
         checked={values.autoDownloadUpdates}
         onChange={(autoDownloadUpdates) => callbacks.onChange({ autoDownloadUpdates })}
@@ -147,16 +150,16 @@ export function SettingsUpdatesSection({
 
       {view.updates?.notificationsSetting !== false && (
         <SettingRowBoolean
-          title="Check for notifications"
-          description="Periodically ping Yaak servers to check for relevant notifications."
+          title={t("settings.checkNotifications")}
+          description={t("settings.checkNotificationsDesc")}
           checked={values.checkNotifications}
           onChange={(checkNotifications) => callbacks.onChange({ checkNotifications })}
         />
       )}
 
       <SettingRowBoolean
-        title="Send anonymous usage statistics"
-        description={`${app.name} is local-first and does not collect analytics or usage data.`}
+        title={t("settings.anonymousStats")}
+        description={t("settings.anonymousStatsDesc")}
         disabled
         checked={false}
         onChange={() => {}}

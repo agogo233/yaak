@@ -83,6 +83,7 @@
     "updateChannelDesc": "Choose whether Yaak should use stable releases or beta releases.",
     "updates": "Updates",
     "usingForWork": "Using Yaak for work?",
+    "workspaceMoved": "Workspace specific settings have moved to Workspace Settings, accessible from the workspace switcher menu.",
     "validateTls": "Validate TLS certificates",
     "validateTlsDesc": "When disabled, skip validation of server certificates.",
     "version": "Version",

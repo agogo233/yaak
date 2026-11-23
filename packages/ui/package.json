@@ -21,6 +21,8 @@
   "dependencies": {
     "date-fns": "^4.1.0",
     "hexy": "^0.4.0",
-    "jotai-family": "^1.0.1"
+    "i18next": "^25.0.0",
+    "jotai-family": "^1.0.1",
+    "react-i18next": "^15.0.0"
   }
 }

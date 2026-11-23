@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { clamp } from "../../lib/clamp";
 import { Button } from "../Button";
 import { Checkbox } from "../Checkbox";
@@ -25,13 +26,6 @@ const fontSizeOptions = [
   8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
 ].map((n) => ({ label: `${n}`, value: `${n}` }));
 
-const keymaps: { value: SettingsEditorKeymap; label: string }[] = [
-  { value: "default", label: "Default" },
-  { value: "vim", label: "Vim" },
-  { value: "vscode", label: "VSCode" },
-  { value: "emacs", label: "Emacs" },
-];
-
 export interface SettingsInterfaceProps {
   view: SettingsView;
   callbacks: SettingsCallbacks;
@@ -47,29 +41,37 @@ export function SettingsInterface({
   leadingSections,
   trailingSections,
 }: SettingsInterfaceProps) {
-  const { app, values, fonts } = view;
+  const { t } = useTranslation();
+  const { values, fonts } = view;
   const shown = (row: SettingsInterfaceRow) => !view.hiddenInterfaceRows?.includes(row);
 
+  const keymaps: { value: SettingsEditorKeymap; label: string }[] = [
+    { value: "default", label: t("interface.keymapDefault") },
+    { value: "vim", label: "Vim" },
+    { value: "vscode", label: "VSCode" },
+    { value: "emacs", label: "Emacs" },
+  ];
+
   return (
-    <SettingsPage title="Interface" description="Tweak settings related to the user interface.">
+    <SettingsPage title={t("interface.title")} description={t("interface.titleDesc")}>
       <SettingsList className="space-y-8">
         {leadingSections}
 
-        <SettingsSection title="Fonts">
+        <SettingsSection title={t("interface.fonts")}>
           <SettingRow
-            title="Interface font"
-            description={`Font used for ${app.name} interface controls.`}
+            title={t("interface.interfaceFont")}
+            description={t("interface.interfaceFontDesc")}
             controlClassName="gap-1"
           >
             {fonts && (
               <SettingSelectControl
                 name="uiFont"
-                label="Interface font"
+                label={t("interface.interfaceFont")}
                 selectClassName="w-72!"
                 value={values.interfaceFont ?? NULL_FONT_VALUE}
                 defaultValue={NULL_FONT_VALUE}
                 options={[
-                  { label: "System default", value: NULL_FONT_VALUE },
+                  { label: t("interface.systemDefault"), value: NULL_FONT_VALUE },
                   ...fonts.uiFonts.map((f) => ({ label: f, value: f })),
                   ...fonts.editorFonts.map((f) => ({ label: f, value: f })),
                 ]}
@@ -80,7 +82,7 @@ export function SettingsInterface({
             )}
             <SettingSelectControl
               name="interfaceFontSize"
-              label="Interface Font Size"
+              label={t("interface.interfaceFontSize")}
               selectClassName="w-20!"
               value={`${values.interfaceFontSize}`}
               defaultValue="14"
@@ -90,19 +92,19 @@ export function SettingsInterface({
           </SettingRow>
 
           <SettingRow
-            title="Editor font"
-            description="Font used in request and response editors."
+            title={t("interface.editorFont")}
+            description={t("interface.editorFontDesc")}
             controlClassName="gap-1"
           >
             {fonts && (
               <SettingSelectControl
                 name="editorFont"
-                label="Editor font"
+                label={t("interface.editorFont")}
                 selectClassName="w-72!"
                 value={values.editorFont ?? NULL_FONT_VALUE}
                 defaultValue={NULL_FONT_VALUE}
                 options={[
-                  { label: "System default", value: NULL_FONT_VALUE },
+                  { label: t("interface.systemDefault"), value: NULL_FONT_VALUE },
                   ...fonts.editorFonts.map((f) => ({ label: f, value: f })),
                 ]}
                 onChange={(v) =>
@@ -112,7 +114,7 @@ export function SettingsInterface({
             )}
             <SettingSelectControl
               name="editorFontSize"
-              label="Editor Font Size"
+              label={t("interface.editorFontSize")}
               selectClassName="w-20!"
               value={`${values.editorFontSize}`}
               defaultValue="12"
@@ -127,12 +129,12 @@ export function SettingsInterface({
         </SettingsSection>
 
         {(shown("editorKeymap") || shown("editorSoftWrap") || shown("coloredMethods")) && (
-          <SettingsSection title="Editor">
+          <SettingsSection title={t("interface.editor")}>
             {shown("editorKeymap") && (
               <SettingRowSelect
                 name="editorKeymap"
-                title="Editor keymap"
-                description="Keyboard shortcut preset used by text editors."
+                title={t("interface.keymap")}
+                description={t("interface.keymapDesc")}
                 value={values.editorKeymap}
                 onChange={(editorKeymap) => callbacks.onChange({ editorKeymap })}
                 options={keymaps}
@@ -140,16 +142,16 @@ export function SettingsInterface({
             )}
             {shown("editorSoftWrap") && (
               <SettingRowBoolean
-                title="Wrap editor lines"
-                description="Wrap long lines in request and response editors."
+                title={t("interface.softWrap")}
+                description={t("interface.softWrapDesc")}
                 checked={values.editorSoftWrap}
                 onChange={(editorSoftWrap) => callbacks.onChange({ editorSoftWrap })}
               />
             )}
             {shown("coloredMethods") && (
               <SettingRowBoolean
-                title="Colorize request methods"
-                description="Use method-specific colors for HTTP request methods."
+                title={t("interface.coloredMethods")}
+                description={t("interface.coloredMethodsDesc")}
                 checked={values.coloredMethods}
                 onChange={(coloredMethods) => callbacks.onChange({ coloredMethods })}
               />
@@ -158,7 +160,7 @@ export function SettingsInterface({
         )}
 
         {(shown("nativeTitlebar") || view.windowControlsSetting) && (
-          <SettingsSection title="Window">
+          <SettingsSection title={t("interface.window")}>
             {shown("nativeTitlebar") && (
               <NativeTitlebarSetting
                 useNativeTitlebar={values.useNativeTitlebar}
@@ -167,8 +169,8 @@ export function SettingsInterface({
             )}
             {view.windowControlsSetting && (
               <SettingRowBoolean
-                title="Hide window controls"
-                description="Hide the close, maximize, and minimize controls on Windows or Linux."
+                title={t("interface.hideWindowControls")}
+                description={t("interface.hideWindowControlsDesc")}
                 checked={values.hideWindowControls}
                 onChange={(hideWindowControls) => callbacks.onChange({ hideWindowControls })}
               />
@@ -189,24 +191,25 @@ function NativeTitlebarSetting({
   useNativeTitlebar: boolean;
   onApply: SettingsCallbacks["onApplyNativeTitlebar"];
 }) {
+  const { t } = useTranslation();
   const [nativeTitlebar, setNativeTitlebar] = useState(useNativeTitlebar);
 
   return (
     <SettingRow
-      title="Native title bar"
-      description="Use the operating system's standard title bar and window controls."
+      title={t("interface.nativeTitlebar")}
+      description={t("interface.nativeTitlebarDesc")}
       controlClassName="gap-2"
     >
       <Checkbox
         hideLabel
         size="md"
         checked={nativeTitlebar}
-        title="Native title bar"
+        title={t("interface.nativeTitlebar")}
         onChange={setNativeTitlebar}
       />
       {useNativeTitlebar !== nativeTitlebar && (
         <Button color="primary" size="xs" onClick={() => onApply(nativeTitlebar)}>
-          Apply and Restart
+          {t("interface.applyAndRestart")}
         </Button>
       )}
     </SettingRow>
