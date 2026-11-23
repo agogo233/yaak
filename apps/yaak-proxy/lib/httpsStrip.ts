@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { DecryptListEntry, Flow } from "@yaakapp-internal/proxy-lib";
 import { decryptsAnything, entryMatches, isDecrypted } from "./decrypt";
 import { connectionOf } from "./encryptedCard";
@@ -44,7 +45,9 @@ export function stripState({
 
 /** "22 connections" */
 export function connectionCount(n: number): string {
-  return `${n.toLocaleString()} ${n === 1 ? "connection" : "connections"}`;
+  return n === 1
+    ? i18n.t("flows.connectionOne")
+    : i18n.t("flows.connectionsN", { count: n.toLocaleString() });
 }
 
 export interface ChooseApp {

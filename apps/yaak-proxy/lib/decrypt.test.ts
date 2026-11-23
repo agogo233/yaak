@@ -1,5 +1,6 @@
 import { CompletionContext } from "@codemirror/autocomplete";
 import { EditorState } from "@codemirror/state";
+import { initI18n } from "@yaakapp-internal/i18n";
 import type { DecryptListEntry } from "@yaakapp-internal/proxy-lib";
 import { filterCompletionSource } from "@yaakapp-internal/ui/editor";
 import { describe, expect, test } from "vite-plus/test";
@@ -24,6 +25,8 @@ import {
   subjectQuery,
   toggleDecrypt,
 } from "./decrypt";
+
+initI18n("en");
 
 const user = (...entries: string[]): DecryptListEntry[] =>
   entries.map((entry) => ({ entry, builtIn: false }));

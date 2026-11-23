@@ -1,8 +1,11 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import type { ReactNode } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, test, vi } from "vite-plus/test";
 import type { FlowBodyData } from "../lib/flowViews";
 import { FlowRequestBody } from "./FlowRequestBody";
+
+initI18n("en");
 
 // The package's index reaches for the window as it loads; these four are all this renders.
 vi.mock("@yaakapp-internal/ui", () => ({

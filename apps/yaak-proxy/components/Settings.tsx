@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getVersion } from "@tauri-apps/api/app";
 import { appDataDir, appLogDir } from "@tauri-apps/api/path";
+import { i18n } from "@yaakapp-internal/i18n";
 import {
   Dialog,
   EmptyStateText,
@@ -161,33 +162,33 @@ export function SettingsContent({
       tabs={[
         {
           value: SETTINGS_TAB_GENERAL,
-          label: "General",
+          label: i18n.t("flows.tabGeneral"),
           icon: "settings",
           content: <SettingsGeneral {...props} />,
         },
         {
           value: SETTINGS_TAB_THEME,
-          label: "Theme",
+          label: i18n.t("flows.tabTheme"),
           icon: "palette",
           content: <SettingsTheme {...props} />,
         },
         {
           value: SETTINGS_TAB_INTERFACE,
-          label: "Interface",
+          label: i18n.t("flows.tabInterface"),
           icon: "columns_2",
           content: <SettingsInterface {...props} />,
         },
         {
           value: SETTINGS_TAB_PROXY,
-          label: "Proxy",
+          label: i18n.t("proxy.title"),
           icon: "wifi",
           content: <SettingsProxy />,
         },
         {
           value: SETTINGS_TAB_LICENSE,
-          label: "License",
+          label: i18n.t("flows.licenseTab"),
           icon: "key_round",
-          content: <EmptyStateText>Coming soon</EmptyStateText>,
+          content: <EmptyStateText>{i18n.t("flows.comingSoon")}</EmptyStateText>,
         },
       ]}
     />
@@ -232,10 +233,10 @@ function useAppInfo() {
       logDir: data?.logDir ?? "",
       revealPathLabel:
         os === "macos"
-          ? "Reveal in Finder"
+          ? i18n.t("common.revealInFinder")
           : os === "windows"
-            ? "Show in Explorer"
-            : "Show in File Manager",
+            ? i18n.t("common.showInExplorer")
+            : i18n.t("common.showInFileManager"),
     }),
     [data, os],
   );

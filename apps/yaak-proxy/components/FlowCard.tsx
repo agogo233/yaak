@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
 import type { Flow, FlowBody } from "@yaakapp-internal/proxy-lib";
 import {
@@ -305,7 +306,7 @@ function FlowResponseHalf({ flow, className }: { flow: Flow; className: string }
       response={response}
       body={loader}
       requestBody={null}
-      emptyState={<EmptyStateText>Waiting for a response</EmptyStateText>}
+      emptyState={<EmptyStateText>{i18n.t("flows.waitingForResponse")}</EmptyStateText>}
       tabsStorageKey="proxy_response_tabs"
       activeTabKey={flow.id}
       defaultTab={defaultTab}
@@ -324,8 +325,8 @@ function FlowResponseHalf({ flow, className }: { flow: Flow; className: string }
           >
             <Icon icon="scissors" size="xs" />
             {body.data == null
-              ? "Body truncated"
-              : `First ${formatSize(body.data.storedSize)} recorded`}
+              ? i18n.t("flows.bodyTruncated")
+              : i18n.t("flows.firstRecorded", { size: formatSize(body.data.storedSize) })}
           </span>
         ) : undefined
       }
@@ -335,12 +336,12 @@ function FlowResponseHalf({ flow, className }: { flow: Flow; className: string }
             size="sm"
             icon="bookmark"
             iconColor={saved ? "primary" : "secondary"}
-            title={saved ? "Saved to Yaak" : "Save to Yaak"}
+            title={saved ? i18n.t("flows.savedToYaak") : i18n.t("flows.saveToYaak")}
             tooltip
             onClick={() => openSave(flow)}
           />
           <Dropdown items={flowActions(flow).slice(2)}>
-            <IconButton size="sm" icon="ellipsis" iconColor="secondary" title="Actions" tooltip />
+            <IconButton size="sm" icon="ellipsis" iconColor="secondary" title={i18n.t("common.actions")} tooltip />
           </Dropdown>
         </div>
       }

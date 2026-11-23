@@ -1,4 +1,5 @@
 import { useIsMutating, useQueryClient } from "@tanstack/react-query";
+import { i18n } from "@yaakapp-internal/i18n";
 import type { CaStatus, PassthroughResponse } from "@yaakapp-internal/proxy-lib";
 import { Button } from "@yaakapp-internal/ui";
 import { useCallback } from "react";
@@ -120,7 +121,7 @@ export function useDecrypt() {
         showToast({
           id: "decrypt",
           color: "warning",
-          message: "Certificate not trusted",
+          message: i18n.t("flows.certificateNotTrusted"),
         });
         return false;
       }

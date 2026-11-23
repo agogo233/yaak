@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
 // The themes alone, not the package index, which reaches for the window as it loads
 import { defaultDarkTheme, defaultLightTheme } from "@yaakapp-internal/theme/src/defaultThemes";
@@ -141,10 +142,9 @@ export function sizeLabel(bytes: number): string {
 }
 
 /** How much captured traffic is kept before the oldest flows are dropped */
-export const KEEP_TRAFFIC_OPTIONS = sizeOptions(
-  [null, 500 * MB, GB, 2 * GB, 5 * GB, 10 * GB, 20 * GB],
-  "Unlimited",
-);
+export function keepTrafficOptions(): SizeOption[] {
+  return sizeOptions([null, 500 * MB, GB, 2 * GB, 5 * GB, 10 * GB, 20 * GB], i18n.t("flows.unlimited"));
+}
 
 /**
  * The option a stored size selects. A size set elsewhere (the CLI or `settings.json`) that no
@@ -152,7 +152,7 @@ export const KEEP_TRAFFIC_OPTIONS = sizeOptions(
  */
 export function sizeOptionsFor(options: SizeOption[], bytes: number | null): SizeOption[] {
   if (options.some((o) => o.bytes === bytes)) return options;
-  const extra = sizeOptions([bytes], "Unlimited");
+  const extra = sizeOptions([bytes], i18n.t("flows.unlimited"));
   return [...options, ...extra].sort((a, b) => (a.bytes ?? Infinity) - (b.bytes ?? Infinity));
 }
 

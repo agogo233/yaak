@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { Dialog, DialogFooter, PlainInput } from "@yaakapp-internal/ui";
 import { atom, useAtom } from "jotai";
 import { useState } from "react";
@@ -47,7 +48,7 @@ function NameDialog({ dialog, onClose }: { dialog: SavedSearchDialog; onClose: (
       open
       onClose={onClose}
       size="dynamic"
-      title={dialog.mode === "save" ? "Save Search" : "Rename Search"}
+      title={dialog.mode === "save" ? i18n.t("flows.saveSearchTitle") : i18n.t("flows.renameSearchTitle")}
       className="w-[26rem]"
     >
       <form
@@ -58,7 +59,7 @@ function NameDialog({ dialog, onClose }: { dialog: SavedSearchDialog; onClose: (
         }}
       >
         <PlainInput
-          label="Name"
+          label={i18n.t("flows.nameField")}
           autoFocus
           defaultValue={name}
           onChange={setName}
@@ -67,9 +68,9 @@ function NameDialog({ dialog, onClose }: { dialog: SavedSearchDialog; onClose: (
       </form>
       <DialogFooter
         actions={[
-          { label: "Cancel", variant: "border", onClick: onClose },
+          { label: i18n.t("common.cancel"), variant: "border", onClick: onClose },
           {
-            label: dialog.mode === "save" ? "Save" : "Rename",
+            label: dialog.mode === "save" ? i18n.t("flows.saveBtn") : i18n.t("common.rename"),
             color: "primary",
             form: FORM_ID,
             disabled: name.trim() === "",

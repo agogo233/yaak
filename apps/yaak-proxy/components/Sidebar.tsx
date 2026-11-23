@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import {
   ContextMenu,
   CONTROL_TOOLTIP_DELAY,
@@ -100,7 +101,7 @@ function ItemInner({ item }: { item: SidebarItem }) {
         <span className="truncate text-xs text-text-subtlest">{item.sublabel}</span>
       )}
       {item.encryptedOnly && (
-        <Tooltip wrap content="Encrypted" delay={CONTROL_TOOLTIP_DELAY}>
+        <Tooltip wrap content={i18n.t("flows.encryptedWord")} delay={CONTROL_TOOLTIP_DELAY}>
           <Icon icon="lock" size="xs" className="shrink-0 text-text-subtlest" />
         </Tooltip>
       )}
@@ -175,7 +176,7 @@ export function Sidebar() {
           onSelect: () => void revealPath(path, fail),
         },
         {
-          label: "Copy Path",
+          label: i18n.t("flows.copyPath"),
           leftSlot: <Icon icon="copy" />,
           hidden: item.kind !== "folder",
           onSelect: () => {
@@ -195,17 +196,17 @@ export function Sidebar() {
       const add = (negated: boolean) =>
         applyFilter(store, filterWithRows(store.get(appliedFilterAtom), items, negated));
       return [
-        { label: "Filter by This Value", icon: "filter", onSelect: () => add(false) },
-        { label: "Exclude This Value", icon: "minus_circle", onSelect: () => add(true) },
+        { label: i18n.t("flows.filterByThisValue"), icon: "filter", onSelect: () => add(false) },
+        { label: i18n.t("flows.excludeThisValue"), icon: "minus_circle", onSelect: () => add(true) },
         {
-          label: "Copy Value",
+          label: i18n.t("flows.copyValue"),
           icon: "copy",
           onSelect: async () => {
             try {
               await navigator.clipboard.writeText(copyRowsText(items));
-              showToast({ message: "Copied to clipboard" });
+              showToast({ message: i18n.t("flows.copiedToClipboard") });
             } catch (err) {
-              showToast({ message: `Failed to copy: ${String(err)}`, color: "danger" });
+              showToast({ message: i18n.t("flows.failedCopy", { error: String(err) }), color: "danger" });
             }
           },
         },
@@ -222,7 +223,7 @@ export function Sidebar() {
       if (items.length === 1 && items[0]?.id === SYSTEM_ID) {
         return [
           {
-            label: "Show in All Traffic",
+            label: i18n.t("flows.showInAllTraffic"),
             leftSlot: checkMark(!hideSystem),
             onSelect: () => setHideSystem(!hideSystem),
           },
@@ -232,20 +233,20 @@ export function Sidebar() {
         return withSeparators([
           [
             {
-              label: "Decrypt Everything",
+              label: i18n.t("flows.decryptEverythingCap"),
               leftSlot: <Icon icon="lock_open" />,
               hidden: decryptsEverything(decryptList),
               onSelect: () =>
                 void applyDecrypt({
                   edit: everythingEdit(true),
-                  message: "Decrypting everything",
-                  sub: "Excluded hosts and apps stay encrypted.",
+                  message: i18n.t("flows.decryptingEverything"),
+                  sub: i18n.t("flows.excludedStayEncrypted"),
                 }),
             },
           ],
           [
             {
-              label: "Show in All Traffic",
+              label: i18n.t("flows.showInAllTraffic"),
               leftSlot: checkMark(!hideEncrypted),
               onSelect: () => setHideEncrypted(!hideEncrypted),
             },
@@ -258,7 +259,7 @@ export function Sidebar() {
         const [first] = saved;
         return [
           {
-            label: "Rename",
+            label: i18n.t("common.rename"),
             leftSlot: <Icon icon="pencil" />,
             hidden: saved.length > 1 || first == null,
             onSelect: () => {
@@ -267,7 +268,7 @@ export function Sidebar() {
             },
           },
           {
-            label: "Delete",
+            label: i18n.t("common.delete"),
             color: "danger",
             leftSlot: <Icon icon="trash" />,
             onSelect: () => {
@@ -291,7 +292,7 @@ export function Sidebar() {
                     showToast({
                       id: "decrypt-blocked",
                       color: "notice",
-                      message: `Excluded by ${blocked}`,
+                      message: i18n.t("flows.excludedByBlocked", { blocked }),
                     });
                     return;
                   }
@@ -300,7 +301,7 @@ export function Sidebar() {
                   const next = setDecrypted(decryptList, subjects, action.on);
                   void applyDecrypt({
                     edit: listEdit(decryptList, next),
-                    message: `${action.on ? "Decrypting" : "Stopped decrypting"} ${action.subject}`,
+                    message: i18n.t(action.on ? "flows.decrypting" : "flows.stoppedDecrypting", { name: action.subject }),
                   });
                 },
               },

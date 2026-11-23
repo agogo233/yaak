@@ -1,3 +1,4 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import type { DecryptListEntry } from "@yaakapp-internal/proxy-lib";
 import { describe, expect, test } from "vite-plus/test";
 import {
@@ -7,6 +8,8 @@ import {
   lineText,
   stopDecryptingConnection,
 } from "./encryptedCard";
+
+initI18n("en");
 
 const user = (...entries: string[]): DecryptListEntry[] =>
   entries.map((entry) => ({ entry, builtIn: false }));

@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import classNames from "classnames";
 import { useAtomValue } from "jotai";
 import type { CSSProperties } from "react";
@@ -28,11 +29,11 @@ export function FlowDetail({ style, sideBySide }: { style?: CSSProperties; sideB
         {flow == null ? (
           <EmptyState>
             <div className="grid grid-cols-[auto_auto] gap-x-6 gap-y-2 text-left">
-              <span>Select a flow</span>
+              <span>{i18n.t("flows.selectAFlow")}</span>
               <Keys keys={["↑", "↓"]} />
-              <span>Pause or resume recording</span>
+              <span>{i18n.t("flows.pauseOrResume")}</span>
               <Keys keys={["⌘", "R"]} />
-              <span>Clear flows</span>
+              <span>{i18n.t("flows.clearFlows")}</span>
               <Keys keys={["⌘", "⇧", "K"]} />
             </div>
           </EmptyState>

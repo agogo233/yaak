@@ -1,3 +1,4 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import type { Flow } from "@yaakapp-internal/proxy-lib";
 import { atom, createStore } from "jotai";
 import { beforeEach, describe, expect, test, vi } from "vite-plus/test";
@@ -11,6 +12,8 @@ import {
   selectedFlowAtom,
 } from "./atoms";
 import { EMPTY_PLACE, stackOf } from "./places";
+
+initI18n("en");
 
 const existing = new Set<string>();
 const recorded: string[] = [];

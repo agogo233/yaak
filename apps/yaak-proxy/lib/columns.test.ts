@@ -1,3 +1,4 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
 import type { Flow, FlowSortKey } from "@yaakapp-internal/proxy-lib";
 // The formatter alone: the package index reaches for the window as it loads
@@ -44,6 +45,8 @@ import {
   urlParts,
 } from "./columns";
 import { DEFAULT_SETTINGS_VALUES } from "./settings";
+
+initI18n("en");
 
 function flow(number: number, extra: Partial<Flow> = {}): Flow {
   return {

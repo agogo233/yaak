@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
 import { Banner, EmptyStateText, IconTooltip, LoadingIcon } from "@yaakapp-internal/ui";
 import type { HttpBodyResult } from "@yaakapp-internal/ui/httpTypes";
@@ -37,10 +38,13 @@ export function FlowRequestBody({ body, viewer, requestSize }: Props) {
       <div className="h-full grid grid-rows-[auto_minmax(0,1fr)]">
         <Banner color="notice" className="text-sm mb-2">
           <span className="flex items-center gap-1.5">
-            The first {formatSize(body.data.storedSize)} of {formatSize(requestSize)} is shown.
+            {i18n.t("flows.truncatedShown", {
+              shown: formatSize(body.data.storedSize),
+              total: formatSize(requestSize),
+            })}
             <IconTooltip
               iconSize="sm"
-              content="The body was truncated at the capture limit. The app sent all of it."
+              content={i18n.t("flows.truncatedSentTooltip")}
             />
           </span>
         </Banner>

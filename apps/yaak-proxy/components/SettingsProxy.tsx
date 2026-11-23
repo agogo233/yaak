@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { i18n } from "@yaakapp-internal/i18n";
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
 import type { HttpVersion, SystemProxyStatus, TrafficRetention } from "@yaakapp-internal/proxy-lib";
 import {
@@ -32,7 +33,7 @@ import {
   type TerminalShell,
 } from "../lib/env";
 import {
-  KEEP_TRAFFIC_OPTIONS,
+  keepTrafficOptions,
   sizeFromOptionValue,
   sizeOptionsFor,
   sizeOptionValue,
@@ -60,29 +61,29 @@ export function SettingsProxy() {
 
   return (
     <SettingsPage
-      title="Proxy"
-      description="Configure the port, decryption, recorded traffic, and terminal environment."
+      title={i18n.t("flows.settingsTitle")}
+      description={i18n.t("flows.settingsDesc")}
     >
       <SettingsList className="space-y-8">
-        <SettingsSection title="Proxy">
+        <SettingsSection title={i18n.t("flows.sectionProxy")}>
           <PortRow disabled={elsewhere} />
           <SettingRowSelect<HttpVersion>
             name="httpVersion"
-            title="HTTP version"
-            description="The change applies to new connections."
+            title={i18n.t("flows.httpVersion")}
+            description={i18n.t("flows.httpVersionDesc")}
             value={proxyState?.httpVersion ?? "auto"}
             disabled={elsewhere}
             onChange={(httpVersion) => setHttpVersion.mutate({ httpVersion })}
             options={[
-              { label: "Automatic", value: "auto" },
-              { label: "HTTP/1.1 only", value: "http1Only" },
+              { label: i18n.t("flows.httpAuto"), value: "auto" },
+              { label: i18n.t("flows.http1Only"), value: "http1Only" },
             ]}
           />
           {systemProxy.data?.supported === true && (
             <>
               <SettingRowBoolean
-                title="Override system proxy at launch"
-                description="Traffic from every app will be recorded."
+                title={i18n.t("flows.overrideAtLaunch")}
+                description={i18n.t("flows.everyAppRecorded")}
                 checked={proxyState?.systemProxyAtLaunch ?? true}
                 disabled={setAtLaunch.isPending}
                 onChange={(enabled) => setAtLaunch.mutate({ enabled })}
@@ -92,18 +93,18 @@ export function SettingsProxy() {
           )}
         </SettingsSection>
 
-        <SettingsSection title="Decryption">
+        <SettingsSection title={i18n.t("flows.sectionDecryption")}>
           <DecryptionSettings />
         </SettingsSection>
 
-        <SettingsSection title="Traffic">
+        <SettingsSection title={i18n.t("flows.sectionTraffic")}>
           <TrafficRow />
           {proxyState?.traffic === "keep" && <KeepTrafficRow />}
           <ConfirmClearRow />
           <ResetRow />
         </SettingsSection>
 
-        <SettingsSection title="Terminal">
+        <SettingsSection title={i18n.t("flows.sectionTerminal")}>
           <TerminalRow />
         </SettingsSection>
       </SettingsList>
@@ -151,12 +152,12 @@ function PortRow({ disabled }: { disabled: boolean }) {
     setPort.mutate({ port });
   };
   return (
-    <SettingRow title="Port" description="Changing the port restarts the proxy.">
+    <SettingRow title={i18n.t("flows.port")} description={i18n.t("flows.portDesc")}>
       <PlainInput
         hideLabel
         size="sm"
         name="port"
-        label="Port"
+        label={i18n.t("flows.port")}
         type="number"
         containerClassName="w-48!"
         defaultValue={`${saved}`}
@@ -183,7 +184,7 @@ function HelperRow({ status }: { status: SystemProxyStatus }) {
   const row = helperRow(status.helper, status.backend);
   return (
     <SettingRow
-      title="Helper"
+      title={i18n.t("flows.helperRow")}
       description={
         unregister.error != null ? (
           <span className="text-danger">{unregister.error.message}</span>
@@ -204,10 +205,10 @@ function HelperRow({ status }: { status: SystemProxyStatus }) {
           onClick={() => (row.action === "unregister" ? unregister.mutate({}) : openDialog(true))}
         >
           {row.action === "install"
-            ? "Install"
+            ? i18n.t("flows.install")
             : row.action === "approve"
-              ? "Approve"
-              : "Uninstall"}
+              ? i18n.t("flows.approve")
+              : i18n.t("flows.uninstall")}
         </Button>
       )}
     </SettingRow>
@@ -224,14 +225,14 @@ function TrafficRow() {
   return (
     <SettingRowSelect<TrafficRetention>
       name="traffic"
-      title="Recorded traffic"
+      title={i18n.t("flows.recordedTraffic")}
       selectClassName="w-56!"
       value={proxyState?.traffic ?? "clearOnLaunch"}
       disabled={proxyState?.otherOwner != null}
       onChange={(traffic) => setTraffic.mutate({ traffic })}
       options={[
-        { label: "Clear on launch", value: "clearOnLaunch" },
-        { label: "Keep between launches", value: "keep" },
+        { label: i18n.t("flows.clearOnLaunch"), value: "clearOnLaunch" },
+        { label: i18n.t("flows.keepBetweenLaunches"), value: "keep" },
       ]}
     />
   );
@@ -247,20 +248,20 @@ function KeepTrafficRow() {
   });
   const keep = proxyState?.keepTrafficBytes ?? null;
   return (
-    <SettingRow title="Size limit" description="The oldest flows will be cleared first.">
+    <SettingRow title={i18n.t("flows.sizeLimit")} description={i18n.t("flows.sizeLimitDesc")}>
       <div className="flex items-center gap-3">
         {size.data != null && (
           <span className="text-sm text-text-subtle tabular-nums whitespace-nowrap">
-            {formatSize(size.data.bytes)} used
+            {i18n.t("flows.sizeUsed", { size: formatSize(size.data.bytes) })}
           </span>
         )}
         <SettingSelectControl
           name="keepTraffic"
-          label="Size limit"
+          label={i18n.t("flows.sizeLimit")}
           value={sizeOptionValue(keep)}
           disabled={proxyState?.otherOwner != null}
           onChange={(v) => setKeep.mutate({ bytes: sizeFromOptionValue(v) })}
-          options={sizeOptionsFor(KEEP_TRAFFIC_OPTIONS, keep).map(({ label, value }) => ({
+          options={sizeOptionsFor(keepTrafficOptions(), keep).map(({ label, value }) => ({
             label,
             value,
           }))}
@@ -274,7 +275,7 @@ function KeepTrafficRow() {
 function ConfirmClearRow() {
   const [confirm, setConfirm] = useAtom(confirmClearFlowsAtom);
   return (
-    <SettingRowBoolean title="Confirm before clearing" checked={confirm} onChange={setConfirm} />
+    <SettingRowBoolean title={i18n.t("flows.confirmBeforeClearing")} checked={confirm} onChange={setConfirm} />
   );
 }
 
@@ -287,31 +288,31 @@ function ResetRow() {
     onSuccess: () => {
       setConfirming(false);
       void queryClient.invalidateQueries();
-      showToast({ message: "Recorded data reset" });
+      showToast({ message: i18n.t("flows.recordedDataReset") });
     },
     onSettled: () => void refreshProxyState(store),
   });
   return (
     <SettingRow
-      title="Reset recorded data"
-      description="All traffic and its encryption keys will be deleted."
+      title={i18n.t("flows.resetRecordedData")}
+      description={i18n.t("flows.resetRecordedDataDesc")}
     >
       <Button size="xs" variant="border" color="danger" onClick={() => setConfirming(true)}>
-        Reset
+        {i18n.t("flows.reset")}
       </Button>
       <Dialog
         open={confirming}
         onClose={() => setConfirming(false)}
         size="sm"
-        title="Reset Recorded Data"
-        description="Permanently delete all traffic and its encryption keys?"
+        title={i18n.t("flows.resetRecordedData")}
+        description={i18n.t("flows.resetDialogDesc")}
       >
         {reset.error != null && <p className="text-danger text-sm">{reset.error.message}</p>}
         <DialogFooter
           actions={[
-            { label: "Cancel", variant: "border", onClick: () => setConfirming(false) },
+            { label: i18n.t("common.cancel"), variant: "border", onClick: () => setConfirming(false) },
             {
-              label: "Reset",
+              label: i18n.t("flows.reset"),
               color: "danger",
               isLoading: reset.isPending,
               onClick: () => reset.mutate({}),
@@ -340,7 +341,7 @@ function TerminalRow() {
   return (
     <div className="py-4">
       <div className="flex items-center gap-2">
-        <span className="text-text">Environment</span>
+        <span className="text-text">{i18n.t("flows.environment")}</span>
         <RadioDropdown
           value={shell}
           onChange={(v) => setShell(v as TerminalShell)}
@@ -349,7 +350,7 @@ function TerminalRow() {
           <Button
             size="2xs"
             variant="border"
-            title="Shell"
+            title={i18n.t("flows.shellLabel")}
             rightSlot={<Icon icon="chevron_down" size="xs" className="ml-1" />}
           >
             {shellLabel}
@@ -361,8 +362,8 @@ function TerminalRow() {
           className="ml-auto"
           title={
             os === "macos"
-              ? "A new Terminal window will open with these variables set."
-              : "Opening a terminal is only supported on macOS."
+              ? i18n.t("flows.terminalHintMac")
+              : i18n.t("flows.terminalHintOther")
           }
           disabled={caPath == null || os !== "macos"}
           isLoading={openTerminal.isPending}
@@ -370,10 +371,10 @@ function TerminalRow() {
             caPath != null && openTerminal.mutate({ vars: environmentVars(port, caPath) })
           }
         >
-          Open Terminal
+          {i18n.t("flows.openTerminal")}
         </Button>
       </div>
-      <p className="mt-1 text-sm text-text-subtle">Traffic from one terminal will be recorded.</p>
+      <p className="mt-1 text-sm text-text-subtle">{i18n.t("flows.terminalRecordedHint")}</p>
       {caPath != null && (
         <SettingSnippet
           className="mt-3"

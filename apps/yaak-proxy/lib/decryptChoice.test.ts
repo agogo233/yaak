@@ -1,5 +1,8 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import { describe, expect, test, vi } from "vite-plus/test";
 import { applyChoice, type ChoiceDeps, choiceToast, reconnectEntries } from "./decryptChoice";
+
+initI18n("en");
 
 function deps(over: Partial<ChoiceDeps> = {}) {
   const calls: string[] = [];

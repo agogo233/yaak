@@ -1,5 +1,6 @@
 import { Prec } from "@codemirror/state";
 import { type EditorView, keymap } from "@codemirror/view";
+import { i18n } from "@yaakapp-internal/i18n";
 import type { DecryptListEntry, SeenTargets } from "@yaakapp-internal/proxy-lib";
 import {
   Button,
@@ -67,31 +68,31 @@ export function DecryptionSettings() {
     void change(
       { add: [], remove: [entry] },
       entry.startsWith("!")
-        ? `Stopped excluding ${entrySubject(entry.slice(1))}`
-        : `Stopped decrypting ${entrySubject(entry)}`,
+        ? i18n.t("flows.stoppedExcluding", { subject: entrySubject(entry.slice(1)) })
+        : i18n.t("flows.stoppedDecrypting", { name: entrySubject(entry) }),
     );
 
   return (
     <>
       <CertificateRow />
       <SettingRowBoolean
-        title="Decrypt everything"
-        description="Excluded hosts and apps stay encrypted."
+        title={i18n.t("flows.decryptEverything")}
+        description={i18n.t("flows.excludedStayEncrypted")}
         checked={everything}
         disabled={busy}
         onChange={(on) =>
           void change(
             everythingEdit(on),
-            on ? "Decrypting everything" : "Stopped decrypting everything",
-            on ? "Excluded hosts and apps stay encrypted." : undefined,
+            on ? i18n.t("flows.decryptingEverything") : i18n.t("flows.stoppedDecryptingEverything"),
+            on ? i18n.t("flows.excludedStayEncrypted") : undefined,
           )
         }
       />
       <div className="py-4 grid gap-2">
         <div className="flex items-center text-text">
-          Hosts and apps
+          i18n.t("flows.hostsAndApps")
           <span className="ml-auto text-sm text-text-subtlest">
-            Changes apply to new connections.
+            i18n.t("flows.changesApply")
           </span>
         </div>
         <EntryInput
@@ -102,14 +103,14 @@ export function DecryptionSettings() {
             void change(
               { add: [entry], remove: [] },
               entry.startsWith("!")
-                ? `Excluding ${entrySubject(entry.slice(1))}`
-                : `Decrypting ${entrySubject(entry)}`,
+                ? i18n.t("flows.excluding", { subject: entrySubject(entry.slice(1)) })
+                : i18n.t("flows.decrypting", { name: entrySubject(entry) }),
             )
           }
         />
         <div className="rounded-md border border-border-subtle divide-y divide-border-subtle">
           {own.length === 0 && (
-            <div className="px-3 py-2 text-sm text-text-subtle">No hosts or apps</div>
+            <div className="px-3 py-2 text-sm text-text-subtle">{i18n.t("flows.noHostsOrApps")}</div>
           )}
           {own.map((e) => (
             <EntryRow key={e.entry} entry={e} disabled={busy} onRemove={() => remove(e.entry)} />
@@ -130,24 +131,24 @@ function CertificateRow() {
   const status = caStatus.data;
   if (status == null)
     return (
-      <SettingRow title="Certificate" description="Yaak Proxy CA">
+      <SettingRow title={i18n.t("flows.certificate")} description={i18n.t("flows.yaakProxyCa")}>
         {null}
       </SettingRow>
     );
   return (
-    <SettingRow title="Certificate" description="Yaak Proxy CA">
+    <SettingRow title={i18n.t("flows.certificate")} description={i18n.t("flows.yaakProxyCa")}>
       <div className="flex items-center gap-2">
         {status.trusted ? (
           <span className="flex items-center gap-1 text-sm text-success">
             <Icon icon="badge_check" size="sm" />
-            Trusted
+            {i18n.t("flows.trusted")}
           </span>
         ) : (
-          <span className="text-sm text-text-subtle">Not trusted</span>
+          <span className="text-sm text-text-subtle">{i18n.t("flows.notTrusted")}</span>
         )}
         {!status.trusted && canTrustHere() ? (
           <Button size="2xs" color="primary" isLoading={trusting} onClick={() => trust.mutate({})}>
-            {trusting ? "Waiting for macOS" : "Trust"}
+            {trusting ? i18n.t("flows.waitingForMacos") : i18n.t("flows.trust")}
           </Button>
         ) : (
           <Button
@@ -179,7 +180,7 @@ function BuiltIns({
 }) {
   const [open, setOpen] = useState(false);
   const kinds = new Set(entries.map((e) => e.kind));
-  const summary = [kinds.has("apple") ? "Apple" : null, kinds.has("pinned") ? "pinned apps" : null]
+  const summary = [kinds.has("apple") ? i18n.t("flows.appleWord") : null, kinds.has("pinned") ? i18n.t("flows.pinnedAppsWord") : null]
     .filter((k) => k != null)
     .join(", ");
   return (
@@ -223,7 +224,7 @@ function EntryRow({
         entry.builtIn && "text-text-subtlest",
       )}
     >
-      <Tooltip wrap content={negated ? "Excluded" : "Decrypted"} delay={CONTROL_TOOLTIP_DELAY}>
+      <Tooltip wrap content={negated ? i18n.t("flows.excludedWord") : i18n.t("flows.decryptedWord")} delay={CONTROL_TOOLTIP_DELAY}>
         <Icon
           icon={negated ? "lock" : "lock_open"}
           size="sm"
@@ -235,7 +236,7 @@ function EntryRow({
       </span>
       {entry.builtIn && entry.kind != null && (
         <span className="shrink-0 text-2xs rounded px-1 border border-border-subtle">
-          {entry.kind === "apple" ? "Apple" : "Pinned"}
+          {entry.kind === "apple" ? i18n.t("flows.appleWord") : i18n.t("flows.pinnedWord")}
         </span>
       )}
       <IconButton
@@ -289,7 +290,7 @@ function EntryInput({
       if (disabledRef.current) return true;
       const entry = normalizeEntry(text);
       if (entry == null) {
-        setError("Invalid host or app");
+        setError(i18n.t("flows.invalidHostOrApp"));
         return true;
       }
       setError(null);
@@ -304,12 +305,12 @@ function EntryInput({
   return (
     <div className="grid gap-1">
       <Input
-        label="Add entry"
+        label={i18n.t("flows.addEntry")}
         hideLabel
         size="sm"
         stateKey={null}
         language={null}
-        placeholder="Add host or app"
+        placeholder={i18n.t("flows.addHostOrApp")}
         extensions={extensions}
         onChange={() => setError(null)}
       />

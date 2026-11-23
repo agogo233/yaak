@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { i18n } from "@yaakapp-internal/i18n";
 import type { SystemProxyStatus } from "@yaakapp-internal/proxy-lib";
 import { Banner, Dialog, DialogFooter, LoadingIcon } from "@yaakapp-internal/ui";
 import { useAtom, useSetAtom } from "jotai";
@@ -48,15 +49,15 @@ export function HelperDialog() {
       open={open}
       onClose={close}
       size="dynamic"
-      title="Approve Helper"
-      description="Turn on Yaak Proxy in System Settings > General > Login Items."
+      title={i18n.t("flows.approveHelper")}
+      description={i18n.t("flows.approveHelperDesc")}
       className="w-[34rem]"
     >
       <div className="grid gap-3 pb-4">
         <div className="relative">
           <img
             src={loginItems}
-            alt="System Settings, with Yaak Proxy's toggle in the list of apps allowed in the background"
+            alt={i18n.t("flows.loginItemsAlt")}
             className="block w-full rounded-md border border-border-subtle"
           />
           <div

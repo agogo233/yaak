@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import {
   autocompletion,
   closeCompletion,
@@ -162,7 +163,7 @@ export const SearchBar = memo(function SearchBar() {
           setRef={(h) => {
             handleRef.current = h;
           }}
-          label="Search flows"
+          label={i18n.t("flows.searchFlows")}
           hideLabel
           size="sm"
           className="font-mono text-xs"
@@ -172,7 +173,7 @@ export const SearchBar = memo(function SearchBar() {
           wrapLines={focused}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          placeholder={locked ? "Traffic is locked" : placeholderFor(total)}
+          placeholder={locked ? i18n.t("flows.trafficLocked") : placeholderFor(total)}
           disabled={locked}
           defaultValue={draft}
           forceUpdateKey={String(version)}
@@ -219,7 +220,7 @@ export const SearchBar = memo(function SearchBar() {
                     <IconButton
                       size="xs"
                       icon="ellipsis"
-                      title="Search actions"
+                      title={i18n.t("flows.searchActions")}
                       tooltip
                       iconColor="secondary"
                     />
@@ -227,7 +228,7 @@ export const SearchBar = memo(function SearchBar() {
                   <IconButton
                     size="xs"
                     icon="x"
-                    title="Clear search"
+                    title={i18n.t("flows.clearSearch")}
                     tooltip
                     iconColor="secondary"
                     onClick={clear}
@@ -275,7 +276,7 @@ function FilterHistory({
 
   const items: DropdownItem[] =
     history.length === 0
-      ? [{ label: "No recent searches", disabled: true }]
+      ? [{ label: i18n.t("flows.noRecentSearches"), disabled: true }]
       : [
           ...history.map((filter): DropdownItem => ({
             label: (
@@ -287,20 +288,20 @@ function FilterHistory({
             actions: [
               {
                 icon: "bookmark",
-                title: "Save search",
+                title: i18n.t("flows.saveSearch"),
                 closeMenu: true,
                 onSelect: () => setSavedDialog({ mode: "save", query: filter }),
               },
               {
                 icon: "x",
-                title: "Remove",
+                title: i18n.t("common.remove"),
                 onSelect: () => void rpc("delete_filter_history", { filter }).catch(fail),
               },
             ],
           })),
           { type: "separator" },
           {
-            label: "Clear History",
+            label: i18n.t("flows.clearHistory"),
             leftSlot: <Icon icon="trash" />,
             onSelect: () => void rpc("clear_filter_history", {}).catch(fail),
           },
@@ -311,7 +312,7 @@ function FilterHistory({
       <IconButton
         size="xs"
         icon="search"
-        title="Recent searches"
+        title={i18n.t("flows.recentSearches")}
         tooltip
         iconColor="secondary"
         disabled={disabled}
@@ -524,6 +525,8 @@ function startCompletionOnCtrlSpace(e: KeyboardEvent, view: EditorView): boolean
 
 /** "Search 4,102 flows", the title and count that sat in the header's middle */
 function placeholderFor(total: number): string {
-  if (total === 0) return "Search flows";
-  return `Search ${total.toLocaleString()} ${total === 1 ? "flow" : "flows"}`;
+  if (total === 0) return i18n.t("flows.searchFlows");
+  return total === 1
+    ? i18n.t("flows.searchOneFlow")
+    : i18n.t("flows.searchNFlows", { count: total.toLocaleString() });
 }

@@ -1,4 +1,5 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { i18n } from "@yaakapp-internal/i18n";
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
 import type { Flow, FlowSortKey } from "@yaakapp-internal/proxy-lib";
 import {
@@ -486,7 +487,7 @@ export function FlowList({ style, className }: Props) {
           ref={scrollRef}
           data-flow-rows
           role="listbox"
-          aria-label="Flows"
+          aria-label={i18n.t("flows.ariaFlows")}
           tabIndex={0}
           onScroll={handleScroll}
           onWheel={handleWheel}
@@ -911,12 +912,12 @@ function encryptedReason(flow: Flow): string {
   switch (flow.tunnelReason) {
     case "excluded":
       return flow.tunnelExcludedBuiltIn || flow.tunnelExcludedBy == null
-        ? "Encrypted: excluded by default"
-        : `Encrypted: excluded by ${flow.tunnelExcludedBy}`;
+        ? i18n.t("flows.encryptedExcludedDefault")
+        : i18n.t("flows.encryptedExcludedBy", { by: flow.tunnelExcludedBy });
     case "rejected":
-      return "Encrypted: an app rejected the certificate";
+      return i18n.t("flows.encryptedAppRejected");
     default:
-      return "Encrypted: decryption is not enabled";
+      return i18n.t("flows.encryptedDecryptionOff");
   }
 }
 
@@ -929,13 +930,13 @@ function FlowMark({ flow }: { flow: Flow }) {
   const open = isOpenStream(flow);
   const rejected = flow.tlsRejected != null;
   const states: string[] = [];
-  if (rejected) states.push("Certificate rejected by the app");
-  else if (flow.error != null) states.push(`Failed: ${flow.error}`);
-  if (flow.cancelled) states.push("Cancelled by the app");
+  if (rejected) states.push(i18n.t("flows.certRejectedByApp"));
+  else if (flow.error != null) states.push(i18n.t("flows.failedPrefix", { error: flow.error }));
+  if (flow.cancelled) states.push(i18n.t("flows.cancelledByApp"));
   if (flow.tunnelled) states.push(encryptedReason(flow));
-  if (open) states.push("Streaming");
-  if (flow.responseTruncated) states.push("Body truncated at the capture limit");
-  if (flow.savedRequestId != null) states.push("Saved to Yaak");
+  if (open) states.push(i18n.t("flows.streaming"));
+  if (flow.responseTruncated) states.push(i18n.t("flows.bodyTruncatedLimit"));
+  if (flow.savedRequestId != null) states.push(i18n.t("flows.savedToYaak"));
   const mark = (
     <span className="flex items-center justify-center">
       {rejected ? (
@@ -1358,20 +1359,20 @@ function useCellActions(): (flow: Flow, column: ColumnId) => DropdownItem[] {
       const items: DropdownItem[] = [];
       if (include != null && exclude != null) {
         items.push(
-          { label: "Filter by This Value", icon: "filter", onSelect: () => add(include) },
-          { label: "Exclude This Value", icon: "minus_circle", onSelect: () => add(exclude) },
+          { label: i18n.t("flows.filterByThisValue"), icon: "filter", onSelect: () => add(include) },
+          { label: i18n.t("flows.excludeThisValue"), icon: "minus_circle", onSelect: () => add(exclude) },
         );
       }
       if (value !== "") {
         items.push({
-          label: "Copy Value",
+          label: i18n.t("flows.copyValue"),
           icon: "copy",
           onSelect: async () => {
             try {
               await navigator.clipboard.writeText(value);
-              showToast({ message: "Copied to clipboard" });
+              showToast({ message: i18n.t("flows.copiedToClipboard") });
             } catch (err) {
-              showToast({ message: `Failed to copy: ${String(err)}`, color: "danger" });
+              showToast({ message: i18n.t("flows.failedCopy", { error: String(err) }), color: "danger" });
             }
           },
         });

@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { ExportHarRequest, Flow, FlowBody } from "@yaakapp-internal/proxy-lib";
 import type { DropdownItem } from "@yaakapp-internal/ui";
 import { save } from "@tauri-apps/plugin-dialog";
@@ -33,14 +34,17 @@ export function useSaveFlowBody(): (flow: Flow, which: FlowBody) => Promise<void
         if (path == null) return;
         const saved = await rpc("save_flow_body", { flowId: flow.id, which, path });
         const notes = [
-          saved.raw ? "as received, since it failed to decode" : null,
-          saved.truncated ? "truncated at the capture limit" : null,
+          saved.raw ? i18n.t("flows.asReceivedNote") : null,
+          saved.truncated ? i18n.t("flows.truncatedNote") : null,
         ].filter((n) => n != null);
         showToast({
-          message: `Saved ${formatSize(saved.size)}${notes.length > 0 ? `, ${notes.join(", ")}` : ""}`,
+          message: i18n.t("flows.savedSizeNote", {
+            size: formatSize(saved.size),
+            notes: notes.length > 0 ? `, ${notes.join(", ")}` : "",
+          }),
         });
       } catch (err) {
-        showToast({ message: `Failed to save the ${which} body: ${String(err)}`, color: "danger" });
+        showToast({ message: i18n.t("flows.saveBodyFailed", { which, error: String(err) }), color: "danger" });
       }
     },
     [showToast],

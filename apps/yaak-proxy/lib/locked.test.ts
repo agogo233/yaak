@@ -1,5 +1,8 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import { describe, expect, test } from "vite-plus/test";
 import { lockedLine } from "./locked";
+
+initI18n("en");
 
 describe("lockedLine", () => {
   test("points at the platform's key store when it refused", () => {

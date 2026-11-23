@@ -1,3 +1,4 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import type { FlowMessage } from "@yaakapp-internal/proxy-lib";
 import { describe, expect, test } from "vite-plus/test";
 import {
@@ -8,6 +9,8 @@ import {
   messageToStreamEvent,
   streamIsOpen,
 } from "./messages";
+
+initI18n("en");
 
 function message(seq: number, patch: Partial<FlowMessage> = {}): FlowMessage {
   return {

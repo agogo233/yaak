@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
 import type { Flow } from "@yaakapp-internal/proxy-lib";
 import {
@@ -28,7 +29,7 @@ export function FlowInfo({ flow }: { flow: Flow }) {
 
   return (
     <div className="overflow-auto h-full pb-4 gap-y-3 flex flex-col pr-0.5">
-      <Section title="Connection">
+      <Section title={i18n.t("flows.sectionConnection")}>
         {[
           row("remote", "Remote Address", flow.remoteAddr, { copy: true }),
           row("client_version", "Client Version", flow.clientHttpVersion),
@@ -38,7 +39,7 @@ export function FlowInfo({ flow }: { flow: Flow }) {
           row("client_port", "Client Port", clientPort),
         ]}
       </Section>
-      <Section title="App">
+      <Section title={i18n.t("flows.sectionApp")}>
         {[
           row(
             "app",
@@ -58,7 +59,7 @@ export function FlowInfo({ flow }: { flow: Flow }) {
           row("cwd", "Directory", flow.clientCwd, { copy: true }),
         ]}
       </Section>
-      <Section title="Timing">
+      <Section title={i18n.t("flows.sectionTiming")}>
         {[
           row(
             "started",
@@ -69,13 +70,13 @@ export function FlowInfo({ flow }: { flow: Flow }) {
           row("total", "Time", ms(flow.elapsedMs)),
         ]}
       </Section>
-      <Section title="Size">
+      <Section title={i18n.t("flows.sectionSize")}>
         {[
           row("request_size", "Request", formatSize(flow.requestSize)),
           row("response_size", "Response", formatSize(flow.responseSize)),
         ]}
       </Section>
-      <Section title="Flow">
+      <Section title={i18n.t("flows.sectionFlow")}>
         {[
           row("number", "Number", `#${flow.number}`, { copy: true }),
           row("id", "ID", flow.id, { copy: true }),
@@ -100,7 +101,7 @@ function Timeline({ flow }: { flow: Flow }) {
   const phases = useMemo(() => flowPhases(flow), [flow]);
   if (phases.length === 0) return null;
   return (
-    <DetailsBanner defaultOpen summary={<h2>Timeline</h2>}>
+    <DetailsBanner defaultOpen summary={<h2>{i18n.t("flows.timeline")}</h2>}>
       <div className="grid grid-cols-[auto_minmax(0,1fr)_auto_auto] gap-x-3 gap-y-1.5 items-center text-sm py-1">
         {phases.map((p) => {
           const { icon, color } = PHASE_ICONS[p.kind];

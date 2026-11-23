@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Flow, FlowMessage, MessageKind } from "@yaakapp-internal/proxy-lib";
 import type { StreamEvent } from "@yaakapp-internal/ui";
 
@@ -35,7 +36,7 @@ const KIND_LABELS: Record<MessageKind, string> = {
 
 /** A gRPC status as its row shows it: `0 OK`, `12 UNIMPLEMENTED: not here` */
 export function grpcStatusText(status: number | null | undefined, message?: string | null) {
-  if (status == null) return message ?? "No status";
+  if (status == null) return message ?? i18n.t("flows.noStatus");
   const name = GRPC_STATUS[status];
   const code = name == null ? String(status) : `${status} ${name}`;
   return message ? `${code}: ${message}` : code;

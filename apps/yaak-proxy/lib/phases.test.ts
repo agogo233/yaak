@@ -1,5 +1,8 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import { describe, expect, test } from "vite-plus/test";
 import { flowPhases, type PhaseFlow } from "./phases";
+
+initI18n("en");
 
 const done: PhaseFlow = {
   elapsedConnectMs: 12,

@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { DecryptListEntry, SeenTargets } from "@yaakapp-internal/proxy-lib";
 import type { FilterOptions } from "@yaakapp-internal/ui/editor";
 
@@ -100,8 +101,8 @@ export function normalizeEntry(input: string): string | null {
 
 /** How the list names an entry: `*` is Everything, anything else as written */
 export function entryLabel(entry: string): string {
-  if (entry === EVERYTHING) return "Everything";
-  if (entry === `!${EVERYTHING}`) return "Nothing";
+  if (entry === EVERYTHING) return i18n.t("flows.everythingWord");
+  if (entry === `!${EVERYTHING}`) return i18n.t("flows.nothingWord");
   return entry;
 }
 
@@ -203,7 +204,7 @@ export function decryptsAnything(list: DecryptListEntry[]): boolean {
 export function entrySubject(entry: string): string {
   const parsed = parseEntry(entry);
   if (parsed == null) return entry;
-  if (parsed.kind === "everything") return "Everything";
+  if (parsed.kind === "everything") return i18n.t("flows.everythingWord");
   if (parsed.kind === "app") return parsed.pattern;
   return formatEntry({ ...parsed, negated: false }).slice("host:".length);
 }
@@ -223,8 +224,12 @@ export function listSummary(list: DecryptListEntry[]): string | null {
     if (parsed.kind === "host") hosts++;
   }
   const parts = [
-    apps > 0 ? `${apps} ${apps === 1 ? "app" : "apps"}` : null,
-    hosts > 0 ? `${hosts} ${hosts === 1 ? "host" : "hosts"}` : null,
+    apps > 0 ? (apps === 1 ? i18n.t("flows.appOne") : i18n.t("flows.appsN", { count: apps })) : null,
+    hosts > 0
+      ? hosts === 1
+        ? i18n.t("flows.hostOne")
+        : i18n.t("flows.hostsN", { count: hosts })
+      : null,
   ].filter((p) => p != null);
   return parts.length === 0 ? null : parts.join(", ");
 }
@@ -392,7 +397,9 @@ export function decryptMenuAction(
   const on = !subjects.every((s) => isDecrypted(list, s));
   const subject = subjectsName(subjects);
   return {
-    label: `${on ? "Decrypt" : "Stop Decrypting"} ${subject.title}`,
+    label: on
+      ? i18n.t("flows.decryptLabel", { name: subject.title })
+      : i18n.t("flows.stopDecrypting", { name: subject.title }),
     on,
     subject: subject.text,
   };
@@ -422,9 +429,18 @@ function subjectsName(subjects: DecryptSubject[]): { title: string; text: string
   }
   const kinds = new Set(subjects.map((s) => s.kind));
   const n = subjects.length;
-  if (kinds.size > 1) return { title: `${n} Selected`, text: `${n} selected` };
-  const noun = first?.kind === "app" ? "Apps" : first?.kind === "site" ? "Domains" : "Hosts";
-  return { title: `${n} ${noun}`, text: `${n} ${noun.toLowerCase()}` };
+  if (kinds.size > 1)
+    return { title: i18n.t("flows.selectedMany", { count: n }), text: i18n.t("flows.selectedText", { count: n }) };
+  const noun =
+    first?.kind === "app"
+      ? i18n.t("flows.appsWord")
+      : first?.kind === "site"
+        ? i18n.t("flows.domainsWord")
+        : i18n.t("flows.hostsWord");
+  return {
+    title: i18n.t("flows.namedTitle", { count: n, noun }),
+    text: i18n.t("flows.namedText", { count: n, noun }),
+  };
 }
 
 function builtIns(list: DecryptListEntry[]): DecryptListEntry[] {
@@ -471,10 +487,10 @@ export function decryptFilterOptions(seen: SeenTargets | null | undefined): Filt
   return {
     fieldPrefix: "",
     replaceValueOnly: true,
-    negation: { prefix: "!", info: "Exclude" },
+    negation: { prefix: "!", info: i18n.t("flows.excludeHint") },
     fields: [
-      { name: "host", values: seen?.hosts ?? [], info: "Host or *.domain" },
-      { name: "app", values: [...apps], info: "App name or bundle ID" },
+      { name: "host", values: seen?.hosts ?? [], info: i18n.t("flows.hostOrDomainHint") },
+      { name: "app", values: [...apps], info: i18n.t("flows.appOrBundleHint") },
     ],
   };
 }

@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { Button, Icon, IconTooltip, InlineCode, LoadingIcon } from "@yaakapp-internal/ui";
 import classNames from "classnames";
 import { useAtomValue } from "jotai";
@@ -46,23 +47,23 @@ export function FirstRun() {
   return (
     <div className="grid place-items-center h-full px-10 pb-16 pt-6">
       <div className="w-full max-w-[40rem]">
-        <div className="text-xl font-semibold mb-1.5">Set up Yaak Proxy</div>
+        <div className="text-xl font-semibold mb-1.5">{i18n.t("flows.setUpTitle")}</div>
         <div className="text-text-subtle text-sm leading-relaxed mb-4">
           {systemSupported
-            ? "Traffic from every app on this Mac will be recorded."
-            : "Traffic appears here as apps send it."}
+            ? i18n.t("flows.everyAppOnMac")
+            : i18n.t("flows.trafficAppears")}
         </div>
         <div className="rounded-lg border border-border-subtle bg-surface divide-y divide-border-subtle">
           {systemSupported && (
             <Step
               n={1}
               state={systemState}
-              title={systemOn ? "System proxy overridden" : "Override system proxy"}
+              title={systemOn ? i18n.t("flows.systemProxyOverridden") : i18n.t("flows.overrideSystemProxy")}
               description={
                 otherOwner && !systemOn
                   ? proxyState?.otherOwner?.owner === "cli"
-                    ? "Take over from the CLI to change this."
-                    : "Quit the other Yaak Proxy to use this one."
+                    ? i18n.t("flows.takeOverFromCli")
+                    : i18n.t("flows.quitOtherProxy")
                   : systemSwitch.description
               }
               action={
@@ -73,7 +74,7 @@ export function FirstRun() {
                     color={systemState === "fail" ? "default" : "primary"}
                     onClick={() => setSystemProxy.mutate({ enabled: true })}
                   >
-                    {systemState === "fail" ? "Retry" : "Enable"}
+                    {systemState === "fail" ? i18n.t("flows.retry") : i18n.t("flows.enable")}
                   </Button>
                 ) : null
               }
@@ -84,21 +85,21 @@ export function FirstRun() {
             state={trafficState}
             title={
               encrypting != null
-                ? `Encrypting recorded traffic, ${encrypting}`
+                ? i18n.t("flows.encryptingTraffic", { percent: encrypting })
                 : trafficState === "wait"
-                  ? "Waiting for traffic"
-                  : "See traffic"
+                  ? i18n.t("flows.waitingForTraffic")
+                  : i18n.t("flows.seeTraffic")
             }
             description={
               encrypting != null
-                ? "Recording will start once encryption finishes."
+                ? i18n.t("flows.recordingAfterEncryption")
                 : trafficState === "fail"
-                  ? (retry.error?.message ?? proxyState?.startError ?? "The proxy failed to start.")
+                  ? (retry.error?.message ?? proxyState?.startError ?? i18n.t("flows.proxyFailedStart"))
                   : !recording
-                    ? "Recording is paused."
+                    ? i18n.t("flows.recordingPaused")
                     : trafficState === "wait"
-                      ? "Open a website or send a request to begin."
-                      : "Flows appear here as apps send requests."
+                      ? i18n.t("flows.openToBegin")
+                      : i18n.t("flows.flowsAppear")
             }
             action={
               trafficState === "fail" ? (
@@ -108,7 +109,7 @@ export function FirstRun() {
                   isLoading={retry.isPending}
                   onClick={() => retry.mutate({})}
                 >
-                  Retry
+                  {i18n.t("flows.retry")}
                 </Button>
               ) : !recording && running ? (
                 <Button
@@ -116,14 +117,14 @@ export function FirstRun() {
                   color="primary"
                   onClick={() => execute.mutate({ scope: "global", action: "recording_toggle" })}
                 >
-                  Resume Recording
+                  {i18n.t("flows.resumeRecording")}
                 </Button>
               ) : null
             }
           />
         </div>
         <div className="flex items-center gap-3 mt-4 text-sm text-text-subtle">
-          <span>To proxy a single terminal instead, copy the environment.</span>
+          <span>{i18n.t("flows.copyEnvironmentHint")}</span>
           <Button
             size="2xs"
             variant="border"
@@ -131,17 +132,17 @@ export function FirstRun() {
             leftSlot={<Icon icon="square_terminal" size="sm" />}
             onClick={() => void copyEnvironment()}
           >
-            Copy Environment
+            {i18n.t("flows.copyEnvironment")}
           </Button>
         </div>
         <div className="mt-2 text-sm text-text-subtle">
-          Agents can connect through <InlineCode>yaak mcp</InlineCode>.
+          {i18n.t("flows.agentsMcpPrefix")}<InlineCode>yaak mcp</InlineCode>{i18n.t("flows.agentsMcpSuffix")}
         </div>
         <div className="flex items-center gap-1.5 mt-2 text-sm text-text-subtle">
-          Recorded traffic is encrypted on disk.
+          {i18n.t("flows.trafficEncrypted")}
           <IconTooltip
             iconSize="sm"
-            content="The key is kept in the system keychain, so the system may ask to let Yaak Proxy use it."
+            content={i18n.t("flows.keychainHint")}
           />
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import {
   Button,
   CONTROL_TOOLTIP_DELAY,
@@ -55,8 +56,8 @@ export function HttpsStrip() {
     return (
       <div className={STRIP}>
         <Icon icon="shield_off" size="sm" color="warning" className="shrink-0" />
-        <span className="text-text shrink-0">Certificate not trusted</span>
-        <span className="truncate">The certificate must be trusted to decrypt traffic.</span>
+        <span className="text-text shrink-0">{i18n.t("flows.certificateNotTrusted")}</span>
+        <span className="truncate">{i18n.t("flows.certMustTrust")}</span>
         <Button
           size="2xs"
           color="primary"
@@ -64,14 +65,14 @@ export function HttpsStrip() {
           isLoading={trusting}
           onClick={() => trust.mutate({})}
         >
-          {trusting ? "Waiting for macOS" : "Trust"}
+          {trusting ? i18n.t("flows.waitingForMacos") : i18n.t("flows.trust")}
         </Button>
       </div>
     );
   }
 
   const items: DropdownItem[] = [
-    { type: "separator", label: "Apps", hidden: options.apps.length === 0 },
+    { type: "separator", label: i18n.t("flows.appsWord"), hidden: options.apps.length === 0 },
     ...options.apps.map((app): DropdownItem => ({
       label:
         app.path == null ? (
@@ -89,11 +90,11 @@ export function HttpsStrip() {
         const subject = { kind: "app", name: app.name, bundleId: app.bundleId } as const;
         await apply({
           edit: listEdit(list, setDecrypted(list, [subject], !app.checked)),
-          message: `${app.checked ? "Stopped decrypting" : "Decrypting"} ${app.name}`,
+          message: i18n.t(app.checked ? "flows.stoppedDecrypting" : "flows.decrypting", { name: app.name }),
         });
       },
     })),
-    { type: "separator", label: "Domains", hidden: options.sites.length === 0 },
+    { type: "separator", label: i18n.t("flows.domainsWord"), hidden: options.sites.length === 0 },
     ...options.sites.map((site): DropdownItem => ({
       label: <span className="font-mono text-xs">*.{site.site}</span>,
       keepOpenOnSelect: true,
@@ -103,13 +104,13 @@ export function HttpsStrip() {
         const subject = { kind: "site", site: site.site } as const;
         await apply({
           edit: listEdit(list, setDecrypted(list, [subject], !site.checked)),
-          message: `${site.checked ? "Stopped decrypting" : "Decrypting"} *.${site.site}`,
+          message: i18n.t(site.checked ? "flows.stoppedDecrypting" : "flows.decrypting", { name: `*.${site.site}` }),
         });
       },
     })),
     { type: "separator" },
     {
-      label: "Decryption Settings",
+      label: i18n.t("flows.decryptionSettings"),
       leftSlot: <Icon icon="settings" />,
       onSelect: () => openSettings(SETTINGS_TAB_PROXY),
     },
@@ -117,14 +118,14 @@ export function HttpsStrip() {
   return (
     <div className={STRIP}>
       <Icon icon="lock" size="sm" className="shrink-0 text-text-subtle" />
-      <span className="text-text shrink-0">HTTPS is encrypted</span>
+      <span className="text-text shrink-0">{i18n.t("flows.httpsEncrypted")}</span>
       <span className="font-mono text-xs text-text-subtlest truncate">
         {connectionCount(encrypted)}
       </span>
       <div className="ml-auto flex items-center gap-1.5 shrink-0">
         <Tooltip
           wrap
-          content="New connections will be decrypted, except for excluded hosts and apps."
+          content={i18n.t("flows.newConnectionsDecrypted")}
           delay={CONTROL_TOOLTIP_DELAY}
         >
           <Button
@@ -135,24 +136,24 @@ export function HttpsStrip() {
             onClick={() =>
               void apply({
                 edit: everythingEdit(true),
-                message: "Decrypting everything",
-                sub: "Excluded hosts and apps stay encrypted.",
+                message: i18n.t("flows.decryptingEverything"),
+                sub: i18n.t("flows.excludedStayEncrypted"),
               })
             }
           >
-            {trusting ? "Waiting for macOS" : "Decrypt Everything"}
+            {trusting ? i18n.t("flows.waitingForMacos") : i18n.t("flows.decryptEverythingCap")}
           </Button>
         </Tooltip>
         <Dropdown items={items} onOpen={() => setChoosing(true)} onClose={() => setChoosing(false)}>
           <Button size="2xs" variant="border">
-            Choose
+            {i18n.t("flows.chooseBtn")}
           </Button>
         </Dropdown>
         <IconButton
           size="xs"
           icon="x"
           iconColor="secondary"
-          title="Dismiss"
+          title={i18n.t("common.dismiss")}
           tooltip
           onClick={() => setDismissed(true)}
         />

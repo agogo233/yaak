@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { editDecrypts } from "./decrypt";
 
 /** A change to the decrypt list, as `edit_decrypt_list` takes it */
@@ -81,7 +82,10 @@ export function choiceToast(choice: DecryptChoice, stillEncrypted: number): Choi
   const reconnect = reconnectEntries(choice.edit);
   return {
     message: choice.message,
-    sub: `${n} open ${stillEncrypted === 1 ? "connection stays" : "connections stay"} encrypted.`,
+    sub: i18n.t(
+      stillEncrypted === 1 ? "flows.openEncrypted_one" : "flows.openEncrypted_other",
+      { count: n },
+    ),
     reconnect,
   };
 }

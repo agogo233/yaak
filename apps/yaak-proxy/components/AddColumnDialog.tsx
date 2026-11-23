@@ -1,6 +1,7 @@
 import { startCompletion } from "@codemirror/autocomplete";
 import { Compartment, EditorState, type Extension } from "@codemirror/state";
 import { EditorView, ViewPlugin } from "@codemirror/view";
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Schema } from "@yaakapp-internal/query";
 import {
   Dialog,
@@ -89,7 +90,7 @@ function AddColumnForm({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <Dialog open onClose={onClose} size="dynamic" title="Add Column" className="w-[26rem]">
+    <Dialog open onClose={onClose} size="dynamic" title={i18n.t("flows.addColumn")} className="w-[26rem]">
       <form
         id={FORM_ID}
         onSubmit={(e) => {
@@ -102,7 +103,7 @@ function AddColumnForm({ onClose }: { onClose: () => void }) {
           setRef={(h) => {
             handleRef.current = h;
           }}
-          label="Field"
+          label={i18n.t("flows.field")}
           autoFocus
           className="font-mono text-xs"
           stateKey={null}
@@ -123,8 +124,8 @@ function AddColumnForm({ onClose }: { onClose: () => void }) {
       </form>
       <DialogFooter
         actions={[
-          { label: "Cancel", variant: "border", onClick: onClose },
-          { label: "Add", color: "primary", form: FORM_ID, disabled: path == null },
+          { label: i18n.t("common.cancel"), variant: "border", onClick: onClose },
+          { label: i18n.t("flows.addBtn"), color: "primary", form: FORM_ID, disabled: path == null },
         ]}
       />
     </Dialog>

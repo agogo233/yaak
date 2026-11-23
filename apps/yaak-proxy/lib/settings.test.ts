@@ -1,13 +1,16 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import { describe, expect, test } from "vite-plus/test";
 import {
   DEFAULT_SETTINGS_VALUES,
-  KEEP_TRAFFIC_OPTIONS,
+  keepTrafficOptions,
   proxySettingsView,
   readSettingsValues,
   sizeFromOptionValue,
   sizeOptionsFor,
   sizeOptionValue,
 } from "./settings";
+
+initI18n("en");
 
 const APP = {
   name: "Yaak Proxy",
@@ -83,13 +86,13 @@ describe("proxySettingsView", () => {
 
 describe("size options", () => {
   test("keep traffic is unlimited by default", () => {
-    expect(KEEP_TRAFFIC_OPTIONS[0]).toMatchObject({ label: "Unlimited", bytes: null });
+    expect(keepTrafficOptions()[0]).toMatchObject({ label: "Unlimited", bytes: null });
     expect(sizeOptionValue(null)).toBe("none");
     expect(sizeFromOptionValue("none")).toBeNull();
   });
 
   test("labels in the units the limits are set in", () => {
-    expect(KEEP_TRAFFIC_OPTIONS.map((o) => o.label)).toEqual([
+    expect(keepTrafficOptions().map((o) => o.label)).toEqual([
       "Unlimited",
       "500 MB",
       "1 GB",
@@ -101,7 +104,7 @@ describe("size options", () => {
   });
 
   test("values round trip", () => {
-    for (const o of KEEP_TRAFFIC_OPTIONS) {
+    for (const o of keepTrafficOptions()) {
       expect(sizeFromOptionValue(sizeOptionValue(o.bytes))).toBe(o.bytes);
     }
     expect(sizeFromOptionValue("abc")).toBeNull();
@@ -109,7 +112,8 @@ describe("size options", () => {
 
   test("a size set elsewhere gets its own option, in order", () => {
     const MB = 1024 * 1024;
-    const options = sizeOptionsFor(KEEP_TRAFFIC_OPTIONS, 750 * MB);
+    const keepOptions = keepTrafficOptions();
+    const options = sizeOptionsFor(keepOptions, 750 * MB);
     expect(options.map((o) => o.bytes)).toEqual([
       500 * MB,
       750 * MB,
@@ -120,6 +124,6 @@ describe("size options", () => {
       20480 * MB,
       null,
     ]);
-    expect(sizeOptionsFor(KEEP_TRAFFIC_OPTIONS, 1024 * MB)).toBe(KEEP_TRAFFIC_OPTIONS);
+    expect(sizeOptionsFor(keepOptions, 1024 * MB)).toBe(keepOptions);
   });
 });

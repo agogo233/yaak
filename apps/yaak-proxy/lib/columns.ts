@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Flow, FlowSortKey, SortColumn } from "@yaakapp-internal/proxy-lib";
 import { compareFlows } from "./flowWindow";
 import { fieldTerm } from "./query";
@@ -104,10 +105,10 @@ export function customPathProblem(typed: string): string | null {
   const path = typed.trim().replace(/^@/, "").replace(/:$/, "").trim().toLowerCase();
   if (path === "") return null;
   const map = CUSTOM_MAPS.find((m) => path.startsWith(m));
-  if (map != null) return path === map ? "Missing name" : "Invalid name";
+  if (map != null) return path === map ? i18n.t("flows.missingName") : i18n.t("flows.invalidName");
   // On the way to a map: `@hea`, `@req.header`
-  if (CUSTOM_MAPS.some((m) => m.startsWith(path))) return "Incomplete";
-  return "Unknown field";
+  if (CUSTOM_MAPS.some((m) => m.startsWith(path))) return i18n.t("flows.incomplete");
+  return i18n.t("flows.unknownField");
 }
 
 /**

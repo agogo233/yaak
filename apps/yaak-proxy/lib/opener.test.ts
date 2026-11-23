@@ -1,4 +1,7 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import { beforeEach, describe, expect, test, vi } from "vite-plus/test";
+
+initI18n("en");
 
 const opener = vi.hoisted(() => ({
   openUrl: vi.fn<(url: string) => Promise<void>>(),

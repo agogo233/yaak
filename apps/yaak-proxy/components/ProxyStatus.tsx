@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { i18n } from "@yaakapp-internal/i18n";
 import type { SystemProxyStatus } from "@yaakapp-internal/proxy-lib";
 import {
   Button,
@@ -65,28 +66,28 @@ export function ProxyStatus() {
     status === "encrypting" ? (
       <MenuRow
         icon={<LoadingIcon size="sm" className="text-text-subtle" />}
-        title={`Encrypting recorded traffic, ${encrypting}`}
-        description="Recording will start once encryption finishes."
+        title={i18n.t("flows.encryptingTraffic", { percent: encrypting })}
+        description={i18n.t("flows.recordingAfterEncryption")}
       />
     ) : status === "cli" && other != null ? (
       <MenuRow
         icon={<StateDot state="cli" />}
-        title="Running from the CLI"
-        description={`The proxy was started by the CLI at ${timeOf(other.startedAt)}.`}
+        title={i18n.t("flows.runningFromCli")}
+        description={i18n.t("flows.startedByCli", { time: timeOf(other.startedAt) })}
       />
     ) : status === "recording" || status === "paused" ? (
       <MenuRow
         icon={<StateDot state={status} />}
-        title={recording ? `Recording on port ${port}` : `Paused on port ${port}`}
-        description={recording ? null : "Traffic passes through without being recorded."}
+        title={recording ? i18n.t("flows.recordingOnPort", { port }) : i18n.t("flows.pausedOnPort", { port })}
+        description={recording ? null : i18n.t("flows.trafficPassesThrough")}
       />
     ) : (
       <MenuRow
         icon={<Icon icon="alert_triangle" size="sm" color="warning" />}
-        title="Not running"
+        title={i18n.t("flows.notRunning")}
         description={
           <span className="text-danger">
-            {retry.error?.message ?? proxyState?.startError ?? "The proxy failed to start."}
+            {retry.error?.message ?? proxyState?.startError ?? i18n.t("flows.proxyFailedStart")}
           </span>
         }
         action={
@@ -119,7 +120,7 @@ export function ProxyStatus() {
       hidden: address == null,
       keepOpenOnSelect: true,
       rightSlot: copied ? (
-        <span className="text-xs text-text-subtle">Copied</span>
+        <span className="text-xs text-text-subtle">{i18n.t("flows.copied")}</span>
       ) : (
         <Icon icon="copy" size="sm" className="text-text-subtlest" />
       ),
@@ -145,21 +146,21 @@ export function ProxyStatus() {
       label: (
         <MenuRow
           icon={<Icon icon="wifi" size="sm" color="secondary" />}
-          title="Override system proxy"
+          title={i18n.t("flows.overrideSystemProxy")}
           description={
             <>
               <span className={classNames(systemSwitch.failed && "text-danger")}>
                 {systemSwitch.description}
               </span>
               {helperNotice && (
-                <span className="block text-notice">macOS will ask for a password each time.</span>
+                <span className="block text-notice">{i18n.t("flows.macosPasswordEachTime")}</span>
               )}
             </>
           }
           action={
             <KeepMenuOpen>
               <Checkbox
-                title="Override system proxy"
+                title={i18n.t("flows.overrideSystemProxy")}
                 hideLabel
                 checked={systemSwitch.checked}
                 // Only the process that owns the engine routes to it.
@@ -226,8 +227,8 @@ function DecryptEverythingRow({ broken }: { broken: boolean }) {
     return (
       <MenuRow
         icon={<Icon icon="shield_off" size="sm" color="warning" />}
-        title="Decrypt everything"
-        description={<span className="text-warning">Certificate not trusted</span>}
+        title={i18n.t("flows.decryptEverything")}
+        description={<span className="text-warning">{i18n.t("flows.certificateNotTrusted")}</span>}
         action={
           <Button
             size="2xs"
@@ -238,7 +239,7 @@ function DecryptEverythingRow({ broken }: { broken: boolean }) {
               trust.mutate({});
             }}
           >
-            {trusting ? "Waiting for macOS" : "Trust"}
+            {trusting ? i18n.t("flows.waitingForMacos") : i18n.t("flows.trust")}
           </Button>
         }
       />
@@ -247,18 +248,18 @@ function DecryptEverythingRow({ broken }: { broken: boolean }) {
   return (
     <MenuRow
       icon={<Icon icon="lock_open" size="sm" color="secondary" />}
-      title="Decrypt everything"
+      title={i18n.t("flows.decryptEverything")}
       description={
         trusting
-          ? "Waiting for macOS"
+          ? i18n.t("flows.waitingForMacos")
           : on
-            ? "Excluded hosts and apps stay encrypted."
-            : (listSummary(list) ?? "No hosts or apps")
+            ? i18n.t("flows.excludedStayEncrypted")
+            : (listSummary(list) ?? i18n.t("flows.noHostsOrApps"))
       }
       action={
         <KeepMenuOpen>
           <Checkbox
-            title="Decrypt everything"
+            title={i18n.t("flows.decryptEverything")}
             hideLabel
             checked={on}
             disabled={trusting}
@@ -267,10 +268,13 @@ function DecryptEverythingRow({ broken }: { broken: boolean }) {
                 checked
                   ? {
                       edit: everythingEdit(true),
-                      message: "Decrypting everything",
-                      sub: "Excluded hosts and apps stay encrypted.",
+                      message: i18n.t("flows.decryptingEverything"),
+                      sub: i18n.t("flows.excludedStayEncrypted"),
                     }
-                  : { edit: everythingEdit(false), message: "Stopped decrypting everything" },
+                  : {
+                      edit: everythingEdit(false),
+                      message: i18n.t("flows.stoppedDecryptingEverything"),
+                    },
               )
             }
           />
@@ -344,10 +348,10 @@ export function useCopyEnvironment() {
     try {
       await navigator.clipboard.writeText(environmentExports(port, caPath));
       showToast({
-        message: "Copied the environment. Paste it into a terminal.",
+        message: i18n.t("flows.copiedEnvironment"),
       });
     } catch (err) {
-      showToast({ message: `Failed to copy: ${String(err)}`, color: "danger" });
+      showToast({ message: i18n.t("flows.failedCopy", { error: String(err) }), color: "danger" });
     }
   };
 }

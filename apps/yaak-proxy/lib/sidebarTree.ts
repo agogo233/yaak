@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Flow } from "@yaakapp-internal/proxy-lib";
 import type { TreeNode } from "@yaakapp-internal/ui";
 import type { DecryptSubject } from "./decrypt";
@@ -298,9 +299,9 @@ export function buildSidebarTree(
     children: [],
     draggable: false,
   };
-  const apps = group(APPS_ID, "Apps");
-  const domains = group(DOMAINS_ID, "Domains");
-  const system = { ...group(SYSTEM_ID, "System") };
+  const apps = group(APPS_ID, i18n.t("flows.appsWord"));
+  const domains = group(DOMAINS_ID, i18n.t("flows.domainsWord"));
+  const system = { ...group(SYSTEM_ID, i18n.t("flows.systemWord")) };
   system.item.query = fieldTerm("is", "system");
   let encrypted = 0;
 
@@ -347,14 +348,14 @@ export function buildSidebarTree(
   for (const site of domains.children.values()) domains.item.count += site.children.size;
 
   root.children?.push({
-    item: { id: ALL_ID, kind: "all", label: "All Traffic", count: total, query: "" },
+    item: { id: ALL_ID, kind: "all", label: i18n.t("flows.allTrafficWord"), count: total, query: "" },
     parent: root,
     depth: 1,
     draggable: false,
   });
   if (saved.length > 0) {
     const node: TreeNode<SidebarItem> = {
-      item: { id: SAVED_ID, kind: "group", label: "Saved", count: 0, query: "" },
+      item: { id: SAVED_ID, kind: "group", label: i18n.t("flows.savedWord"), count: 0, query: "" },
       parent: root,
       depth: 1,
       children: [],
@@ -392,7 +393,7 @@ export function buildSidebarTree(
       item: {
         id: ENCRYPTED_ID,
         kind: "encrypted",
-        label: "Encrypted",
+        label: i18n.t("flows.encryptedWord"),
         count: encrypted,
         query: fieldTerm("is", "encrypted"),
       },

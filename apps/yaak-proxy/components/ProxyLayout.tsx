@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import {
   HeaderSize,
   HeaderTint,
@@ -79,7 +80,7 @@ export function ProxyLayout() {
             <IconButton
               className="pointer-events-auto"
               size="sm"
-              title="Toggle sidebar"
+              title={i18n.t("sidebar.toggle")}
               tooltip
               icon={isHidden ? "left_panel_hidden" : "left_panel_visible"}
               iconColor="secondary"
@@ -114,7 +115,7 @@ export function ProxyLayout() {
             <IconButton
               className="pointer-events-auto"
               icon="settings"
-              title="Settings"
+              title={i18n.t("common.settings")}
               tooltip
               size="sm"
               iconColor="secondary"
@@ -151,7 +152,7 @@ export function ProxyLayout() {
               >
                 <IconButton
                   size="sm"
-                  title="Toggle sidebar"
+                  title={i18n.t("sidebar.toggle")}
                   tooltip
                   icon="left_panel_visible"
                   iconColor="secondary"

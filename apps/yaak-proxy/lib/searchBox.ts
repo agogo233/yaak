@@ -1,4 +1,5 @@
 import type { Completion } from "@codemirror/autocomplete";
+import { i18n } from "@yaakapp-internal/i18n";
 import type { QueryDiagnostic, SavedQuery } from "@yaakapp-internal/proxy-lib";
 import type { QueryProblem } from "@yaakapp-internal/ui/editor";
 import { asOneTerm } from "./query";
@@ -38,18 +39,23 @@ export async function loadSeenValues(paths: string[]): Promise<Record<string, st
   return Object.fromEntries(entries);
 }
 
-const PROBLEM_LABELS: Record<QueryDiagnostic["kind"], string> = {
-  unknownField: "Unknown field",
-  invalidValue: "Invalid value",
-  notYet: "Not supported",
-};
+function problemLabel(kind: QueryDiagnostic["kind"]): string {
+  switch (kind) {
+    case "unknownField":
+      return i18n.t("flows.unknownField");
+    case "invalidValue":
+      return i18n.t("flows.invalidValue");
+    case "notYet":
+      return i18n.t("flows.notSupported");
+  }
+}
 
 /** The terms of a search the backend cannot run, as the box underlines them */
 export function problemsOf(diagnostics: QueryDiagnostic[]): QueryProblem[] {
   return diagnostics.map((d) => ({
     from: d.start,
     to: d.end,
-    label: PROBLEM_LABELS[d.kind],
+    label: problemLabel(d.kind),
     quiet: d.kind === "notYet",
   }));
 }

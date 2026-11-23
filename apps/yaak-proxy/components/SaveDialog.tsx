@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type {
   DropReason,
   Flow,
@@ -40,8 +41,8 @@ export function SaveDialog() {
       open
       onClose={close}
       size="dynamic"
-      title="Save as Yaak Request"
-      description="A new request will be created in Yaak."
+      title={i18n.t("flows.saveAsRequest")}
+      description={i18n.t("flows.saveAsRequestDesc")}
       className="w-[36rem]"
     >
       {workspaces.error != null ? (
@@ -102,8 +103,10 @@ function SaveForm({
           showToast({
             message: (
               <>
-                Saved <b className="font-semibold">{saved.name || unnamed}</b> to {workspace.name}
-                {folderName == null ? "" : `, in ${folderName}`}
+                {i18n.t("flows.savedPrefix")}{" "}
+                <b className="font-semibold">{saved.name || unnamed}</b>{" "}
+                {i18n.t("flows.savedTo")} {workspace.name}
+                {folderName == null ? "" : i18n.t("flows.savedIn", { folder: folderName })}
               </>
             ),
           });
@@ -113,7 +116,7 @@ function SaveForm({
   };
 
   if (workspaces.length === 0) {
-    return <Banner color="notice">Create a workspace in Yaak first.</Banner>;
+    return <Banner color="notice">{i18n.t("flows.createWorkspaceFirst")}</Banner>;
   }
 
   if (p == null) {
@@ -138,7 +141,7 @@ function SaveForm({
         <span className="truncate text-text">{flow.url}</span>
       </div>
       <div className="grid grid-cols-2 gap-3">
-        <Field label="Workspace">
+        <Field label={i18n.t("flows.workspace")}>
           <select
             className={inputClasses}
             value={workspaceId}
@@ -151,13 +154,13 @@ function SaveForm({
             ))}
           </select>
         </Field>
-        <Field label="Folder">
+        <Field label={i18n.t("flows.folder")}>
           <select
             className={inputClasses}
             value={folderId}
             onChange={(e) => setFolderId(e.target.value)}
           >
-            <option value="">No folder</option>
+            <option value="">{i18n.t("flows.noFolder")}</option>
             {folders.map((f) => (
               <option key={f.id} value={f.id}>
                 {f.name}
@@ -166,13 +169,13 @@ function SaveForm({
           </select>
         </Field>
       </div>
-      <PlainInput label="Name" autoFocus defaultValue="" placeholder={unnamed} onChange={setName} />
+      <PlainInput label={i18n.t("flows.nameField")} autoFocus defaultValue="" placeholder={unnamed} onChange={setName} />
       {p.droppedHeaders.length > 0 && (
         <div className="rounded-md border border-border-subtle px-3.5 py-2.5">
           <div className="text-sm text-text">
             {p.droppedHeaders.length === 1
-              ? "1 header left out"
-              : `${p.droppedHeaders.length} headers left out`}{" "}
+              ? i18n.t("flows.headerLeftOutOne")
+              : i18n.t("flows.headersLeftOutMany", { count: p.droppedHeaders.length })}{" "}
             <span className="text-text-subtlest text-xs">
               {droppedSummary(p.droppedHeaders.map((h) => h.reason))}
             </span>
@@ -194,10 +197,12 @@ function SaveForm({
         </div>
       )}
       <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3.5 gap-y-1.5 text-sm">
-        <span className="text-text-subtle">Kept</span>
+        <span className="text-text-subtle">{i18n.t("flows.keptLabel")}</span>
         <span>
-          {p.keptHeaders === 1 ? "1 header" : `${p.keptHeaders} headers`}
-          {p.body == null ? ", and no body" : `, and the body as ${p.body}`}
+          {p.keptHeaders === 1
+            ? i18n.t("flows.keptOne")
+            : i18n.t("flows.keptMany", { count: p.keptHeaders })}
+          {p.body == null ? i18n.t("flows.andNoBody") : i18n.t("flows.andBodyAs", { body: p.body })}
         </span>
         {p.warnings.map((w) => (
           <NoteRow key={w} warning={w} authorization={p.authorization} />
@@ -206,9 +211,9 @@ function SaveForm({
       {save.error != null && <Banner color="danger">{save.error.message}</Banner>}
       <DialogFooter
         actions={[
-          { label: "Cancel", onClick: onClose },
+          { label: i18n.t("common.cancel"), onClick: onClose },
           {
-            label: "Save Request",
+            label: i18n.t("flows.saveRequestBtn"),
             form: SAVE_FORM_ID,
             color: "primary",
             isLoading: save.isPending,
@@ -224,7 +229,7 @@ function NoteRow({ warning, authorization }: { warning: string; authorization: b
   const flagged = authorization && warning.includes("Authorization");
   return (
     <>
-      <span className="text-text-subtle">Note</span>
+      <span className="text-text-subtle">{i18n.t("flows.noteLabel")}</span>
       <span className={flagged ? "text-notice" : "text-text-subtle"}>{warning}</span>
     </>
   );
@@ -238,31 +243,30 @@ function NoYaakDialog({ flow, onClose }: { flow: Flow; onClose: () => void }) {
       <DialogFooter
         leftSlot={
           <span className="text-xs text-text-subtlest">
-            The flow can be exported as a file instead.
+            {i18n.t("flows.exportAsFileInstead")}
           </span>
         }
         actions={[
           {
-            label: "Export as HAR",
+            label: i18n.t("flows.exportAsHar"),
             onClick: async () => {
               try {
                 if ((await exportHar({ ids: [flow.id] }, "flow.har")) != null) {
                   onClose();
-                  showToast({ message: "Exported 1 flow as HAR" });
+                  showToast({ message: i18n.t("flows.exportedHar") });
                 }
               } catch (err) {
-                showToast({ message: `Failed to export HAR: ${String(err)}`, color: "danger" });
+                showToast({ message: i18n.t("flows.failedExportHar", { error: String(err) }), color: "danger" });
               }
             },
           },
-          { label: "Download Yaak", color: "primary", onClick: () => void openUrl(DOWNLOAD_URL) },
+          { label: i18n.t("flows.downloadYaak"), color: "primary", onClick: () => void openUrl(DOWNLOAD_URL) },
         ]}
       />
       <div className="pt-6 pb-2">
-        <div className="text-lg font-semibold mb-1.5">Yaak Required</div>
+        <div className="text-lg font-semibold mb-1.5">{i18n.t("flows.yaakRequired")}</div>
         <div className="text-sm text-text-subtle leading-relaxed">
-          This flow will be saved as a request in one of Yaak's workspaces, but Yaak has not been
-          opened on this computer.
+          {i18n.t("flows.yaakRequiredDesc")}
         </div>
       </div>
     </Dialog>
@@ -304,18 +308,18 @@ function folderOptions(folders: FolderSummary[]): { id: string; name: string }[]
 function reasonLabel(reason: DropReason): string {
   switch (reason) {
     case "set_by_sending":
-      return "Yaak sets it when it sends the request.";
+      return i18n.t("flows.reasonSetBySending");
     case "hop_by_hop":
-      return "It was only meant for the proxy.";
+      return i18n.t("flows.reasonHopByHop");
     case "body_decoded":
-      return "The body is saved decoded.";
+      return i18n.t("flows.reasonBodyDecoded");
   }
 }
 
 function droppedSummary(reasons: DropReason[]): string {
   const unique = [...new Set(reasons)];
   if (unique.length === 1 && unique[0] === "set_by_sending") {
-    return "Yaak sets these itself when it sends the request.";
+    return i18n.t("flows.droppedSummaryOne");
   }
-  return "Yaak sets these, or they were meant for the proxy.";
+  return i18n.t("flows.droppedSummaryMany");
 }

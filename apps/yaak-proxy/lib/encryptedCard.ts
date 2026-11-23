@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { DecryptListEntry, Flow } from "@yaakapp-internal/proxy-lib";
 import {
   type DecryptQuery,
@@ -162,14 +163,16 @@ function tunnelCard({ flow, list, trusted, canTrust }: EncryptedCardInput): Encr
     );
     const actions: CardAction[] = decrypting.map((e) => stopEntry(e.entry));
     if (isOpen(flow)) {
-      actions.unshift({ kind: "reconnect", label: "Reconnect", hint: null, icon: "refresh" });
+      actions.unshift({ kind: "reconnect", label: i18n.t("flows.reconnect"), hint: null, icon: "refresh" });
     }
     const first = decrypting[0]?.entry;
     const what: Line[number] =
-      first === EVERYTHING ? "everything" : { code: first == null ? c.label : entrySubject(first) };
+      first === EVERYTHING
+        ? i18n.t("flows.everythingWord")
+        : { code: first == null ? c.label : entrySubject(first) };
     return {
       rejected: false,
-      why: ["This connection was opened before ", what, " was decrypted."],
+      why: [i18n.t("flows.openedBeforePrefix"), what, i18n.t("flows.openedBeforeSuffix")],
       tooltip: null,
       actions,
       foot: [],
@@ -189,8 +192,8 @@ function tunnelCard({ flow, list, trusted, canTrust }: EncryptedCardInput): Encr
       foot.length = 0;
       foot.push(
         builtInBlock.kind === "apple" || c.app == null
-          ? "macOS may reject the connection."
-          : `${c.app.name} may reject the connection.`,
+          ? i18n.t("flows.macMayReject")
+          : i18n.t("flows.appMayReject", { app: c.app.name }),
       );
     }
   } else {
@@ -202,10 +205,13 @@ function tunnelCard({ flow, list, trusted, canTrust }: EncryptedCardInput): Encr
     if (!everything && decrypts([{ entry: EVERYTHING, builtIn: false }, ...list], q)) {
       actions.push({
         kind: "decrypt",
-        label: "Decrypt Everything",
+        label: i18n.t("flows.decryptEverythingCap"),
         hint: EVERYTHING,
         edit: { add: [EVERYTHING], remove: [] },
-        toast: { message: "Decrypting everything", sub: "Excluded hosts and apps stay encrypted." },
+        toast: {
+          message: i18n.t("flows.decryptingEverything"),
+          sub: i18n.t("flows.excludedStayEncrypted"),
+        },
         icon: "everything",
       });
     }
@@ -219,22 +225,27 @@ function tunnelCard({ flow, list, trusted, canTrust }: EncryptedCardInput): Encr
         const [only] = own;
         const label =
           own.length === 1 && only != null
-            ? `Stop Excluding ${entrySubject(only.entry.slice(1))}`
-            : `Stop Excluding ${own.length} Entries`;
+            ? i18n.t("flows.stopExcluding", { subject: entrySubject(only.entry.slice(1)) })
+            : i18n.t("flows.stopExcludingEntries", { count: own.length });
         actions.push({
           kind: "decrypt",
           label,
           hint: own.map((e) => e.entry).join(", "),
           removes: true,
           edit: { add: [], remove: own.map((e) => e.entry) },
-          toast: { message: label.replace("Stop Excluding", "Stopped excluding") },
+          toast: {
+            message:
+              own.length === 1 && only != null
+                ? i18n.t("flows.stoppedExcluding", { subject: entrySubject(only.entry.slice(1)) })
+                : i18n.t("flows.stoppedExcludingEntries", { count: own.length }),
+          },
           icon: "lock_open",
         });
       }
     }
   }
   if (actions.length > 0 && canTrust && trusted === false) {
-    foot.push("macOS will ask for a password once.");
+    foot.push(i18n.t("flows.passwordOnce"));
   }
   return {
     rejected: false,
@@ -255,17 +266,21 @@ function whyLine(flow: EncryptedCardInput["flow"], list: DecryptListEntry[], c: 
       const kind = list.find((e) => e.entry === flow.tunnelExcludedBy)?.kind;
       return [
         kind === "apple"
-          ? "Apple services are excluded by default."
+          ? i18n.t("flows.appleExcludedByDefault")
           : kind === "pinned"
-            ? "Apps that pin certificates are excluded by default."
-            : "This connection is excluded by default.",
+            ? i18n.t("flows.pinnedExcludedByDefault")
+            : i18n.t("flows.excludedByDefault"),
       ];
     }
-    return ["This connection is excluded by ", { code: flow.tunnelExcludedBy }, "."];
+    return [
+      i18n.t("flows.excludedByPrefix"),
+      { code: flow.tunnelExcludedBy },
+      i18n.t("flows.excludedBySuffix"),
+    ];
   }
   return [
-    { bold: "Encrypted Content:" },
-    " Enable decryption to see requests to ",
+    { bold: i18n.t("flows.encryptedContent") },
+    i18n.t("flows.enableDecryptionTo"),
     { code: c.label },
   ];
 }
@@ -278,10 +293,10 @@ function decryptSubject(
 ): CardAction {
   return {
     kind: "decrypt",
-    label: `Decrypt ${name}`,
+    label: i18n.t("flows.decryptLabel", { name }),
     hint: subjectEntry(subject),
     edit: listEdit(list, setDecrypted(list, [subject], true)),
-    toast: { message: `Decrypting ${name}` },
+    toast: { message: i18n.t("flows.decrypting", { name }) },
     icon,
   };
 }
@@ -290,11 +305,11 @@ function stopEntry(entry: string): CardAction {
   const name = entrySubject(entry);
   return {
     kind: "stop",
-    label: `Stop Decrypting ${name}`,
+    label: i18n.t("flows.stopDecrypting", { name }),
     hint: entry,
     removes: true,
     edit: { add: [], remove: [entry] },
-    toast: { message: `Stopped decrypting ${entry === EVERYTHING ? "everything" : name}` },
+    toast: { message: i18n.t("flows.stoppedDecrypting", { name: entry === EVERYTHING ? i18n.t("flows.everythingWord") : name }) },
     icon: "lock",
   };
 }
@@ -320,16 +335,16 @@ export function stopDecryptingConnection(
       q,
     )
   ) {
-    return { ...stopEntry(own.entry), label: `Stop Decrypting ${connection.label}` };
+    return { ...stopEntry(own.entry), label: i18n.t("flows.stopDecrypting", { name: connection.label }) };
   }
   const name = connection.app?.name ?? connection.label;
   const add = connection.app == null ? `!${hostEntry}` : `!app:${connection.app.name}`;
   return {
     kind: "stop",
-    label: `Stop Decrypting ${name}`,
+    label: i18n.t("flows.stopDecrypting", { name }),
     hint: add,
     edit: { add: [add], remove: [] },
-    toast: { message: `Stopped decrypting ${name}` },
+    toast: { message: i18n.t("flows.stoppedDecrypting", { name }) },
     icon: "lock",
   };
 }
@@ -359,65 +374,65 @@ function rejectedCard(input: EncryptedCardInput): EncryptedCardModel {
   const tryAgain: CardAction | null =
     passedThrough === false
       ? null
-      : { kind: "try_again", label: "Retry", hint: "next connection", icon: "refresh" };
+      : { kind: "try_again", label: i18n.t("flows.retry"), hint: i18n.t("flows.nextConnectionHint"), icon: "refresh" };
   // No longer passed through: the next connection is decrypted while the list still decrypts
   // it. Excluded since, it stays encrypted, and there is nothing to add.
   const until: string[] | null =
     passedThrough === false
       ? stop == null
         ? []
-        : ["The next connection will be decrypted."]
+        : [i18n.t("flows.nextConnectionDecrypted")]
       : null;
 
   if (canTrust && trusted === false && decryptsAnything(list)) {
     return {
       rejected: true,
-      why: ["The certificate is not trusted."],
+      why: [i18n.t("flows.certificateNotTrustedSentence")],
       tooltip: null,
       actions: [
-        { kind: "trust", label: "Trust Certificate", hint: null, primary: true, icon: "shield" },
+        { kind: "trust", label: i18n.t("flows.trustCertificate"), hint: null, primary: true, icon: "shield" },
         ...(stop == null ? [] : [stop]),
       ],
       // Whether or not it is still passed through: untrusted, the next one is rejected too.
-      foot: ["This host stays encrypted until the certificate is trusted."],
+      foot: [i18n.t("flows.hostStaysUntilTrusted")],
     };
   }
 
-  const forHost = own ? "" : " for this host";
+  const forHost = own ? "" : i18n.t("flows.rejectedForHost");
   if (refuser.kind === "program") {
     return {
       rejected: true,
-      why: [`${refuser.name} rejected the certificate${forHost}.`],
-      tooltip: `${refuser.name} uses its own trust store, so it does not trust the certificate.`,
+      why: [i18n.t("flows.rejectedCertificate", { name: refuser.name, forHost })],
+      tooltip: i18n.t("flows.usesOwnTrustStore", { name: refuser.name }),
       actions: [
         {
           kind: "copy_environment",
-          label: "Copy Environment",
-          hint: "SSL_CERT_FILE, …",
+          label: i18n.t("flows.copyEnvironment"),
+          hint: i18n.t("flows.sslCertHint"),
           primary: true,
           icon: "terminal",
         },
         ...(stop == null ? [] : [stop]),
         ...(tryAgain == null ? [] : [tryAgain]),
       ],
-      foot: until ?? [`Paste it into a terminal, then rerun ${refuser.name}.`],
+      foot: until ?? [i18n.t("flows.rerunHint", { name: refuser.name })],
     };
   }
   return {
     rejected: true,
     why: [
       refuser.kind === "app"
-        ? `${refuser.name} rejected the certificate${forHost}.`
-        : "An app rejected the certificate.",
+        ? i18n.t("flows.rejectedCertificate", { name: refuser.name, forHost })
+        : i18n.t("flows.appRejectedCertificate"),
     ],
     tooltip:
       refuser.kind === "app"
-        ? `${refuser.name} likely pins its certificate, so it cannot be decrypted.`
+        ? i18n.t("flows.pinsCertificateTooltip", { name: refuser.name })
         : null,
     actions: [
       ...(stop == null ? [] : [{ ...stop, primary: true }]),
       ...(tryAgain == null ? [] : [tryAgain]),
     ],
-    foot: until ?? ["This host stays encrypted until Yaak Proxy is relaunched."],
+    foot: until ?? [i18n.t("flows.hostStaysUntilRelaunched")],
   };
 }

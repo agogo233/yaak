@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { i18n } from "@yaakapp-internal/i18n";
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
 import type { Flow, FlowBody } from "@yaakapp-internal/proxy-lib";
 import {
@@ -250,7 +251,7 @@ export function FlowBodyViewer({ flow, which, form, hideCutNote = false }: Props
               : `The first ${formatSize(bytes.length)} of the decoded body is shown.`}
             <IconTooltip
               iconSize="sm"
-              content="The body was truncated at the capture limit. The app received all of it."
+              content={i18n.t("flows.truncatedReceivedTooltip")}
             />
           </span>
         </Banner>

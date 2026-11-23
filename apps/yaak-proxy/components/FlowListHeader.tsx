@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import {
   DndContext,
   type DragStartEvent,
@@ -149,7 +150,7 @@ export const FlowListHeader = memo(function FlowListHeader({
               submenuTrigger: "button" as const,
               submenu: [
                 {
-                  label: "Remove Column",
+                  label: i18n.t("flows.removeColumn"),
                   icon: "trash" as const,
                   color: "danger" as const,
                   onSelect: () => removeColumn(c.id as CustomColumnId),
@@ -159,12 +160,12 @@ export const FlowListHeader = memo(function FlowListHeader({
           : {}),
       };
     }),
-    { label: "Add Column", icon: "plus", onSelect: () => openAddColumn(true) },
+    { label: i18n.t("flows.addColumn"), icon: "plus", onSelect: () => openAddColumn(true) },
     { type: "separator" },
-    { label: "Reset Sort", disabled: sort.length === 0, onSelect: onResetSort },
-    { label: "Reset Column Widths", onSelect: () => setPrefs((p) => resetWidths(p)) },
+    { label: i18n.t("flows.resetSort"), disabled: sort.length === 0, onSelect: onResetSort },
+    { label: i18n.t("flows.resetWidths"), onSelect: () => setPrefs((p) => resetWidths(p)) },
     {
-      label: "Reset Column Order",
+      label: i18n.t("flows.resetOrder"),
       disabled: prefs.order.length === 0,
       onSelect: () => setPrefs((p) => resetOrder(p)),
     },
@@ -175,44 +176,44 @@ export const FlowListHeader = memo(function FlowListHeader({
     const addTo = (descending: boolean) => setSort(addSortKey(sort, c.id, descending));
     const at = columns.findIndex((col) => col.id === c.id);
     return [
-      { label: "Sort Ascending", onSelect: () => sortBy(false) },
-      { label: "Sort Descending", onSelect: () => sortBy(true) },
-      { label: "Add to Sort Ascending", onSelect: () => addTo(false) },
-      { label: "Add to Sort Descending", onSelect: () => addTo(true) },
-      { label: "Reset Sort", disabled: sort.length === 0, onSelect: onResetSort },
+      { label: i18n.t("flows.sortAsc"), onSelect: () => sortBy(false) },
+      { label: i18n.t("flows.sortDesc"), onSelect: () => sortBy(true) },
+      { label: i18n.t("flows.addToSortAsc"), onSelect: () => addTo(false) },
+      { label: i18n.t("flows.addToSortDesc"), onSelect: () => addTo(true) },
+      { label: i18n.t("flows.resetSort"), disabled: sort.length === 0, onSelect: onResetSort },
       { type: "separator" },
       {
-        label: "Move Left",
+        label: i18n.t("flows.moveLeft"),
         disabled: at <= 0,
         onSelect: () => setPrefs((p) => moveColumnBy(p, c.id, -1, unavailable)),
       },
       {
-        label: "Move Right",
+        label: i18n.t("flows.moveRight"),
         disabled: at === -1 || at >= columns.length - 1,
         onSelect: () => setPrefs((p) => moveColumnBy(p, c.id, 1, unavailable)),
       },
       { type: "separator" },
       {
-        label: "Hide Column",
+        label: i18n.t("flows.hideColumn"),
         disabled: !canHide(prefs, c.id, unavailable),
         onSelect: () => setPrefs((p) => toggleColumn(p, c.id, unavailable)),
       },
       {
-        label: "Hide Other Columns",
+        label: i18n.t("flows.hideOtherColumns"),
         disabled: columns.length <= 1,
         onSelect: () => setPrefs((p) => hideOtherColumns(p, c.id)),
       },
       ...(isCustomColumn(c.id)
         ? [
             {
-              label: "Remove Column",
+              label: i18n.t("flows.removeColumn"),
               color: "danger" as const,
               onSelect: () => removeColumn(c.id as CustomColumnId),
             },
           ]
         : []),
       { type: "separator" },
-      { label: "Reset Column Widths", onSelect: () => setPrefs((p) => resetWidths(p)) },
+      { label: i18n.t("flows.resetWidths"), onSelect: () => setPrefs((p) => resetWidths(p)) },
     ];
   };
 
@@ -248,7 +249,7 @@ export const FlowListHeader = memo(function FlowListHeader({
             <IconButton
               size="xs"
               icon="settings_2"
-              title="Columns"
+              title={i18n.t("flows.columnsMenu")}
               tooltip
               iconColor="secondary"
               className="opacity-0 group-hover/header:opacity-100 focus-visible:opacity-100 !h-5 !w-5"

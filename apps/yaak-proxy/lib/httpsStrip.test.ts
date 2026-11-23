@@ -1,6 +1,9 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import type { DecryptListEntry, Flow } from "@yaakapp-internal/proxy-lib";
 import { describe, expect, test } from "vite-plus/test";
 import { chooseOptions, connectionCount, type StripInput, stripState } from "./httpsStrip";
+
+initI18n("en");
 
 const BUILT_INS: DecryptListEntry[] = [
   { entry: "!host:*.apple.com", builtIn: true, kind: "apple" },

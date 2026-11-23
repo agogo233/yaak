@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { ProxyLock } from "@yaakapp-internal/proxy-lib";
 
 /** What every refused read starts with, before its reason */
@@ -7,11 +8,11 @@ const LOCKED_PREFIX = "Traffic is locked: ";
 function keyStoreName(os: string): string {
   switch (os) {
     case "macos":
-      return "Keychain Access";
+      return i18n.t("flows.keychainStore");
     case "windows":
-      return "Credential Manager";
+      return i18n.t("flows.credentialStore");
     default:
-      return "your keyring";
+      return i18n.t("flows.keyringStore");
   }
 }
 
@@ -21,7 +22,7 @@ function keyStoreName(os: string): string {
  */
 export function lockedLine(lock: ProxyLock, os: string): string {
   if (lock.keychain) {
-    return `Allow Yaak Proxy to use its key in ${keyStoreName(os)}, then retry.`;
+    return i18n.t("flows.allowKeyInStore", { store: keyStoreName(os) });
   }
   const reason = lock.message.startsWith(LOCKED_PREFIX)
     ? lock.message.slice(LOCKED_PREFIX.length)

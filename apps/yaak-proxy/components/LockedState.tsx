@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { ProxyLock } from "@yaakapp-internal/proxy-lib";
 import { Button, Icon, LoadingIcon } from "@yaakapp-internal/ui";
 import { useAtomValue } from "jotai";
@@ -28,19 +29,19 @@ export function LockedState({ lock }: { lock: ProxyLock }) {
         <div className="text-lg font-semibold whitespace-nowrap">
           {encrypting != null ? (
             <>
-              Encrypting recorded traffic,{" "}
+              {i18n.t("flows.encryptingTraffic", { percent: "" })}
               {/* Sized for "100%" and right-aligned, so the centred line never changes width as
                   the number ticks: a changing width re-rasterizes every glyph at a new
                   sub-pixel offset, and the line shakes */}
               <span className="inline-block w-[4.5ch] text-right tabular-nums">{encrypting}</span>
             </>
           ) : (
-            "Traffic is locked"
+            i18n.t("flows.trafficLocked")
           )}
         </div>
         <div className="text-sm text-text-subtle">
           {encrypting != null
-            ? "Earlier traffic shows here once it's encrypted."
+            ? i18n.t("flows.earlierTrafficHint")
             : lockedLine(lock, getOsType())}
         </div>
         {encrypting == null && (
@@ -51,7 +52,7 @@ export function LockedState({ lock }: { lock: ProxyLock }) {
             isLoading={retry.isPending}
             onClick={() => retry.mutate({})}
           >
-            Retry
+            {i18n.t("flows.retry")}
           </Button>
         )}
         {encrypting == null && retry.error != null && (

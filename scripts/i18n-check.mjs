@@ -17,6 +17,10 @@ const searchDirs = [
   join(root, "apps/yaak-client/lib"),
   join(root, "apps/yaak-client/routes"),
   join(root, "apps/yaak-client/init"),
+  join(root, "apps/yaak-client/commands"),
+  join(root, "apps/yaak-proxy/components"),
+  join(root, "apps/yaak-proxy/lib"),
+  join(root, "apps/yaak-proxy/hooks"),
   join(root, "packages/ui/src"),
 ];
 

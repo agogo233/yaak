@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Flow } from "@yaakapp-internal/proxy-lib";
 
 export type PhaseKind = "start" | "step" | "end" | "error" | "cancelled";
@@ -34,28 +35,30 @@ export type PhaseFlow = Pick<
  */
 export function flowPhases(flow: PhaseFlow): FlowPhase[] {
   const steps: Omit<FlowPhase, "tookMs">[] = [
-    { key: "start", label: "Started", kind: "start", atMs: 0 },
+    { key: "start", label: i18n.t("flows.phaseStarted"), kind: "start", atMs: 0 },
   ];
   const add = (key: string, label: string, atMs: number | null | undefined) => {
     if (atMs != null) steps.push({ key, label, kind: "step", atMs });
   };
-  add("connect", "Connected", flow.elapsedConnectMs);
-  add("tls", "TLS handshake", flow.elapsedTlsMs);
-  add("request", "Request sent", flow.elapsedRequestMs);
+  add("connect", i18n.t("flows.phaseConnected"), flow.elapsedConnectMs);
+  add("tls", i18n.t("flows.phaseTls"), flow.elapsedTlsMs);
+  add("request", i18n.t("flows.phaseRequestSent"), flow.elapsedRequestMs);
   add(
     "headers",
-    flow.status == null ? "Headers received" : `Headers received, ${flow.status}`,
+    flow.status == null
+      ? i18n.t("flows.phaseHeadersReceived")
+      : i18n.t("flows.phaseHeadersReceivedStatus", { status: flow.status }),
     flow.elapsedHeadersMs,
   );
 
   if (flow.elapsedMs != null || flow.error != null || flow.cancelled) {
     const atMs = flow.elapsedMs ?? steps[steps.length - 1]?.atMs ?? 0;
     if (flow.error != null) {
-      steps.push({ key: "end", label: "Failed", kind: "error", atMs, detail: flow.error });
+      steps.push({ key: "end", label: i18n.t("flows.phaseFailed"), kind: "error", atMs, detail: flow.error });
     } else if (flow.cancelled) {
-      steps.push({ key: "end", label: "Cancelled", kind: "cancelled", atMs });
+      steps.push({ key: "end", label: i18n.t("flows.phaseCancelled"), kind: "cancelled", atMs });
     } else {
-      const label = flow.streamKind == null ? "Body received" : "Closed";
+      const label = flow.streamKind == null ? i18n.t("flows.phaseBodyReceived") : i18n.t("flows.phaseClosed");
       steps.push({ key: "end", label, kind: "end", atMs });
     }
   }

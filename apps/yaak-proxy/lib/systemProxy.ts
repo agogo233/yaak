@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { HelperState, SystemProxyBackend } from "@yaakapp-internal/proxy-lib";
 
 /**
@@ -28,7 +29,7 @@ export interface SystemProxySwitch {
 /** What the system proxy switch shows */
 export function systemProxySwitch(state: SystemProxyState): SystemProxySwitch {
   if (state.pending != null) {
-    const description = state.helper ? "Changing the system proxy" : "Waiting for macOS";
+    const description = state.helper ? i18n.t("flows.changingSystemProxy") : i18n.t("flows.waitingForMacos");
     return { checked: state.pending, description, failed: false };
   }
   // A failed change leaves the switch where the system proxy actually is.
@@ -37,15 +38,15 @@ export function systemProxySwitch(state: SystemProxyState): SystemProxySwitch {
     const cancelled = /cancel/i.test(state.error);
     return {
       checked,
-      description: cancelled ? "The password prompt was cancelled." : state.error,
+      description: cancelled ? i18n.t("flows.passwordCancelled") : state.error,
       failed: true,
     };
   }
   return {
     checked,
     description: checked
-      ? "Traffic from every app will be recorded."
-      : `Only traffic sent to port ${state.port ?? 9090} will be recorded.`,
+      ? i18n.t("flows.everyAppRecorded")
+      : i18n.t("flows.onlyPortRecorded", { port: state.port ?? 9090 }),
     failed: false,
   };
 }
@@ -60,43 +61,43 @@ export interface HelperRow {
 }
 
 /** What the helper is for, the same in every state but one */
-const HELPER_TOOLTIP = "The helper changes the system proxy without a password prompt.";
+const HELPER_TOOLTIP = () => i18n.t("flows.helperTooltip");
 
 /** The privileged helper's row in Settings, kept short */
 export function helperRow(helper: HelperState, backend: SystemProxyBackend): HelperRow {
   switch (helper) {
     case "unavailable":
       return {
-        description: "The helper is not available in dev builds.",
-        tooltip: HELPER_TOOLTIP,
+        description: i18n.t("flows.helperUnavailable"),
+        tooltip: HELPER_TOOLTIP(),
         action: null,
       };
     case "not_found":
       // What macOS reports until the helper is first installed.
       return {
-        description: "macOS could not find the helper.",
-        tooltip: HELPER_TOOLTIP,
+        description: i18n.t("flows.helperNotFound"),
+        tooltip: HELPER_TOOLTIP(),
         action: "install",
       };
     case "not_registered":
       return {
-        description: "The helper is not installed.",
-        tooltip: HELPER_TOOLTIP,
+        description: i18n.t("flows.helperNotInstalled"),
+        tooltip: HELPER_TOOLTIP(),
         action: "install",
       };
     case "requires_approval":
       return {
-        description: "The helper is awaiting approval.",
-        tooltip: HELPER_TOOLTIP,
+        description: i18n.t("flows.helperAwaitingApproval"),
+        tooltip: HELPER_TOOLTIP(),
         action: "approve",
       };
     case "enabled":
       return {
-        description: "The helper is installed.",
+        description: i18n.t("flows.helperInstalled"),
         tooltip:
           backend === "helper"
-            ? HELPER_TOOLTIP
-            : "One more password prompt is needed to restore the system proxy settings.",
+            ? HELPER_TOOLTIP()
+            : i18n.t("flows.helperRestorePassword"),
         action: "unregister",
       };
     default: {
@@ -104,8 +105,8 @@ export function helperRow(helper: HelperState, backend: SystemProxyBackend): Hel
       // than taking the whole page down.
       const unknown: never = helper;
       return {
-        description: `The helper is ${String(unknown)}.`,
-        tooltip: HELPER_TOOLTIP,
+        description: i18n.t("flows.helperUnknown", { state: String(unknown) }),
+        tooltip: HELPER_TOOLTIP(),
         action: null,
       };
     }
@@ -135,5 +136,5 @@ export function helperPollInterval(
 
 /** The menu item that pauses or resumes storing flows */
 export function recordingLabel(recording: boolean): string {
-  return recording ? "Pause Recording" : "Resume Recording";
+  return recording ? i18n.t("flows.pauseRecording") : i18n.t("flows.resumeRecording");
 }

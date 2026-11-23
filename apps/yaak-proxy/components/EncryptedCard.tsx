@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
 import { useQueryClient } from "@tanstack/react-query";
 import type { Flow, PassthroughResponse } from "@yaakapp-internal/proxy-lib";
@@ -126,12 +127,12 @@ export function EncryptedCard({ flow }: { flow: Flow }) {
         <div className="mx-auto max-w-[27rem] py-10 grid gap-2">
           <div className="text-sm text-text mb-1">
             <LineText line={model.why} />
-            <Tooltip wrap content={model.tooltip ?? ABOUT} delay={CONTROL_TOOLTIP_DELAY}>
+            <Tooltip wrap content={model.tooltip ?? ABOUT()} delay={CONTROL_TOOLTIP_DELAY}>
               <IconButton
                 size="2xs"
                 icon="info"
                 iconColor="secondary"
-                title="About decryption"
+                title={i18n.t("flows.aboutDecryption")}
                 className="ml-1 align-middle inline-flex!"
               />
             </Tooltip>
@@ -141,7 +142,7 @@ export function EncryptedCard({ flow }: { flow: Flow }) {
               key={action.label}
               action={
                 busy === action.label && trusting
-                  ? { ...action, label: "Waiting for macOS" }
+                  ? { ...action, label: i18n.t("flows.waitingForMacos") }
                   : action
               }
               flow={flow}
@@ -168,8 +169,7 @@ export function EncryptedCard({ flow }: { flow: Flow }) {
 }
 
 /** What the info button beside the why line says */
-const ABOUT =
-  "HTTPS is encrypted between the app and the server. Yaak Proxy shows requests only for hosts and apps you decrypt, from their next connection on.";
+const ABOUT = () => i18n.t("flows.aboutHttps");
 
 /** A why or fact line, its hosts, apps and entries shown as code */
 function LineText({ line }: { line: Line }) {
@@ -289,7 +289,7 @@ function StatusLine({ flow, rejected }: { flow: Flow; rejected: boolean }) {
       </div>
       <div className="m-0.5 pr-2.5">
         <Dropdown items={flowActions(flow).slice(2)}>
-          <IconButton size="sm" icon="ellipsis" iconColor="secondary" title="Actions" tooltip />
+          <IconButton size="sm" icon="ellipsis" iconColor="secondary" title={i18n.t("common.actions")} tooltip />
         </Dropdown>
       </div>
     </div>

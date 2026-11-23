@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import {
   Checkbox,
   Dialog,
@@ -47,14 +48,18 @@ export function ClearFlowsButton() {
       <IconButton
         className="pointer-events-auto"
         icon="trash"
-        title={action === "disabled" || hotkey == null ? "Clear flows" : `Clear flows ${hotkey}`}
+        title={
+          action === "disabled" || hotkey == null
+            ? i18n.t("flows.clearFlows")
+            : i18n.t("flows.clearFlowsHotkey", { hotkey })
+        }
         tooltip
         size="sm"
         iconColor="secondary"
         disabled={action === "disabled"}
         onClick={start}
       />
-      <Dialog open={confirming} onClose={() => setConfirming(false)} size="sm" title="Clear Flows">
+      <Dialog open={confirming} onClose={() => setConfirming(false)} size="sm" title={i18n.t("flows.clearFlowsTitle")}>
         {confirming && (
           <ConfirmClear
             total={total}
@@ -90,15 +95,15 @@ function ConfirmClear({
     <form id={formId} className="flex flex-col gap-3" onSubmit={handleSubmit}>
       <p>
         {total === 1
-          ? "Permanently clear 1 flow?"
-          : `Permanently clear ${total.toLocaleString()} flows?`}
+          ? i18n.t("flows.clearOne")
+          : i18n.t("flows.clearMany", { count: total.toLocaleString() })}
       </p>
-      <Checkbox checked={dontAskAgain} title="Don't ask again" onChange={setDontAskAgain} />
+      <Checkbox checked={dontAskAgain} title={i18n.t("flows.dontAskAgain")} onChange={setDontAskAgain} />
       <DialogFooter
         inline
         actions={[
-          { label: "Cancel", onClick: onCancel },
-          { label: "Clear", color: "danger", form: formId, autoFocus: true },
+          { label: i18n.t("common.cancel"), onClick: onCancel },
+          { label: i18n.t("flows.clearBtn"), color: "danger", form: formId, autoFocus: true },
         ]}
       />
     </form>

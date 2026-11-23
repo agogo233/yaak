@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Flow } from "@yaakapp-internal/proxy-lib";
 import {
   type EventStreamColumns,
@@ -11,27 +12,33 @@ import { useFlowMessages, useMessageSource } from "../hooks/useFlowMessages";
 import { base64ToBytes } from "../lib/body";
 import { grpcStatusText, messageToStreamEvent, streamIsOpen } from "../lib/messages";
 
-const WEBSOCKET_COLUMNS: EventStreamColumns = {
-  direction: true,
-  kind: "Type",
-  preview: "Message",
-  size: true,
-  time: true,
-};
-const SSE_COLUMNS: EventStreamColumns = {
-  kind: "Event",
-  kindWidth: "9.5rem",
-  preview: "Data",
-  size: true,
-  time: true,
-};
-const GRPC_COLUMNS: EventStreamColumns = {
-  direction: true,
-  kind: "Type",
-  preview: "Message",
-  size: true,
-  time: true,
-};
+function WEBSOCKET_COLUMNS(): EventStreamColumns {
+  return {
+    direction: true,
+    kind: i18n.t("flows.columnType"),
+    preview: i18n.t("events.message"),
+    size: true,
+    time: true,
+  };
+}
+function SSE_COLUMNS(): EventStreamColumns {
+  return {
+    kind: i18n.t("flows.nounEvent"),
+    kindWidth: "9.5rem",
+    preview: i18n.t("flows.columnData"),
+    size: true,
+    time: true,
+  };
+}
+function GRPC_COLUMNS(): EventStreamColumns {
+  return {
+    direction: true,
+    kind: i18n.t("flows.columnType"),
+    preview: i18n.t("events.message"),
+    size: true,
+    time: true,
+  };
+}
 
 /**
  * A streaming flow's messages: a WebSocket's frames, an event stream's events, a gRPC call's
@@ -45,13 +52,17 @@ export function FlowMessages({ flow }: { flow: Flow }) {
   const events = useMemo(() => messages.map(messageToStreamEvent), [messages]);
   const kind = flow.streamKind;
   const grpc = kind === "grpc" || kind === "grpc_web";
-  const columns = kind === "sse" ? SSE_COLUMNS : grpc ? GRPC_COLUMNS : WEBSOCKET_COLUMNS;
-  const noun = kind === "sse" ? "Event" : "Message";
+  const columns = kind === "sse" ? SSE_COLUMNS() : grpc ? GRPC_COLUMNS() : WEBSOCKET_COLUMNS();
+  const nounKey = kind === "sse" ? "flows.nounEvent" : "flows.nounMessage";
   const catchUp = useMemo(
     () => ({
-      label: (count: number) => `${count} new ${noun.toLowerCase()}${count === 1 ? "" : "s"}`,
+      label: (count: number) =>
+        i18n.t(count === 1 ? "flows.catchUpOne" : "flows.catchUpMany", {
+          count,
+          noun: i18n.t(nounKey),
+        }),
     }),
-    [noun],
+    [nounKey],
   );
 
   const loadPayload = useCallback(
@@ -68,7 +79,7 @@ export function FlowMessages({ flow }: { flow: Flow }) {
       const decode = (schemaless: boolean) => async () => {
         const decoded = await source.decodeGrpc(flow.id, Number(event.key), schemaless);
         const note = [
-          decoded.messageType == null ? null : `Decoded as ${decoded.messageType}`,
+          decoded.messageType == null ? null : i18n.t("flows.decodedAs", { type: decoded.messageType }),
           decoded.note,
         ]
           .filter(Boolean)
@@ -76,9 +87,9 @@ export function FlowMessages({ flow }: { flow: Flow }) {
         return { text: decoded.json, language: "json" as const, note: note || null };
       };
       return [
-        { value: "decoded", label: "Decoded", type: "text", load: decode(false) },
-        { value: "schemaless", label: "Schemaless", type: "text", load: decode(true) },
-        { value: "raw", label: "Raw bytes", type: "hexdump" },
+        { value: "decoded", label: i18n.t("flows.decodedLabel"), type: "text", load: decode(false) },
+        { value: "schemaless", label: i18n.t("flows.schemalessLabel"), type: "text", load: decode(true) },
+        { value: "raw", label: i18n.t("flows.rawBytes"), type: "hexdump" },
       ];
     },
     [flow.id, grpc, source],
@@ -91,17 +102,20 @@ export function FlowMessages({ flow }: { flow: Flow }) {
       {kind === "websocket" && (
         <>
           {open ? (
-            <span className="text-success">CONNECTED</span>
+            <span className="text-success">{i18n.t("flows.statusConnected")}</span>
           ) : flow.error != null ? (
-            <span className="text-danger">ERROR</span>
+            <span className="text-danger">{i18n.t("flows.statusErrorWord")}</span>
           ) : (
-            <span className="text-text-subtle">CLOSED</span>
+            <span className="text-text-subtle">{i18n.t("flows.statusClosed")}</span>
           )}
           <span>&bull;</span>
         </>
       )}
       <span>
-        {count} {count === 1 ? noun : `${noun}s`}
+        {i18n.t(count === 1 ? "flows.countNoun_one" : "flows.countNoun_other", {
+          count,
+          noun: i18n.t(nounKey),
+        })}
       </span>
       {grpc && flow.grpcStatus != null && (
         <>
@@ -121,7 +135,9 @@ export function FlowMessages({ flow }: { flow: Flow }) {
       error={error ?? (open ? null : flow.error)}
       isLoading={loading && events.length === 0}
       emptyMessage={
-        open ? `Waiting for the first ${noun.toLowerCase()}` : `No ${noun.toLowerCase()}s`
+        open
+          ? i18n.t("flows.waitingFirstNoun", { noun: i18n.t(nounKey) })
+          : i18n.t("flows.noNoun", { noun: i18n.t(nounKey) })
       }
       splitLayoutStorageKey="proxy_flow_messages"
       columns={columns}

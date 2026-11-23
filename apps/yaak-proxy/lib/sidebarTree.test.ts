@@ -1,3 +1,4 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import type { Flow } from "@yaakapp-internal/proxy-lib";
 import type { TreeNode } from "@yaakapp-internal/ui";
 import { describe, expect, test } from "vite-plus/test";
@@ -15,6 +16,8 @@ import {
   selectionText,
   valueRows,
 } from "./sidebarTree";
+
+initI18n("en");
 
 function flow(url: string, extra: Partial<Flow> = {}): Flow {
   return {

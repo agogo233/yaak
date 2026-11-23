@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { Button, Icon } from "@yaakapp-internal/ui";
 import { useAtomValue } from "jotai";
 import { useRpcMutation } from "../hooks/useRpcMutation";
@@ -17,7 +18,7 @@ export function TakeOverBanner() {
     minute: "2-digit",
   });
   const cli = other.owner === "cli";
-  const who = cli ? "Running from the CLI" : "Running in another Yaak Proxy";
+  const who = cli ? i18n.t("flows.runningFromCli") : i18n.t("flows.runningInOtherProxy");
 
   return (
     <div className="flex items-center gap-2.5 h-[2.2rem] mx-2 mb-1 pl-3 pr-1.5 rounded-md bg-surface-highlight/45 border border-border-subtle text-sm text-text-subtle min-w-0">
@@ -29,11 +30,11 @@ export function TakeOverBanner() {
       <span className="truncate">
         {!cli ? (
           // Stopping another app halts its engine without releasing it, so it can't be taken over.
-          "Quit the other copy to use this one."
+          i18n.t("flows.quitOtherCopy")
         ) : takeOver.error != null ? (
           <span className="text-danger">{takeOver.error.message}</span>
         ) : (
-          `pid ${other.pid}, since ${since}`
+          i18n.t("flows.pidSince", { pid: other.pid, since })
         )}
       </span>
       {cli && (
@@ -44,7 +45,7 @@ export function TakeOverBanner() {
           isLoading={takeOver.isPending}
           onClick={() => takeOver.mutate({})}
         >
-          Take Over
+          {i18n.t("flows.takeOver")}
         </Button>
       )}
     </div>

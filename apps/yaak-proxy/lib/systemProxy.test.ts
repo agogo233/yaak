@@ -1,3 +1,4 @@
+import { initI18n } from "@yaakapp-internal/i18n";
 import type { HelperState } from "@yaakapp-internal/proxy-lib";
 import { describe, expect, test } from "vite-plus/test";
 import {
@@ -7,6 +8,8 @@ import {
   type SystemProxyState,
   systemProxySwitch,
 } from "./systemProxy";
+
+initI18n("en");
 
 const off: SystemProxyState = { routing: false, port: 9090, pending: null, error: null };
 

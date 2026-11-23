@@ -1,4 +1,5 @@
 import { openUrl, revealItemInDir } from "@tauri-apps/plugin-opener";
+import { i18n } from "@yaakapp-internal/i18n";
 
 /** Says what failed, as a toast, rather than leaving a button that does nothing */
 export type ReportFailure = (message: string) => void;
@@ -8,7 +9,7 @@ export async function revealPath(path: string, report: ReportFailure): Promise<v
   try {
     await revealItemInDir(path);
   } catch (err) {
-    report(`Failed to reveal ${path}: ${String(err)}`);
+    report(i18n.t("flows.failedReveal", { path, error: String(err) }));
   }
 }
 
@@ -17,13 +18,13 @@ export async function openLink(url: string, report: ReportFailure): Promise<void
   try {
     await openUrl(url);
   } catch (err) {
-    report(`Failed to open ${url}: ${String(err)}`);
+    report(i18n.t("flows.failedOpen", { url, error: String(err) }));
   }
 }
 
 /** What the platform calls showing a file in its file manager */
 export function revealLabel(os: string): string {
-  if (os === "macos") return "Reveal in Finder";
-  if (os === "windows") return "Show in Explorer";
-  return "Show in File Manager";
+  if (os === "macos") return i18n.t("common.revealInFinder");
+  if (os === "windows") return i18n.t("common.showInExplorer");
+  return i18n.t("common.showInFileManager");
 }
