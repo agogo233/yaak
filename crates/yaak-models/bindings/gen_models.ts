@@ -459,6 +459,8 @@ export type Settings = {
   autoupdate: boolean;
   autoDownloadUpdates: boolean;
   checkNotifications: boolean;
+  checkPluginUpdates: boolean;
+  checkLicense: boolean;
   hotkeys: { [key in string]?: Array<string> };
 };
 

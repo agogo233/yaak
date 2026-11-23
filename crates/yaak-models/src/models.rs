@@ -382,6 +382,8 @@ pub struct Settings {
     pub autoupdate: bool,
     pub auto_download_updates: bool,
     pub check_notifications: bool,
+    pub check_plugin_updates: bool,
+    pub check_license: bool,
     pub hotkeys: HashMap<String, Vec<String>>,
 }
 
@@ -443,6 +445,8 @@ impl UpsertModelInfo for Settings {
             (AutoDownloadUpdates, self.auto_download_updates.into()),
             (ColoredMethods, self.colored_methods.into()),
             (CheckNotifications, self.check_notifications.into()),
+            (CheckPluginUpdates, self.check_plugin_updates.into()),
+            (CheckLicense, self.check_license.into()),
             (Proxy, proxy.into()),
             (Hotkeys, hotkeys.into()),
         ])
@@ -475,6 +479,8 @@ impl UpsertModelInfo for Settings {
             SettingsIden::AutoDownloadUpdates,
             SettingsIden::ColoredMethods,
             SettingsIden::CheckNotifications,
+            SettingsIden::CheckPluginUpdates,
+            SettingsIden::CheckLicense,
             SettingsIden::Hotkeys,
         ]
     }
@@ -516,6 +522,8 @@ impl UpsertModelInfo for Settings {
             mcp_server_enabled: row.get("mcp_server_enabled")?,
             colored_methods: row.get("colored_methods")?,
             check_notifications: row.get("check_notifications")?,
+            check_plugin_updates: row.get("check_plugin_updates")?,
+            check_license: row.get("check_license")?,
             hotkeys: serde_json::from_str(&hotkeys).unwrap_or_default(),
         })
     }

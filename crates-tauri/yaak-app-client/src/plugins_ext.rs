@@ -423,10 +423,14 @@ pub fn init<R: Runtime>() -> TauriPlugin<R> {
                 });
             }
             RunEvent::WindowEvent { event: WindowEvent::Focused(true), label, .. } => {
-                // Check for plugin updates on window focus
+                // Check for plugin updates on window focus, only when enabled
                 let w = app.get_webview_window(&label).unwrap();
+                let enabled = w.db().get_settings().check_plugin_updates;
                 let h = app.clone();
                 tauri::async_runtime::spawn(async move {
+                    if !enabled {
+                        return;
+                    }
                     tokio::time::sleep(Duration::from_secs(3)).await;
                     let val: State<'_, Mutex<PluginUpdater>> = h.state();
                     if let Err(e) = val.lock().await.maybe_check(&w).await {

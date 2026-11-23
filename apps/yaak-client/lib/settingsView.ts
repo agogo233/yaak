@@ -26,6 +26,8 @@ export function settingsValuesFromModel(settings: Settings): SettingsValues {
     autoupdate: settings.autoupdate,
     autoDownloadUpdates: settings.autoDownloadUpdates,
     checkNotifications: settings.checkNotifications,
+    checkPluginUpdates: settings.checkPluginUpdates,
+    checkLicense: settings.checkLicense,
     promptFeedback: settings.promptFeedback,
   };
 }

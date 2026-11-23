@@ -51,13 +51,17 @@ fn default_settings() -> Settings {
         theme_dark: "yaak-dark".to_string(),
         theme_light: "yaak-light".to_string(),
         update_channel: "stable".to_string(),
-        autoupdate: true,
+        // Checks that reach the network default to off, so a fresh install stays offline until
+        // the user turns one on.
+        autoupdate: false,
         colored_methods: false,
         hide_license_badge: false,
         prompt_feedback: true,
         mcp_server_enabled: false,
         auto_download_updates: true,
-        check_notifications: true,
+        check_notifications: false,
+        check_plugin_updates: false,
+        check_license: false,
         hotkeys: HashMap::new(),
     }
 }

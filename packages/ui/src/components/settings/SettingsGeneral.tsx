@@ -157,6 +157,24 @@ export function SettingsUpdatesSection({
         />
       )}
 
+      {values.checkPluginUpdates !== undefined && (
+        <SettingRowBoolean
+          title={t("settings.checkPluginUpdates")}
+          description={t("settings.checkPluginUpdatesDesc")}
+          checked={values.checkPluginUpdates}
+          onChange={(checkPluginUpdates) => callbacks.onChange({ checkPluginUpdates })}
+        />
+      )}
+
+      {values.checkLicense !== undefined && (
+        <SettingRowBoolean
+          title={t("settings.checkLicense")}
+          description={t("settings.checkLicenseDesc")}
+          checked={values.checkLicense}
+          onChange={(checkLicense) => callbacks.onChange({ checkLicense })}
+        />
+      )}
+
       <SettingRowBoolean
         title={t("settings.anonymousStats")}
         description={t("settings.anonymousStatsDesc")}

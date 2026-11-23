@@ -87,17 +87,22 @@ impl YaakNotifier {
         #[cfg(feature = "license")]
         let license_check = {
             use yaak_license::{LicenseCheckStatus, check_license};
-            match check_license(window).await {
-                Ok(LicenseCheckStatus::PersonalUse { .. }) => "personal",
-                Ok(LicenseCheckStatus::Active { .. }) => "commercial",
-                Ok(LicenseCheckStatus::PastDue { .. }) => "past_due",
-                Ok(LicenseCheckStatus::Inactive { .. }) => "invalid_license",
-                Ok(LicenseCheckStatus::Trialing { .. }) => "trialing",
-                Ok(LicenseCheckStatus::Expired { .. }) => "expired",
-                Ok(LicenseCheckStatus::Error { .. }) => "error",
-                Err(_) => "unknown",
+            // A license check reaches the network only when the user turned it on
+            if !app_handle.db().get_settings().check_license {
+                "disabled".to_string()
+            } else {
+                match check_license(window).await {
+                    Ok(LicenseCheckStatus::PersonalUse { .. }) => "personal",
+                    Ok(LicenseCheckStatus::Active { .. }) => "commercial",
+                    Ok(LicenseCheckStatus::PastDue { .. }) => "past_due",
+                    Ok(LicenseCheckStatus::Inactive { .. }) => "invalid_license",
+                    Ok(LicenseCheckStatus::Trialing { .. }) => "trialing",
+                    Ok(LicenseCheckStatus::Expired { .. }) => "expired",
+                    Ok(LicenseCheckStatus::Error { .. }) => "error",
+                    Err(_) => "unknown",
+                }
+                .to_string()
             }
-            .to_string()
         };
 
         #[cfg(not(feature = "license"))]

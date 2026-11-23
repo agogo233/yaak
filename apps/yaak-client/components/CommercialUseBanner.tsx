@@ -95,7 +95,7 @@ async function shouldShowCommercialUsePrompt(): Promise<boolean> {
 
   try {
     const license = await checkLicense();
-    return license.status === "personal_use";
+    return license?.status === "personal_use";
   } catch (err) {
     console.log("Failed to check license before commercial-use prompt", err);
     return false;

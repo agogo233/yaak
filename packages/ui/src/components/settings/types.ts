@@ -26,6 +26,10 @@ export interface SettingsValues {
   autoupdate: boolean;
   autoDownloadUpdates: boolean;
   checkNotifications: boolean;
+  /** Client-only: whether an automatic plugin-update check may reach the network */
+  checkPluginUpdates?: boolean;
+  /** Client-only: whether an automatic license check may reach the network */
+  checkLicense?: boolean;
   promptFeedback: boolean;
 }
 
