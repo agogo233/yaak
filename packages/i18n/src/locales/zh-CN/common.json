@@ -2,6 +2,8 @@
   "common": {
     "actions": "操作",
     "or": "或",
+    "yes": "是",
+    "no": "否",
     "search": "搜索",
     "cancel": "取消",
     "close": "关闭",

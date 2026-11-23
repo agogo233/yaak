@@ -1,4 +1,5 @@
 import type { DivergedStrategy } from "@yaakapp-internal/git";
+import { i18n } from "@yaakapp-internal/i18n";
 import { InlineCode } from "@yaakapp-internal/ui";
 import { useState } from "react";
 import { showDialog } from "../../lib/dialog";
@@ -7,9 +8,9 @@ import { RadioCards } from "../core/RadioCards";
 
 type Resolution = "force_reset" | "merge";
 
-const resolutionLabel: Record<Resolution, string> = {
-  force_reset: "Force Pull",
-  merge: "Merge",
+const resolutionLabelKey: Record<Resolution, string> = {
+  force_reset: "git.forcePull",
+  merge: "git.merge",
 };
 
 interface DivergedDialogProps {
@@ -36,11 +37,11 @@ function DivergedDialog({ remote, branch, onResult, onHide }: DivergedDialogProp
   return (
     <div className="flex flex-col gap-4">
       <p className="text-text-subtle">
-        Your local branch has diverged from{" "}
+        {i18n.t("git.divergedPrefix")}{" "}
         <InlineCode>
           {remote}/{branch}
         </InlineCode>
-        . How would you like to resolve this?
+        {i18n.t("git.divergedSuffix")}
       </p>
       <RadioCards
         name="diverged-strategy"
@@ -49,22 +50,22 @@ function DivergedDialog({ remote, branch, onResult, onHide }: DivergedDialogProp
         options={[
           {
             value: "merge",
-            label: "Merge Commit",
-            description: "Combining local and remote changes into a single merge commit",
+            label: i18n.t("git.mergeCommit"),
+            description: i18n.t("git.mergeCommitDescription"),
           },
           {
             value: "force_reset",
-            label: "Force Pull",
-            description: "Discard local commits and reset to match the remote branch",
+            label: i18n.t("git.forcePull"),
+            description: i18n.t("git.forcePullDescription"),
           },
         ]}
       />
       <DialogFooter
         inline
         actions={[
-          { label: "Cancel", onClick: handleCancel },
+          { label: i18n.t("dialog.cancel"), onClick: handleCancel },
           {
-            label: selected != null ? resolutionLabel[selected] : "Select an option",
+            label: selected != null ? i18n.t(resolutionLabelKey[selected]) : i18n.t("git.selectAnOption"),
             color: selected === "force_reset" ? "danger" : "primary",
             disabled: selected == null,
             onClick: handleSubmit,
@@ -85,7 +86,7 @@ export async function promptDivergedStrategy({
   return new Promise((resolve) => {
     showDialog({
       id: "git-diverged",
-      title: "Branches Diverged",
+      title: i18n.t("git.branchesDiverged"),
       size: "sm",
       disableClose: true,
       render: ({ hide }) =>

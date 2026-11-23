@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { atom, useAtomValue } from "jotai";
 import type { CSSProperties } from "react";
 import { lazy, Suspense, useCallback, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { importCurl, looksLikeCurl } from "../commands/importCurl";
 import { allRequestUrlsAtom } from "../hooks/useAllRequests";
 import { useAuthTab } from "../hooks/useAuthTab";
@@ -90,6 +91,7 @@ export function HttpRequestPane({ style, fullHeight, className, activeRequest }:
   const headersTab = useHeadersTab(TAB_HEADERS, activeRequest);
   const inheritedHeaders = useInheritedHeaders(activeRequest);
   const numSettingsOverrides = countOverriddenSettings(activeRequest);
+  const { t } = useTranslation();
 
   // Listen for event to focus the params tab (e.g., when clicking a :param in the URL)
   useRequestEditorEvent(
@@ -172,23 +174,23 @@ export function HttpRequestPane({ style, fullHeight, className, activeRequest }:
         rightSlot: numParams > 0 ? <CountBadge count={numParams} /> : null,
         options: {
           value: activeRequest.bodyType,
-          items: [
-            { type: "separator", label: "Form Data" },
-            { label: "Url Encoded", value: BODY_TYPE_FORM_URLENCODED },
-            { label: "Multi-Part", value: BODY_TYPE_FORM_MULTIPART },
-            { type: "separator", label: "Text Content" },
-            { label: "GraphQL", value: BODY_TYPE_GRAPHQL },
-            { label: "JSON", value: BODY_TYPE_JSON },
-            { label: "XML", value: BODY_TYPE_XML },
-            {
-              label: "Other",
-              value: BODY_TYPE_OTHER,
-              shortLabel: nameOfContentTypeOr(contentType, "Other"),
-            },
-            { type: "separator", label: "Other" },
-            { label: "Binary File", value: BODY_TYPE_BINARY },
-            { label: "No Body", shortLabel: "Body", value: BODY_TYPE_NONE },
-          ],
+            items: [
+              { type: "separator", label: t("request.formSeparator") },
+              { label: t("request.urlEncoded"), value: BODY_TYPE_FORM_URLENCODED },
+              { label: t("request.multipart"), value: BODY_TYPE_FORM_MULTIPART },
+              { type: "separator", label: t("request.textSeparator") },
+              { label: "GraphQL", value: BODY_TYPE_GRAPHQL },
+              { label: "JSON", value: BODY_TYPE_JSON },
+              { label: "XML", value: BODY_TYPE_XML },
+              {
+                label: t("request.other"),
+                value: BODY_TYPE_OTHER,
+                shortLabel: nameOfContentTypeOr(contentType, t("request.other")),
+              },
+              { type: "separator", label: t("request.other") },
+              { label: t("request.binaryFile"), value: BODY_TYPE_BINARY },
+              { label: t("request.noBody"), shortLabel: t("request.bodyShort"), value: BODY_TYPE_NONE },
+            ],
           onChange: async (bodyType) => {
             if (bodyType === activeRequest.bodyType) return;
 
@@ -198,7 +200,8 @@ export function HttpRequestPane({ style, fullHeight, className, activeRequest }:
                 id: "switched-method",
                 message: (
                   <>
-                    Request method switched to <InlineCode>POST</InlineCode>
+                    {t("request.methodSwitchedPrefix")}{" "}
+                    <InlineCode>POST</InlineCode>
                   </>
                 ),
               });
@@ -248,18 +251,18 @@ export function HttpRequestPane({ style, fullHeight, className, activeRequest }:
       {
         value: TAB_PARAMS,
         rightSlot: <CountBadge count={urlParameterPairs.length} />,
-        label: "Params",
+        label: t("request.tabParams"),
       },
       ...headersTab,
       ...authTab,
       {
         value: TAB_SETTINGS,
-        label: "Settings",
+        label: t("request.tabSettings"),
         rightSlot: <CountBadge count={numSettingsOverrides} />,
       },
       {
         value: TAB_DESCRIPTION,
-        label: "Info",
+        label: t("request.tabInfo"),
         rightSlot: hasDescription && <CountBadge count={true} />,
       },
     ],
@@ -273,6 +276,7 @@ export function HttpRequestPane({ style, fullHeight, className, activeRequest }:
       numParams,
       numSettingsOverrides,
       urlParameterPairs.length,
+      t,
     ],
   );
 
@@ -362,7 +366,7 @@ export function HttpRequestPane({ style, fullHeight, className, activeRequest }:
           />
           <Tabs
             ref={tabsRef}
-            label="Request"
+            label={t("request.requestAria")}
             tabs={tabs}
             tabListClassName="mt-1 -mb-1.5"
             storageKey={TABS_STORAGE_KEY}
@@ -453,14 +457,14 @@ export function HttpRequestPane({ style, fullHeight, className, activeRequest }:
                     stateKey={`other.${activeRequest.id}`}
                   />
                 ) : (
-                  <EmptyStateText>No Body</EmptyStateText>
+                  <EmptyStateText>{t("request.noBody")}</EmptyStateText>
                 )}
               </ConfirmLargeRequestBody>
             </TabContent>
             <TabContent value={TAB_DESCRIPTION}>
               <div className="grid grid-rows-[auto_minmax(0,1fr)] h-full">
                 <PlainInput
-                  label="Request Name"
+                  label={t("request.requestName")}
                   hideLabel
                   forceUpdateKey={updateKey}
                   defaultValue={activeRequest.name}
@@ -471,7 +475,7 @@ export function HttpRequestPane({ style, fullHeight, className, activeRequest }:
                 />
                 <MarkdownEditor
                   name="request-description"
-                  placeholder="Request description"
+                  placeholder={t("request.descriptionPlaceholder")}
                   defaultValue={activeRequest.description}
                   stateKey={`description.${activeRequest.id}`}
                   forceUpdateKey={updateKey}

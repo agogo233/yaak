@@ -8,6 +8,8 @@ import {
 import { Banner, FormattedError, HStack, Icon, VStack, IconTooltip } from "@yaakapp-internal/ui";
 import classNames from "classnames";
 import { type ComponentProps, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { i18n } from "@yaakapp-internal/i18n";
 import { errorMessage } from "../lib/errorMessage";
 import { CommercialUseBanner } from "./CommercialUseBanner";
 import {
@@ -23,7 +25,6 @@ import { Chip } from "./core/Chip";
 import { DialogFooter } from "./core/Dialog";
 import { Select } from "./core/Select";
 import { SegmentedControl } from "./core/SegmentedControl";
-import { pluralize } from "@yaakapp-internal/lib/pluralize";
 
 interface Props {
   currentWorkspace: Workspace | null;
@@ -93,6 +94,7 @@ function LoadedImportDataDialog({
   const [sources, setSources] = useState<ImportSourcePath[]>(initialPaths);
   const knownPaths = useRef(new Set(initialPaths.map((source) => source.path)));
   const [detections, setDetections] = useState<Record<string, ImportSourceDetection>>({});
+  const { t } = useTranslation();
   const detect = useCallback(
     (added: ImportSourcePath[]) => {
       setDetections((prev) => ({
@@ -255,10 +257,12 @@ function LoadedImportDataDialog({
 
   if (plan != null) {
     const unchanged = items.filter((i) => i.action === "unchanged");
-    const footerNote =
-      unchanged.length > 0
-        ? `${unchanged.length} ${pluralize("resource", unchanged.length)} unchanged`
-        : "";
+      const footerNote =
+        unchanged.length > 0
+          ? unchanged.length === 1
+            ? t("import.resourceUnchanged")
+            : t("import.resourcesUnchanged", { n: unchanged.length })
+          : "";
     const changeCount = items.filter((item) => {
       if (disabledIds.has(item.modelId)) return false;
       if (item.action === "conflict") return item.resolution === "take_source";
@@ -270,15 +274,17 @@ function LoadedImportDataDialog({
     const [destinationLabel, destinationValue] = ((): [string, string] => {
       if (plan.destination.type === "new_workspace") {
         const names = plan.resources.workspaces.map((w) => w.name).filter((n) => n !== "");
-        if (names.length === 0) return ["New workspace", "Untitled"];
+        if (names.length === 0) return [t("import.newWorkspace"), t("import.untitled")];
         return [
-          names.length === 1 ? "New workspace" : `${names.length} new workspaces`,
+          names.length === 1
+            ? t("import.newWorkspace")
+            : t("import.newWorkspaces", { n: names.length }),
           names.join(", "),
         ];
       }
       const { workspaceId } = plan.destination;
-      const name = workspaces.find((w) => w.id === workspaceId)?.name ?? "Unknown workspace";
-      return ["Destination", name];
+      const name = workspaces.find((w) => w.id === workspaceId)?.name ?? t("import.unknownWorkspace");
+      return [t("import.destination"), name];
     })();
 
     // The destination workspace roots the tree. It is not a plan item — commit always applies
@@ -330,7 +336,7 @@ function LoadedImportDataDialog({
       <>
         <VStack space={4} className="pb-4">
           <div className="rounded-lg border border-border-subtle divide-y divide-border-subtle">
-            <PreviewRow label="Detected format" value={plan.importer} />
+            <PreviewRow label={t("import.detectedFormat")} value={plan.importer} />
             <PreviewRow label={destinationLabel} value={destinationValue} />
           </div>
 
@@ -392,7 +398,7 @@ function LoadedImportDataDialog({
           }
           actions={[
             {
-              label: "Back",
+              label: t("import.back"),
               disabled: isLoading,
               onClick: () => {
                 setPlan(null);
@@ -401,10 +407,12 @@ function LoadedImportDataDialog({
             },
             {
               label: isLoading
-                ? "Importing"
+                ? t("import.importing")
                 : changeCount > 0
-                  ? `Apply ${changeCount} ${changeCount === 1 ? "Change" : "Changes"}`
-                  : "Done",
+                  ? changeCount === 1
+                    ? t("import.applyChange")
+                    : t("import.applyChanges", { n: changeCount })
+                  : t("import.done"),
               color: "primary",
               isLoading,
               onClick: handleCommit,
@@ -421,32 +429,32 @@ function LoadedImportDataDialog({
       alignItems="center"
       className={classNames(workspaces.length === 0 && "hidden")}
     >
-      <Select
-        name="import-destination-kind"
-        label="Import into"
-        labelPosition="left"
-        size="sm"
-        value={destinationKind}
-        onChange={setDestinationChoice}
-        options={[
-          { value: "new", label: "New Workspace" },
-          ...(currentWorkspace != null
-            ? [{ value: "current" as const, label: "Current Workspace" }]
-            : []),
-          { value: "other", label: "Other Workspace" },
-        ]}
-      />
-      {destinationKind === "other" && (
         <Select
-          name="import-destination-workspace"
-          label="Workspace"
-          hideLabel
+          name="import-destination-kind"
+          label={t("import.importInto")}
+          labelPosition="left"
           size="sm"
-          value={otherWorkspaceId ?? ""}
-          onChange={(id) => setOtherWorkspaceId(id === "" ? null : id)}
-          filterable
+          value={destinationKind}
+          onChange={setDestinationChoice}
           options={[
-            { value: "", label: "Select a workspace" },
+            { value: "new", label: t("import.newWorkspaceOption") },
+            ...(currentWorkspace != null
+              ? [{ value: "current" as const, label: t("import.currentWorkspace") }]
+              : []),
+            { value: "other", label: t("import.otherWorkspace") },
+          ]}
+        />
+      {destinationKind === "other" && (
+          <Select
+            name="import-destination-workspace"
+            label={t("import.workspaceLabel")}
+            hideLabel
+            size="sm"
+            value={otherWorkspaceId ?? ""}
+            onChange={(id) => setOtherWorkspaceId(id === "" ? null : id)}
+            filterable
+            options={[
+              { value: "", label: t("import.selectWorkspace") },
             ...workspaces
               .filter((w) => w.id !== currentWorkspace?.id)
               .map((w) => ({ value: w.id, label: w.name })),
@@ -459,7 +467,7 @@ function LoadedImportDataDialog({
   return (
     <>
       <VStack space={4} className="h-full pb-4">
-        <CommercialUseBanner source="data-import" title="Importing work data?" />
+        <CommercialUseBanner source="data-import" title={t("import.importingWorkData")} />
 
         <ImportSourceList
           sources={sources}
@@ -478,7 +486,7 @@ function LoadedImportDataDialog({
 
         {linkedWorkspace != null && linkedWorkspace.id !== destinationWorkspaceId && (
           <div className="text-xs text-text-subtle">
-            {sources.length === 1 ? "This source was" : "These sources were"} last imported into{" "}
+            {sources.length === 1 ? t("import.lastImportedSingular") : t("import.lastImportedPlural")}{" "}
             <InlineButton
               onClick={() => {
                 if (linkedWorkspace.id === currentWorkspace?.id) {
@@ -497,9 +505,9 @@ function LoadedImportDataDialog({
       <DialogFooter
         leftSlot={destinationPicker}
         actions={[
-          { label: "Cancel", disabled: isLoading, onClick: cancel },
+          { label: t("dialog.cancel"), disabled: isLoading, onClick: cancel },
           {
-            label: isLoading ? "Analyzing" : "Preview Import",
+            label: isLoading ? t("import.analyzing") : t("import.previewImport"),
             color: "primary",
             disabled:
               sources.length === 0 ||
@@ -530,7 +538,7 @@ function ImportTreeRow({
         )}
         <div className="truncate flex-1">{row.label}</div>
         {row.kind === "destination" && row.isNew && (
-          <ActionChip label="new" help="Created by this import" color="success" />
+          <ActionChip label={i18n.t("import.actionCreate")} help={i18n.t("import.chipNewHelp")} color="success" />
         )}
       </>
     );
@@ -545,15 +553,15 @@ function ImportTreeRow({
         <div className="shrink-0">
           <SegmentedControl
             name={`conflict-${item.modelId}`}
-            label={`Resolve conflict for ${item.name}`}
+            label={i18n.t("import.resolveConflict", { name: item.name })}
             hideLabel
             size="2xs"
             help={actionHelp(item)}
             value={item.resolution ?? "keep_mine"}
             onChange={(v) => onResolveConflict(item.modelId, v)}
             options={[
-              { value: "keep_mine", label: "Keep mine" },
-              { value: "take_source", label: "Take source" },
+              { value: "keep_mine", label: i18n.t("import.keepMine") },
+              { value: "take_source", label: i18n.t("import.takeSource") },
             ]}
           />
         </div>
@@ -603,15 +611,15 @@ function actionColor(item: ImportPlanItem): ComponentProps<typeof Chip>["color"]
 function actionLabel(item: ImportPlanItem): string | null {
   switch (item.action) {
     case "create":
-      return "new";
+      return i18n.t("import.actionCreate");
     case "update":
-      return "updated";
+      return i18n.t("import.actionUpdate");
     case "delete":
-      return "removed";
+      return i18n.t("import.actionDelete");
     case "keep_local":
-      return "edited";
+      return i18n.t("import.actionKeepLocal");
     case "ignored":
-      return "ignored";
+      return i18n.t("import.actionIgnored");
     default:
       return null;
   }
@@ -624,19 +632,19 @@ function actionHelp(item: ImportPlanItem): string | null {
       : text;
   switch (item.action) {
     case "create":
-      return "Not in this workspace yet";
+      return i18n.t("import.helpCreate");
     case "update":
       return item.reason === "moved_into_ignored_folder"
-        ? "Moved into a folder that isn't imported. Importing that folder brings it along"
-        : help("Changed in the source since the last import");
+        ? i18n.t("import.helpUpdateMoved")
+        : help(i18n.t("import.helpUpdate"));
     case "delete":
-      return "Gone from the source since the last import. Checking it deletes it here";
+      return i18n.t("import.helpDelete");
     case "keep_local":
-      return help("Changed here since the last import. Checking it reverts to the source");
+      return help(i18n.t("import.helpKeepLocal"));
     case "conflict":
-      return help("Changed here and in the source since the last import");
+      return help(i18n.t("import.helpConflict"));
     case "ignored":
-      return "Not in this workspace. Imports leave it alone until you check it";
+      return i18n.t("import.helpIgnored");
     default:
       return null;
   }
@@ -710,7 +718,7 @@ function buildItemTree(items: ImportPlanItem[]): CheckboxTreeNode<TreeRow>[] {
   return [
     {
       key: "group:environments",
-      data: { kind: "group", label: "Variables" },
+      data: { kind: "group", label: i18n.t("import.variables") },
       children: environments.map((e) => toNode(e, new Set())),
     },
     ...nodes,

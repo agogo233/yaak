@@ -16,6 +16,12 @@ import toastEn from "./locales/en/toast.json";
 import folderEn from "./locales/en/folder.json";
 import syncEn from "./locales/en/sync.json";
 import feedbackEn from "./locales/en/feedback.json";
+import requestEn from "./locales/en/request.json";
+import responseEn from "./locales/en/response.json";
+import timelineEn from "./locales/en/timeline.json";
+import cookiesEn from "./locales/en/cookies.json";
+import importEn from "./locales/en/import.json";
+import gitEn from "./locales/en/git.json";
 import agentsZh from "./locales/zh-CN/agents.json";
 import certificatesZh from "./locales/zh-CN/certificates.json";
 import commonZh from "./locales/zh-CN/common.json";
@@ -34,6 +40,12 @@ import toastZh from "./locales/zh-CN/toast.json";
 import folderZh from "./locales/zh-CN/folder.json";
 import syncZh from "./locales/zh-CN/sync.json";
 import feedbackZh from "./locales/zh-CN/feedback.json";
+import requestZh from "./locales/zh-CN/request.json";
+import responseZh from "./locales/zh-CN/response.json";
+import timelineZh from "./locales/zh-CN/timeline.json";
+import cookiesZh from "./locales/zh-CN/cookies.json";
+import importZh from "./locales/zh-CN/import.json";
+import gitZh from "./locales/zh-CN/git.json";
 
 export const resources = {
   en: {
@@ -56,6 +68,12 @@ export const resources = {
       ...folderEn,
       ...syncEn,
       ...feedbackEn,
+      ...requestEn,
+      ...responseEn,
+      ...timelineEn,
+      ...cookiesEn,
+      ...importEn,
+      ...gitEn,
     },
   },
   "zh-CN": {
@@ -78,6 +96,12 @@ export const resources = {
       ...folderZh,
       ...syncZh,
       ...feedbackZh,
+      ...requestZh,
+      ...responseZh,
+      ...timelineZh,
+      ...cookiesZh,
+      ...importZh,
+      ...gitZh,
     },
   },
 };

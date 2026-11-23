@@ -2,6 +2,8 @@
   "common": {
     "actions": "Actions",
     "or": "or",
+    "yes": "Yes",
+    "no": "No",
     "search": "Search",
     "cancel": "Cancel",
     "close": "Close",

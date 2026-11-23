@@ -1,6 +1,7 @@
 import type { Folder } from "@yaakapp-internal/models";
 import { modelTypeLabel, patchModel } from "@yaakapp-internal/models";
 import { HStack, Icon, InlineCode, IconTooltip } from "@yaakapp-internal/ui";
+import { i18n } from "@yaakapp-internal/i18n";
 import { useMemo } from "react";
 import { openFolderSettings } from "../commands/openFolderSettings";
 import { openWorkspaceSettings } from "../commands/openWorkspaceSettings";
@@ -25,7 +26,7 @@ export function useAuthTab<T extends string>(
 
     const tab: TabItem = {
       value: tabValue,
-      label: "Auth",
+      label: i18n.t("request.auth"),
       options,
     };
 
@@ -54,7 +55,7 @@ export function useAuthDropdownOptions(
         })),
         { type: "separator" },
         {
-          label: "Inherit from Parent",
+          label: i18n.t("request.inheritFromParent"),
           shortLabel:
             inheritedAuth != null &&
             inheritedAuth.authenticationType !== "none" ? (
@@ -65,15 +66,15 @@ export function useAuthDropdownOptions(
                 <IconTooltip
                   icon="zap_off"
                   iconSize="xs"
-                  content="Authentication was inherited from an ancestor"
+                  content={i18n.t("request.authInherited")}
                 />
               </HStack>
             ) : (
-              "Auth"
+              i18n.t("request.auth")
             ),
           value: null,
         },
-        { label: "No Auth", shortLabel: "No Auth", value: "none" },
+        { label: i18n.t("request.noAuth"), shortLabel: i18n.t("request.noAuth"), value: "none" },
       ],
       itemsAfter: (() => {
         const actions: (
@@ -94,9 +95,9 @@ export function useAuthDropdownOptions(
             parentModel.authenticationType === "none")
         ) {
           actions.push(
-            { type: "separator", label: "Actions" },
+            { type: "separator", label: i18n.t("request.actions") },
             {
-              label: `Promote to ${capitalize(parentModel.model)}`,
+              label: i18n.t("request.promoteTo", { type: capitalize(parentModel.model) }),
               leftSlot: (
                 <Icon
                   icon={
@@ -109,12 +110,13 @@ export function useAuthDropdownOptions(
               onSelect: async () => {
                 const confirmed = await showConfirm({
                   id: "promote-auth-confirm",
-                  title: "Promote Authentication",
-                  confirmText: "Promote",
+                  title: i18n.t("request.promoteTitle"),
+                  confirmText: i18n.t("request.promote"),
                   description: (
                     <>
-                      Move authentication config to{" "}
-                      <InlineCode>{resolvedModelName(parentModel)}</InlineCode>?
+                      {i18n.t("request.promoteDescPrefix")}
+                      <InlineCode>{resolvedModelName(parentModel)}</InlineCode>
+                      {i18n.t("request.promoteDescSuffix")}
                     </>
                   ),
                 });
@@ -146,10 +148,10 @@ export function useAuthDropdownOptions(
         );
         if (ancestorWithAuth) {
           if (actions.length === 0) {
-            actions.push({ type: "separator", label: "Actions" });
+            actions.push({ type: "separator", label: i18n.t("request.actions") });
           }
           actions.push({
-            label: `Copy from ${modelTypeLabel(ancestorWithAuth)}`,
+            label: i18n.t("request.copyFrom", { type: modelTypeLabel(ancestorWithAuth) }),
             leftSlot: (
               <Icon
                 icon={
@@ -162,20 +164,22 @@ export function useAuthDropdownOptions(
             onSelect: async () => {
               const confirmed = await showConfirm({
                 id: "copy-auth-confirm",
-                title: "Copy Authentication",
-                confirmText: "Copy",
+                title: i18n.t("request.copyTitle"),
+                confirmText: i18n.t("request.copy"),
                 description: (
                   <>
-                    Copy{" "}
-                    {authentication.find(
-                      (a) => a.name === ancestorWithAuth.authenticationType,
-                    )?.label ?? "authentication"}{" "}
-                    config from{" "}
+                    {i18n.t("request.copyDescPrefix", {
+                      auth:
+                        authentication.find(
+                          (a) => a.name === ancestorWithAuth.authenticationType,
+                        )?.label ?? i18n.t("request.authFallback"),
+                    })}{" "}
                     <InlineCode>
                       {resolvedModelName(ancestorWithAuth)}
                     </InlineCode>
-                    ? This will override the current authentication but will not
-                    affect the {modelTypeLabel(ancestorWithAuth).toLowerCase()}.
+                    {i18n.t("request.copyDescMid", {
+                      model: modelTypeLabel(ancestorWithAuth).toLowerCase(),
+                    })}
                   </>
                 ),
               });

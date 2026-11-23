@@ -1,0 +1,27 @@
+{
+  "response": {
+    "tabResponse": "响应",
+    "responseView": "响应",
+    "rawView": "响应（原始）",
+    "rawShort": "原始",
+    "saveToFile": "保存为文件",
+    "copyBody": "复制响应体",
+    "tabRequest": "请求",
+    "tabHeaders": "请求头",
+    "tabCookies": "Cookies",
+    "timelineView": "时间线",
+    "timelineText": "时间线（文本）",
+    "timelineShort": "时间线",
+    "redirectChanged": "重定向更改了此请求",
+    "bodyDropped": "主体在 {{count}} 次重定向跳转中被丢弃",
+    "headersDroppedPrefix": "已丢弃的请求头：",
+    "seeTimeline": "详情请查看时间线。",
+    "responseAria": "响应",
+    "sendingRequest": "正在发送请求",
+    "empty": "空",
+    "emptyResponseBody": "空响应体",
+    "droppedBodyAndHeaders": "已丢弃主体和请求头",
+    "droppedBody": "已丢弃主体",
+    "droppedHeaders": "已丢弃请求头"
+  }
+}

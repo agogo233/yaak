@@ -1,0 +1,33 @@
+{
+  "cookies": {
+    "noJarSelected": "No cookie jar selected",
+    "filterLabel": "Filter cookies",
+    "clearFilter": "Clear filter",
+    "addCookie": "Add cookie",
+    "emptyHint": "Cookies will appear when a response includes a Set-Cookie header.",
+    "noMatch": "No cookies match the current filter.",
+    "name": "Name",
+    "value": "Value",
+    "domain": "Domain",
+    "path": "Path",
+    "expires": "Expires",
+    "size": "Size",
+    "httpOnly": "HTTP Only",
+    "secure": "Secure",
+    "sameSite": "Same Site",
+    "clearAll": "Clear all cookies",
+    "delete": "Delete",
+    "newCookie": "New Cookie",
+    "cookieFallback": "Cookie",
+    "create": "Create",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "sessionCookie": "Session cookie",
+    "invalidTitle": "Invalid Cookie",
+    "invalidBody": "Cookie expiration must be a valid date.",
+    "invalidJarTitle": "Invalid Cookie Jar",
+    "invalidJarBody": "Failed to find cookie jar for ID: {{id}}",
+    "titleSuffix": "Cookies"
+  }
+}
