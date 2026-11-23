@@ -80,6 +80,40 @@ function sendServerUrl(): string {
  * instead of landing at the root still builds cleanly — the miss only shows up
  * as a 404 once the app runs.
  */
+/**
+ * Compact recursive listing of a directory, used to diagnose where
+ * viteStaticCopy actually put the served assets when the check below fails.
+ */
+function treeSummary(root: string, maxEntries = 200, maxDepth = 4): string {
+  const lines: string[] = [];
+  let count = 0;
+  const walk = (dir: string, label: string, depth: number): void => {
+    if (count >= maxEntries || depth > maxDepth) return;
+    let entries: { name: string; isDirectory(): boolean }[];
+    try {
+      entries = fs.readdirSync(dir, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const entry of entries) {
+      if (count >= maxEntries) {
+        lines.push(`${label}/… (truncated)`);
+        return;
+      }
+      count += 1;
+      const child = label ? `${label}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) {
+        lines.push(`${child}/`);
+        walk(path.join(dir, entry.name), child, depth + 1);
+      } else {
+        lines.push(child);
+      }
+    }
+  };
+  walk(root, "", 0);
+  return lines.length > 0 ? lines.join("\n") : "(directory is empty or does not exist)";
+}
+
 function verifyServedAssets(expected: string[]) {
   let outDir = "";
   return {
@@ -100,7 +134,8 @@ function verifyServedAssets(expected: string[]) {
         throw new Error(
           `Copied assets missing from ${outDir}: ${missing.join(", ")}. ` +
             `Every viteStaticCopy target needs to strip its base path, or it lands ` +
-            `under a copy of the directories it came from instead.`,
+            `under a copy of the directories it came from instead.\n` +
+            `--- actual contents of ${outDir} ---\n${treeSummary(outDir)}`,
         );
       }
     },
