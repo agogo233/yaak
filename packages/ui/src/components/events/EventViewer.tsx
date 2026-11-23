@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { format } from "date-fns";
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useEventViewerKeyboard } from "../../hooks/useEventViewerKeyboard";
 import { Banner } from "../Banner";
 import { Button } from "../Button";
@@ -81,11 +82,14 @@ export function EventViewer<T>({
   defaultRatio = 0.4,
   enableKeyboardNav = true,
   isLoading = false,
-  loadingMessage = "Loading events...",
-  emptyMessage = "No events recorded",
+  loadingMessage,
+  emptyMessage,
   onActiveIndexChange,
   catchUp,
 }: EventViewerProps<T>) {
+  const { t } = useTranslation();
+  const loadingText = loadingMessage ?? t("events.loadingEvents");
+  const emptyText = emptyMessage ?? t("events.noEventsRecorded");
   const [activeIndex, setActiveIndexInternal] = useState<number | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
@@ -164,11 +168,11 @@ export function EventViewer<T>({
 
   if (isLoading) {
     if (!showLoading) return null;
-    return <div className="p-3 text-text-subtlest italic">{loadingMessage}</div>;
+    return <div className="p-3 text-text-subtlest italic">{loadingText}</div>;
   }
 
   if (events.length === 0 && !error) {
-    return <div className="p-3 text-text-subtlest italic">{emptyMessage}</div>;
+    return <div className="p-3 text-text-subtlest italic">{emptyText}</div>;
   }
 
   return (
@@ -274,6 +278,7 @@ export function EventDetailHeader({
   onClose,
 }: EventDetailHeaderProps) {
   const { copy } = useEditorHost();
+  const { t } = useTranslation();
   const formattedTime = timestamp ? format(new Date(`${timestamp}Z`), "HH:mm:ss.SSS") : null;
 
   return (
@@ -314,7 +319,7 @@ export function EventDetailHeader({
             text={copyText}
             copy={copy}
             size="xs"
-            title="Copy"
+            title={t("events.copy")}
             variant="border"
             iconSize="sm"
           />
@@ -335,7 +340,7 @@ export function EventDetailHeader({
               className="text-text-subtle -mr-3"
               size="xs"
               icon="x"
-              title="Close event panel"
+              title={t("events.closeEventPanel")}
               onClick={onClose}
             />
           </div>

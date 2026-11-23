@@ -1,0 +1,30 @@
+{
+  "events": {
+    "loadingEvents": "正在加载事件…",
+    "noEventsRecorded": "未记录任何事件",
+    "copy": "复制",
+    "closeEventPanel": "关闭事件面板",
+    "lockScrollToBottom": "锁定滚动到底部",
+    "message": "消息",
+    "size": "大小",
+    "delta": "间隔",
+    "sincePreviousMessage": "距上一条消息的时间",
+    "time": "时间",
+    "binary": "二进制",
+    "noContent": "无内容",
+    "clientMessage": "客户端消息",
+    "serverMessage": "服务端消息",
+    "hexdump": "十六进制转储",
+    "viewAs": "查看方式",
+    "showMessage": "显示消息",
+    "showHexdump": "显示十六进制",
+    "messageSent": "已发送消息",
+    "messageReceived": "已接收消息",
+    "previewsHidden": "超过 1MB 的消息预览已被隐藏",
+    "tryShowing": "尝试显示",
+    "truncatedAtCaptureLimit": "消息已在捕获上限处截断。",
+    "noFragmentsMatched": "没有文本片段匹配此 JSONPath。",
+    "loadingExtractedText": "正在加载提取的文本…",
+    "noFragmentsFor": "无匹配片段"
+  }
+}

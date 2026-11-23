@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
 import { Banner } from "../Banner";
 import { Button } from "../Button";
@@ -210,6 +211,7 @@ function gridTemplate(columns: EventStreamColumns): string {
 }
 
 function ColumnHeadings({ columns }: { columns: EventStreamColumns }) {
+  const { t } = useTranslation();
   const template = gridTemplate(columns);
   return (
     <div className="px-1">
@@ -219,14 +221,14 @@ function ColumnHeadings({ columns }: { columns: EventStreamColumns }) {
       >
         {columns.direction && <span />}
         {columns.kind != null && <span>{columns.kind}</span>}
-        <span>{columns.preview ?? "Message"}</span>
-        {columns.size && <span className="text-right">Size</span>}
+        <span>{columns.preview ?? t("events.message")}</span>
+        {columns.size && <span className="text-right">{t("events.size")}</span>}
         {columns.time && (
           <>
-            <span className="text-right" title="Since the message before">
-              Delta
+            <span className="text-right" title={t("events.sincePreviousMessage")}>
+              {t("events.delta")}
             </span>
-            <span className="text-right">Time</span>
+            <span className="text-right">{t("events.time")}</span>
           </>
         )}
       </div>
@@ -235,6 +237,7 @@ function ColumnHeadings({ columns }: { columns: EventStreamColumns }) {
 }
 
 function RowPreview({ event, preview }: { event: StreamEvent; preview: string | null }) {
+  const { t } = useTranslation();
   if (event.note != null) {
     return (
       <span className={classNames("text-xs", event.warning ? "text-warning" : "text-text-subtle")}>
@@ -246,12 +249,13 @@ function RowPreview({ event, preview }: { event: StreamEvent; preview: string | 
     return <span className="text-xs">{preview.slice(0, 1000)}</span>;
   }
   if (event.binary && (event.size ?? 0) > 0) {
-    return <em className="italic text-text-subtlest">Binary</em>;
+    return <em className="italic text-text-subtlest">{t("events.binary")}</em>;
   }
-  return <em className="italic text-text-subtlest">No content</em>;
+  return <em className="italic text-text-subtlest">{t("events.noContent")}</em>;
 }
 
 function DirectionIcon({ event }: { event: StreamEvent }) {
+  const { t } = useTranslation();
   if (event.direction === "info") {
     return event.warning ? (
       <Icon color="warning" icon="alert_triangle" />
@@ -260,9 +264,9 @@ function DirectionIcon({ event }: { event: StreamEvent }) {
     );
   }
   return event.direction === "sent" ? (
-    <Icon color="primary" title="Client Message" icon="arrow_big_up_dash" />
+    <Icon color="primary" title={t("events.clientMessage")} icon="arrow_big_up_dash" />
   ) : (
-    <Icon color="info" title="Server Message" icon="arrow_big_down_dash" />
+    <Icon color="info" title={t("events.serverMessage")} icon="arrow_big_down_dash" />
   );
 }
 
@@ -298,15 +302,19 @@ export function shouldLoadText({
 }
 
 /** The text and hexdump views every payload has */
-function defaultViews(bytes: Uint8Array | null): StreamPayloadView[] {
+function defaultViews(
+  bytes: Uint8Array | null,
+  messageLabel: string,
+  hexdumpLabel: string,
+): StreamPayloadView[] {
   return [
     {
       value: "message",
-      label: "Message",
+      label: messageLabel,
       type: "text",
       load: async () => payloadText(bytes ?? new Uint8Array()),
     },
-    { value: "hexdump", label: "Hexdump", type: "hexdump" },
+    { value: "hexdump", label: hexdumpLabel, type: "hexdump" },
   ];
 }
 
@@ -365,9 +373,10 @@ function StreamEventDetail({
   onClose: () => void;
 }) {
   const { Editor } = useEditorHost();
+  const { t } = useTranslation();
   const payload = useLoaded(loadPayload ? () => loadPayload(event) : null, event.key);
   const bytes = payload.data?.bytes ?? null;
-  const views = extraViews ?? defaultViews(bytes);
+  const views = extraViews ?? defaultViews(bytes, t("events.message"), t("events.hexdump"));
   const [chosen, setChosen] = useState<Record<string, string>>({});
   const defaultView = event.binary && extraViews == null ? "hexdump" : views[0]?.value;
   const viewValue = chosen[event.key] ?? defaultView ?? "message";
@@ -392,7 +401,7 @@ function StreamEventDetail({
           {
             type: "select",
             key: "payload-view",
-            label: "View as",
+            label: t("events.viewAs"),
             value: view?.value ?? "",
             options: views.map((v) => ({ label: v.label, value: v.value })),
             onChange: setView,
@@ -402,7 +411,8 @@ function StreamEventDetail({
         ? [
             {
               key: "toggle-hexdump",
-              label: view?.type === "hexdump" ? "Show Message" : "Show Hexdump",
+              label:
+                view?.type === "hexdump" ? t("events.showMessage") : t("events.showHexdump"),
               onClick: () =>
                 setView(
                   (view?.type === "hexdump"
@@ -414,7 +424,8 @@ function StreamEventDetail({
           ]
         : [];
 
-  const title = event.title ?? (event.direction === "sent" ? "Message Sent" : "Message Received");
+  const title =
+    event.title ?? (event.direction === "sent" ? t("events.messageSent") : t("events.messageReceived"));
   const copyText =
     view?.type === "hexdump" ? undefined : (text.data?.text ?? undefined) || undefined;
 
@@ -429,11 +440,11 @@ function StreamEventDetail({
   ) {
     // An empty payload has nothing to show as text or bytes; a decode of one may (an empty
     // protobuf message is its defaults)
-    body = <EmptyStateText>No Content</EmptyStateText>;
+    body = <EmptyStateText>{t("events.noContent")}</EmptyStateText>;
   } else if (tooLarge) {
     body = (
       <VStack space={2} className="italic text-text-subtlest">
-        Message previews larger than 1MB are hidden
+        {t("events.previewsHidden")}
         <div>
           <Button
             onClick={() => setShownLarge((s) => ({ ...s, [event.key]: true }))}
@@ -441,7 +452,7 @@ function StreamEventDetail({
             variant="border"
             size="xs"
           >
-            Try Showing
+            {t("events.tryShowing")}
           </Button>
         </div>
       </VStack>
@@ -481,7 +492,7 @@ function StreamEventDetail({
       />
       {event.truncated || event.error ? (
         <Banner color={event.error ? "danger" : "notice"} className="mb-2 text-sm">
-          {event.error ?? "The message was truncated at the capture limit."}
+          {event.error ?? t("events.truncatedAtCaptureLimit")}
         </Banner>
       ) : (
         <span aria-hidden />

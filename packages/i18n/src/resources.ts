@@ -32,6 +32,7 @@ import websocketEn from "./locales/en/websocket.json";
 import graphqlEn from "./locales/en/graphql.json";
 import historyEn from "./locales/en/history.json";
 import templateEn from "./locales/en/template.json";
+import eventsEn from "./locales/en/events.json";
 import agentsZh from "./locales/zh-CN/agents.json";
 import certificatesZh from "./locales/zh-CN/certificates.json";
 import commonZh from "./locales/zh-CN/common.json";
@@ -66,6 +67,7 @@ import websocketZh from "./locales/zh-CN/websocket.json";
 import graphqlZh from "./locales/zh-CN/graphql.json";
 import historyZh from "./locales/zh-CN/history.json";
 import templateZh from "./locales/zh-CN/template.json";
+import eventsZh from "./locales/zh-CN/events.json";
 
 export const resources = {
   en: {
@@ -104,6 +106,7 @@ export const resources = {
       ...graphqlEn,
       ...historyEn,
       ...templateEn,
+      ...eventsEn,
     },
   },
   "zh-CN": {
@@ -142,6 +145,7 @@ export const resources = {
       ...graphqlZh,
       ...historyZh,
       ...templateZh,
+      ...eventsZh,
     },
   },
 };

@@ -153,7 +153,7 @@ function ActualEventStreamViewer({ response }: Props) {
                         tabIndex={-1}
                         icon="alert_triangle"
                         iconColor="notice"
-                        content="No text fragments matched this JSONPath."
+                        content={i18n.t("events.noFragmentsMatched")}
                       />
                     </div>
                   ) : null
@@ -289,7 +289,7 @@ function SseSummaryFooter({
         {error != null ? (
           <span className="text-danger">{error}</span>
         ) : isLoading ? (
-          <span className="italic text-text-subtlest">Loading extracted text...</span>
+          <span className="italic text-text-subtlest">{i18n.t("events.loadingExtractedText")}</span>
         ) : hasSummary ? (
           renderMarkdown ? (
             <div className="min-h-0">
@@ -302,7 +302,8 @@ function SseSummaryFooter({
           )
         ) : (
           <EmptyStateText className="gap-1.5">
-            No fragments for <InlineCode className="py-0">{resultKeyPath}</InlineCode>
+            {i18n.t("events.noFragmentsFor")}{" "}
+            <InlineCode className="py-0">{resultKeyPath}</InlineCode>
           </EmptyStateText>
         )}
       </div>
@@ -381,7 +382,7 @@ function EventDetail({
       />
       {!showLarge && detailText.length > 1000 * 1000 ? (
         <VStack space={2} className="italic text-text-subtlest">
-          Message previews larger than 1MB are hidden
+          {i18n.t("events.previewsHidden")}
           <div>
             <Button
               onClick={() => {
@@ -396,7 +397,7 @@ function EventDetail({
               variant="border"
               size="xs"
             >
-              Try Showing
+              {i18n.t("events.tryShowing")}
             </Button>
           </div>
         </VStack>

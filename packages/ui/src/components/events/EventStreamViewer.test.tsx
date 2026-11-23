@@ -1,7 +1,30 @@
+import i18next from "i18next";
 import { renderToStaticMarkup } from "react-dom/server";
+import { initReactI18next } from "react-i18next";
 import { describe, expect, test, vi } from "vite-plus/test";
 import { isLargePayload, payloadText, shouldLoadText, StreamEventRow } from "./EventStreamViewer";
 import type { StreamEvent } from "./streamEvents";
+
+// The rows read their labels through i18next, so initialize it with the English resources the
+// assertions below expect
+void i18next.use(initReactI18next).init({
+  lng: "en",
+  fallbackLng: "en",
+  resources: {
+    en: {
+      translation: {
+        events: {
+          binary: "Binary",
+          clientMessage: "Client Message",
+          noContent: "No content",
+          serverMessage: "Server Message",
+        },
+      },
+    },
+  },
+  interpolation: { escapeValue: false },
+  react: { useSuspense: false },
+});
 
 // The detail header's select asks the platform which OS it runs on
 vi.mock("@yaakapp-internal/platform", () => ({ platform: { osType: () => "macos" } }));

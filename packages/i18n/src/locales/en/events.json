@@ -1,0 +1,30 @@
+{
+  "events": {
+    "loadingEvents": "Loading events...",
+    "noEventsRecorded": "No events recorded",
+    "copy": "Copy",
+    "closeEventPanel": "Close event panel",
+    "lockScrollToBottom": "Lock scroll to bottom",
+    "message": "Message",
+    "size": "Size",
+    "delta": "Delta",
+    "sincePreviousMessage": "Since the message before",
+    "time": "Time",
+    "binary": "Binary",
+    "noContent": "No content",
+    "clientMessage": "Client Message",
+    "serverMessage": "Server Message",
+    "hexdump": "Hexdump",
+    "viewAs": "View as",
+    "showMessage": "Show Message",
+    "showHexdump": "Show Hexdump",
+    "messageSent": "Message Sent",
+    "messageReceived": "Message Received",
+    "previewsHidden": "Message previews larger than 1MB are hidden",
+    "tryShowing": "Try Showing",
+    "truncatedAtCaptureLimit": "The message was truncated at the capture limit.",
+    "noFragmentsMatched": "No text fragments matched this JSONPath.",
+    "loadingExtractedText": "Loading extracted text...",
+    "noFragmentsFor": "No fragments for"
+  }
+}

@@ -2,6 +2,7 @@ import { useVirtualizer, type Virtualizer } from "@tanstack/react-virtual";
 import classNames from "classnames";
 import type { ReactElement, ReactNode, UIEvent } from "react";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Icon } from "../Icon";
 import { IconButton } from "../IconButton";
 
@@ -32,6 +33,7 @@ export function AutoScroller<T>({
   catchUp,
   holdSignal,
 }: Props<T>) {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const [autoScroll, setAutoScroll] = useState<boolean>(true);
   // How many items there were when the scroll was held, to count the new ones
@@ -99,7 +101,7 @@ export function AutoScroller<T>({
       {!autoScroll && catchUp == null && (
         <div className="absolute bottom-0 right-0 m-2">
           <IconButton
-            title="Lock scroll to bottom"
+            title={t("events.lockScrollToBottom")}
             icon="arrow_down"
             size="sm"
             iconSize="md"
