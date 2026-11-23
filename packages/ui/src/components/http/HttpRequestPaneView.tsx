@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import type { CSSProperties, ReactNode, Ref } from "react";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { languageFromContentType } from "../../lib/contentType";
 import { CountBadge } from "../CountBadge";
 import { EmptyStateText } from "../EmptyStateText";
@@ -174,6 +175,7 @@ export function HttpRequestPaneView({
   onTabChange,
 }: HttpRequestPaneViewProps) {
   const { ErrorBoundary } = useEditorHost();
+  const { t } = useTranslation();
   const readOnly = !editable;
   const paramPairs = urlParameterPairs ?? request.urlParameters;
 
@@ -193,18 +195,18 @@ export function HttpRequestPaneView({
       ...(leadingTabs?.map((t) => t.tab) ?? []),
       bodyTab ?? {
         value: REQUEST_TAB_BODY,
-        label: bodyTypeLabel(request.bodyType, request.contentType),
+        label: t(bodyTypeLabelKey(request.bodyType, request.contentType)),
         rightSlot: numParams > 0 ? <CountBadge count={numParams} /> : null,
       },
       {
         value: REQUEST_TAB_PARAMS,
         rightSlot: <CountBadge count={paramPairs.length} />,
-        label: "Params",
+        label: t("request.tabParams"),
       },
       ...(headersTabs ?? [
         {
           value: REQUEST_TAB_HEADERS,
-          label: "Headers",
+          label: t("request.headers"),
           rightSlot: <CountBadge count={headerCount} />,
         },
       ]),
@@ -231,6 +233,7 @@ export function HttpRequestPaneView({
       request.auth,
       request.bodyType,
       request.contentType,
+      t,
     ],
   );
 
@@ -286,7 +289,7 @@ export function HttpRequestPaneView({
       )}
       <Tabs
         ref={tabsRef}
-        label="Request"
+        label={t("request.requestAria")}
         tabs={tabs}
         tabListClassName="mt-1 -mb-1.5"
         storageKey={tabsStorageKey}
@@ -359,6 +362,7 @@ export function RequestBodyEditor({
   jsonNoticeStorageKey,
 }: RequestBodyEditorProps) {
   const { Editor } = useEditorHost();
+  const { t } = useTranslation();
   const { bodyType } = request;
   const handleTextChange = (text: string) => onBodyTextChange?.(text, bodyType);
 
@@ -442,7 +446,7 @@ export function RequestBodyEditor({
       />
     );
   }
-  return <EmptyStateText>No Body</EmptyStateText>;
+  return <EmptyStateText>{t("request.noBody")}</EmptyStateText>;
 }
 
 function AuthDisplay({ auth }: { auth: NonNullable<HttpRequestView["auth"]> }) {
@@ -478,5 +482,29 @@ export function bodyTypeLabel(bodyType: string | null, contentType: string | nul
       return "Body";
     default:
       return "Body";
+  }
+}
+
+/** The translation key for what the body tab is called, matching {@link bodyTypeLabel} */
+function bodyTypeLabelKey(bodyType: string | null, contentType: string | null): string {
+  switch (bodyType) {
+    case BODY_TYPE_JSON:
+      return "request.bodyJson";
+    case BODY_TYPE_XML:
+      return "request.bodyXml";
+    case BODY_TYPE_GRAPHQL:
+      return "request.bodyGraphql";
+    case BODY_TYPE_FORM_URLENCODED:
+      return "request.urlEncoded";
+    case BODY_TYPE_FORM_MULTIPART:
+      return "request.multipart";
+    case BODY_TYPE_BINARY:
+      return "request.bodyBinary";
+    case BODY_TYPE_OTHER:
+      return languageFromContentType(contentType) === "markdown"
+        ? "request.bodyMarkdown"
+        : "request.other";
+    default:
+      return "request.bodyShort";
   }
 }

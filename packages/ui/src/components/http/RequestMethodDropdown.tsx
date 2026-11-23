@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { memo, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../Button";
 import type { DropdownItem } from "../Dropdown";
 import { useEditorHost } from "../EditorHost";
@@ -28,6 +29,7 @@ export const RequestMethodDropdown = memo(function RequestMethodDropdown({
   className,
 }: Props) {
   const { showPrompt } = useEditorHost();
+  const { t } = useTranslation();
 
   const radioItems = useMemo<RadioDropdownItem<string>[]>(
     () =>
@@ -46,16 +48,16 @@ export const RequestMethodDropdown = memo(function RequestMethodDropdown({
     () => [
       {
         key: "custom",
-        label: "CUSTOM",
+        label: t("request.customMethodOption"),
         leftSlot: <Icon icon="sparkles" />,
         hidden: showPrompt == null,
         onSelect: async () => {
           const newMethod = await showPrompt?.({
             id: "custom-method",
-            label: "Http Method",
-            title: "Custom Method",
-            confirmText: "Save",
-            description: "Enter a custom method name",
+            label: t("request.httpMethod"),
+            title: t("request.customMethod"),
+            confirmText: t("dialog.save"),
+            description: t("request.customMethodDescription"),
             placeholder: "CUSTOM",
           });
           if (newMethod == null) return;
@@ -63,7 +65,7 @@ export const RequestMethodDropdown = memo(function RequestMethodDropdown({
         },
       },
     ],
-    [handleChange, showPrompt],
+    [handleChange, showPrompt, t],
   );
 
   const button = (

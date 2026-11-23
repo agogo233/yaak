@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { languageFromContentType } from "../../lib/contentType";
 import {
   boundaryFromContentType,
@@ -58,6 +59,7 @@ function MultipartParts({
   idPrefix = "multipart",
   ...options
 }: MultipartViewerProps & { depth: number }) {
+  const { t } = useTranslation();
   // Parsed once per bytes and boundary, however often this renders
   const parseResult = useMemo<
     { result: MultipartParseResult; error: null } | { result: null; error: string }
@@ -72,7 +74,7 @@ function MultipartParts({
   if (parseResult.error != null) {
     return (
       <Banner color="danger" className="m-3">
-        Failed to parse multipart data: {parseResult.error}
+        {t("response.multipartParseError", { message: parseResult.error })}
       </Banner>
     );
   }
@@ -81,7 +83,7 @@ function MultipartParts({
   if (parts.length === 0) {
     return (
       <Banner color="info" className="m-3">
-        No multipart parts found
+        {t("response.noMultipartParts")}
       </Banner>
     );
   }
@@ -89,11 +91,12 @@ function MultipartParts({
   const tabs = (
     <Tabs
       addBorders
-      label="Multipart"
+      label={t("response.multipart")}
       layout="horizontal"
       tabListClassName="border-r border-r-border -ml-3"
       tabs={parts.map((part, i) => ({
-        label: partLabel(part, i),
+        label:
+          part.name || part.filename || part.contentId || t("response.partName", { index: i + 1 }),
         value: tabValue(part, i),
         rightSlot:
           part.filename && part.mediaType?.startsWith("image/") ? (
@@ -127,7 +130,7 @@ function MultipartParts({
   return (
     <div className="h-full grid grid-rows-[auto_minmax(0,1fr)]">
       <Banner color="warning" className="mb-2 mr-3 text-sm">
-        The body ends without its closing boundary; showing the parts that arrived.
+        {t("response.multipartIncomplete")}
       </Banner>
       {tabs}
     </div>
@@ -156,6 +159,7 @@ function HttpMessagePart({
   idPrefix,
   ...options
 }: { message: HttpMessage; idPrefix: string } & ViewerOptions) {
+  const { t } = useTranslation();
   return (
     <div className="h-full grid grid-rows-[auto_auto_minmax(0,1fr)] gap-y-2">
       <div className="font-mono text-sm pt-1 truncate">
@@ -171,7 +175,12 @@ function HttpMessagePart({
           </span>
         )}
       </div>
-      <HeadersTable title="Headers" headers={message.headers} labelColor="primary" defaultOpen />
+      <HeadersTable
+        title={t("response.tabHeaders")}
+        headers={message.headers}
+        labelColor="primary"
+        defaultOpen
+      />
       <PartBody
         body={message.body}
         contentType={headerValue(message.headers, "content-type")}
@@ -193,10 +202,11 @@ function PartBody({
   contentType: string | null;
   idPrefix: string;
 } & ViewerOptions) {
+  const { t } = useTranslation();
   const mediaType = contentType?.split(";")[0]?.trim().toLowerCase() || null;
 
   if (body.length === 0) {
-    return <div className="text-text-subtlest text-sm italic pt-1">Empty</div>;
+    return <div className="text-text-subtlest text-sm italic pt-1">{t("response.empty")}</div>;
   }
 
   const nestedBoundary = mediaType?.startsWith("multipart/")
@@ -218,7 +228,7 @@ function PartBody({
     return (
       <div className="h-full grid grid-rows-[auto_minmax(0,1fr)]">
         <Banner color="info" className="mb-2 mr-3 text-sm">
-          Multipart nested more than {MAX_MULTIPART_DEPTH} levels deep; shown raw.
+          {t("response.multipartTooDeep", { count: MAX_MULTIPART_DEPTH })}
         </Banner>
         <LeafBody body={body} contentType={null} mediaType={null} raw {...options} />
       </div>
@@ -304,10 +314,6 @@ function isBinaryPart(mediaType: string | null, body: Uint8Array): boolean {
     return false;
   }
   return isProbablyBinary(body);
-}
-
-function partLabel(part: MultipartPart, i: number): string {
-  return part.name || part.filename || part.contentId || `Part ${i + 1}`;
 }
 
 function tabValue(part: MultipartPart, i: number) {

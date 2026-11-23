@@ -35,6 +35,21 @@
     "tabParams": "参数",
     "tabSettings": "设置",
     "textSeparator": "文本内容",
-    "urlEncoded": "URL 编码"
+    "urlEncoded": "URL 编码",
+    "bodyJson": "JSON",
+    "bodyXml": "XML",
+    "bodyGraphql": "GraphQL",
+    "bodyMarkdown": "Markdown",
+    "bodyBinary": "二进制",
+    "sendRequest": "发送请求",
+    "customMethod": "自定义方法",
+    "httpMethod": "HTTP 方法",
+    "customMethodDescription": "输入自定义方法名",
+    "customMethodOption": "自定义",
+    "autoFixEnabled": "已启用自动修复",
+    "autoFixJson": "自动修复 JSON",
+    "autoFixDescription": "发送前自动去除注释和末尾逗号",
+    "jsonSettings": "JSON 设置",
+    "inherited": "继承"
   }
 }

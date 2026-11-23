@@ -33,6 +33,11 @@
     "sessionCookie": "Session cookie",
     "size": "Size",
     "titleSuffix": "Cookies",
-    "value": "Value"
+    "value": "Value",
+    "sentCookies": "Sent Cookies",
+    "receivedCookies": "Received Cookies",
+    "noCookies": "No Cookies",
+    "deleted": "Deleted",
+    "maxAge": "Max-Age"
   }
 }

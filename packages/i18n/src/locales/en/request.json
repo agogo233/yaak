@@ -35,6 +35,21 @@
     "tabParams": "Params",
     "tabSettings": "Settings",
     "textSeparator": "Text Content",
-    "urlEncoded": "Url Encoded"
+    "urlEncoded": "Url Encoded",
+    "bodyJson": "JSON",
+    "bodyXml": "XML",
+    "bodyGraphql": "GraphQL",
+    "bodyMarkdown": "Markdown",
+    "bodyBinary": "Binary",
+    "sendRequest": "Send Request",
+    "customMethod": "Custom Method",
+    "httpMethod": "Http Method",
+    "customMethodDescription": "Enter a custom method name",
+    "customMethodOption": "CUSTOM",
+    "autoFixEnabled": "Auto-fix enabled",
+    "autoFixJson": "Automatically Fix JSON",
+    "autoFixDescription": "Automatically strip comments and trailing commas before sending",
+    "jsonSettings": "JSON Settings",
+    "inherited": "Inherited"
   }
 }

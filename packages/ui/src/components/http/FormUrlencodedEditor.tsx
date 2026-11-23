@@ -1,4 +1,5 @@
 import { type ReactNode, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import type { Pair, PairEditorProps } from "../pairs/PairEditor";
 import { PairOrBulkEditor } from "../pairs/PairOrBulkEditor";
 import type { HttpFormFieldView, HttpRequestBodyView } from "./types";
@@ -23,6 +24,7 @@ export function FormUrlencodedEditor({
   readOnly,
   actions,
 }: Props) {
+  const { t } = useTranslation();
   const pairs = useMemo<Pair[]>(
     () =>
       (Array.isArray(form) ? form : []).map((p) => ({
@@ -51,7 +53,7 @@ export function FormUrlencodedEditor({
       nameAutocompleteFunctions
       nameAutocompleteVariables
       namePlaceholder="entry_name"
-      valuePlaceholder="Value"
+      valuePlaceholder={t("pair.value")}
       pairs={pairs}
       onChange={handleChange}
       readOnly={readOnly}

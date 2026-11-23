@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames";
 import type { ReactNode } from "react";
 import { Children, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { type TextFilterApi, useTextFilter } from "../../hooks/useTextFilter";
 import { docFingerprint } from "../../lib/docFingerprint";
 import { ACTIONS_BAR_CONTAINER, ActionsBar } from "../ActionsBar";
@@ -61,6 +62,7 @@ export function TextViewer({
   filterLeftSlot,
   renderEditor = renderCodeEditor,
 }: TextViewerProps) {
+  const { t } = useTranslation();
   // Track the JSON path under the cursor to drive the breadcrumb bar. Selection
   // works even in this read-only editor, so it updates as the user clicks around.
   const [breadcrumbSegments, setBreadcrumbSegments] = useState<JsonPathSegment[]>([]);
@@ -146,8 +148,10 @@ export function TextViewer({
             autoFocus
             containerClassName="bg-surface"
             size="sm"
-            placeholder={language === "json" ? "JSONPath expression" : "XPath expression"}
-            label="Filter expression"
+            placeholder={
+              language === "json" ? t("response.filterJsonPath") : t("response.filterXPath")
+            }
+            label={t("response.filterExpression")}
             name="filter"
             defaultValue={filter.filterText}
             forceUpdateKey={filter.filterUpdateKey}
@@ -161,7 +165,7 @@ export function TextViewer({
                 <IconButton
                   size="xs"
                   icon="x"
-                  title="Close filter"
+                  title={t("response.closeFilter")}
                   iconColor="secondary"
                   onClick={filter.toggleSearch}
                   className="w-8 mr-0.5 h-auto!"
@@ -178,7 +182,7 @@ export function TextViewer({
           size="sm"
           isLoading={filterResult.isPending && filterResult.isFetching}
           icon="filter"
-          title="Filter response"
+          title={t("response.filterResponse")}
           onClick={filter.toggleSearch}
           className="border border-border-subtle!"
         />,
@@ -199,6 +203,7 @@ export function TextViewer({
     isSearching,
     language,
     handleFilterKeyDown,
+    t,
   ]);
 
   const formattedBody = useQuery({

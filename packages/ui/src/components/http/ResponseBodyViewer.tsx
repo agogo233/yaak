@@ -1,5 +1,6 @@
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
 import type { ComponentType } from "react";
+import { useTranslation } from "react-i18next";
 import { languageFromContentType } from "../../lib/contentType";
 import { getMimeTypeFromContentType } from "../../lib/mimeType";
 import { Banner } from "../Banner";
@@ -46,6 +47,7 @@ export function ResponseBodyViewer({
   renderBodyViewer: renderPaneBodyViewer,
 }: Props) {
   const { renderBodyViewer: renderHostBodyViewer } = useEditorHost();
+  const { t } = useTranslation();
   const mimeType =
     response.contentType == null ? null : getMimeTypeFromContentType(response.contentType).essence;
 
@@ -55,11 +57,11 @@ export function ResponseBodyViewer({
         <VStack space={3}>
           <HStack space={3}>
             <LoadingIcon className="text-text-subtlest" />
-            Sending Request
+            {t("response.sendingRequest")}
           </HStack>
           {onCancel != null && (
             <Button size="sm" variant="border" onClick={onCancel}>
-              Cancel
+              {t("common.cancel")}
             </Button>
           )}
         </VStack>
@@ -68,7 +70,7 @@ export function ResponseBodyViewer({
   }
 
   if (response.state === "closed" && (response.contentLength ?? 0) === 0) {
-    return <EmptyStateText>Empty</EmptyStateText>;
+    return <EmptyStateText>{t("response.empty")}</EmptyStateText>;
   }
 
   const viewerArgs = {
@@ -112,12 +114,15 @@ export function ResponseBodyViewer({
 
 /** A body with no text is either empty or not valid UTF-8, which only its bytes can tell apart */
 function BinaryOrEmptyBody({ body }: { body: HttpBodyLoader }) {
+  const { t } = useTranslation();
   const bytes = body.useBytes();
   if (bytes.isLoading) return null;
   const length = bytes.data?.length ?? 0;
   return (
     <EmptyStateText>
-      {length > 0 ? `Binary body, ${formatSize(length)}` : "Empty response"}
+      {length > 0
+        ? t("response.binaryBody", { size: formatSize(length) })
+        : t("response.emptyResponse")}
     </EmptyStateText>
   );
 }
@@ -134,6 +139,7 @@ function EnsureCompleteResponse({
   // Wait until the response has been fully-downloaded before asking for it
   const complete = response.state === "closed";
   const bodyUrl = body.useUrl(complete);
+  const { t } = useTranslation();
 
   if (!complete || bodyUrl.isLoading) {
     return (
@@ -148,7 +154,7 @@ function EnsureCompleteResponse({
   }
 
   if (bodyUrl.data == null) {
-    return <div>Empty response body</div>;
+    return <div>{t("response.emptyResponseBody")}</div>;
   }
 
   return <Component bodyUrl={bodyUrl.data} />;

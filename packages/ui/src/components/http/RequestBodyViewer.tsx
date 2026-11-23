@@ -1,4 +1,5 @@
 import { formatSize } from "@yaakapp-internal/lib/formatSize";
+import { useTranslation } from "react-i18next";
 import { languageFromContentType } from "../../lib/contentType";
 import { getMimeTypeFromContentType } from "../../lib/mimeType";
 import { EmptyStateText } from "../EmptyStateText";
@@ -27,6 +28,7 @@ export function RequestBodyViewer({ id, contentType, body }: Props) {
 
 function RequestBodyViewerInner({ id, contentType, body }: Props) {
   const { MultipartViewer, TextViewer, renderBodyViewer } = useEditorHost();
+  const { t } = useTranslation();
   const text = body.useText();
   const bytes = body.useBytes();
 
@@ -40,13 +42,17 @@ function RequestBodyViewerInner({ id, contentType, body }: Props) {
 
   const error = text.error ?? bytes.error;
   if (error) {
-    return <EmptyStateText>Error loading request body: {error.message}</EmptyStateText>;
+    return (
+      <EmptyStateText>
+        {t("response.errorLoadingRequestBody", { message: error.message })}
+      </EmptyStateText>
+    );
   }
 
   // Whether there's a body is the bytes' to say: a binary body has no text
   const bodyBytes = bytes.data;
   if (bodyBytes == null || bodyBytes.length === 0) {
-    return <EmptyStateText>No request body</EmptyStateText>;
+    return <EmptyStateText>{t("response.noRequestBody")}</EmptyStateText>;
   }
 
   const mimeType = contentType ? getMimeTypeFromContentType(contentType).essence : null;
@@ -79,7 +85,11 @@ function RequestBodyViewerInner({ id, contentType, body }: Props) {
   const bodyText = text.data;
   if (bodyText == null || bodyText.length === 0) {
     return (
-      appViewer ?? <EmptyStateText>Binary body, {formatSize(bodyBytes.length)}</EmptyStateText>
+      appViewer ?? (
+        <EmptyStateText>
+          {t("response.binaryBody", { size: formatSize(bodyBytes.length) })}
+        </EmptyStateText>
+      )
     );
   }
 

@@ -17,6 +17,13 @@
     "setFileName": "Set File Name",
     "text": "Text",
     "unsetFile": "Unset File",
-    "value": "Value"
+    "value": "Value",
+    "showMore": "Show {{count}} More",
+    "editNamed": "Edit {{name}}",
+    "enableItem": "Enable item",
+    "disableItem": "Disable item",
+    "noFile": "No file",
+    "enableFormEdit": "Enable form edit",
+    "enableBulkEdit": "Enable bulk edit"
   }
 }

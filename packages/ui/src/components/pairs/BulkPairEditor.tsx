@@ -1,5 +1,6 @@
 import { generateId } from "@yaakapp-internal/lib/generateId";
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useEditorHost } from "../EditorHost";
 import type { Pair, PairEditorProps, PairWithId } from "./PairEditor";
 
@@ -16,6 +17,7 @@ export function BulkPairEditor({
   stateKey,
 }: Props) {
   const { Editor } = useEditorHost();
+  const { t } = useTranslation();
   const pairsText = useMemo(() => formatBulkPairs(pairs), [pairs]);
 
   const handleChange = useCallback(
@@ -32,7 +34,7 @@ export function BulkPairEditor({
       stateKey={`bulk_pair.${stateKey}`}
       forcedEnvironmentId={forcedEnvironmentId}
       forceUpdateKey={forceUpdateKey}
-      placeholder={`${namePlaceholder ?? "name"}: ${valuePlaceholder ?? "value"}`}
+      placeholder={`${namePlaceholder ?? t("pair.name")}: ${valuePlaceholder ?? t("pair.value")}`}
       defaultValue={pairsText}
       language="pairs"
       readOnly={readOnly}

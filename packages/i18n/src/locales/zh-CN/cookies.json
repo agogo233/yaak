@@ -33,6 +33,11 @@
     "sessionCookie": "会话 Cookie",
     "size": "大小",
     "titleSuffix": "的 Cookies",
-    "value": "值"
+    "value": "值",
+    "sentCookies": "发送的 Cookies",
+    "receivedCookies": "接收的 Cookies",
+    "noCookies": "无 Cookies",
+    "deleted": "已删除",
+    "maxAge": "Max-Age"
   }
 }

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { EditablePair, PairEditorHandle, PairEditorProps } from "../pairs/PairEditor";
 import { PairOrBulkEditor } from "../pairs/PairOrBulkEditor";
 import { VStack } from "../Stacks";
@@ -20,6 +21,7 @@ export function UrlParametersEditor({
   setRef,
   stateKey,
 }: Props) {
+  const { t } = useTranslation();
   return (
     <VStack className="h-full">
       <PairOrBulkEditor
@@ -36,7 +38,7 @@ export function UrlParametersEditor({
         stateKey={stateKey}
         valueAutocompleteFunctions
         valueAutocompleteVariables
-        valuePlaceholder="Value"
+        valuePlaceholder={t("pair.value")}
       />
     </VStack>
   );

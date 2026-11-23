@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { useTranslation } from "react-i18next";
 import { PINNED_ACTION } from "../ActionsBar";
 import { SegmentedControl } from "../SegmentedControl";
 import type { ResponseViewMode } from "./ResponseBodyViewer";
@@ -15,6 +16,17 @@ const PRETTY_OPTIONS: Record<PrettyView, { label: string; tooltip: string }> = {
 };
 
 const RAW_OPTION = { label: "Raw", tooltip: "As received" };
+
+/** Translation keys for each formatted view's label and tooltip, matching {@link PRETTY_OPTIONS} */
+const PRETTY_LABEL_KEYS: Record<PrettyView, { label: string; tooltip: string }> = {
+  formatted: { label: "response.viewPretty", tooltip: "response.viewFormatted" },
+  table: { label: "response.viewTable", tooltip: "response.viewAsTable" },
+  parts: { label: "response.viewParts", tooltip: "response.viewSplitIntoParts" },
+  preview: { label: "response.viewPreview", tooltip: "response.viewRendered" },
+  form: { label: "response.viewForm", tooltip: "response.viewAsFields" },
+};
+
+const RAW_LABEL_KEYS = { label: "response.viewRaw", tooltip: "response.viewAsReceived" };
 
 /** The switch's labels for a body whose formatted view is `pretty`, its first state first */
 export function viewModeLabels(pretty: PrettyView): [string, string] {
@@ -56,12 +68,13 @@ interface Props {
 
 /** Shows a body formatted for its type, or raw as received; for an `ActionsBar`, always in view */
 export function BodyViewModeSwitch({ pretty, value, onChange }: Props) {
-  const prettyOption = PRETTY_OPTIONS[pretty];
+  const { t } = useTranslation();
+  const prettyKeys = PRETTY_LABEL_KEYS[pretty];
   return (
     <div {...PINNED_ACTION} className="rounded-md">
       <SegmentedControl<ResponseViewMode>
         name="body_view_mode"
-        label="View"
+        label={t("response.viewLabel")}
         hideLabel
         size="2xs"
         value={value}
@@ -73,8 +86,8 @@ export function BodyViewModeSwitch({ pretty, value, onChange }: Props) {
           "[&_[role=radio]]:h-full!",
         )}
         options={[
-          { value: "pretty", ...prettyOption },
-          { value: "raw", ...RAW_OPTION },
+          { value: "pretty", label: t(prettyKeys.label), tooltip: t(prettyKeys.tooltip) },
+          { value: "raw", label: t(RAW_LABEL_KEYS.label), tooltip: t(RAW_LABEL_KEYS.tooltip) },
         ]}
       />
     </div>

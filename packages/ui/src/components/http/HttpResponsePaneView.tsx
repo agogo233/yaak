@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import type { CSSProperties, ReactElement, ReactNode } from "react";
 import { Suspense, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { getMimeTypeFromContentType } from "../../lib/mimeType";
 import { Banner } from "../Banner";
 import { CountBadge } from "../CountBadge";
@@ -125,6 +126,7 @@ export function HttpResponsePaneView({
   onTabChange,
 }: HttpResponsePaneViewProps) {
   const { ErrorBoundary } = useEditorHost();
+  const { t } = useTranslation();
   const mimeType =
     response?.contentType == null ? null : getMimeTypeFromContentType(response.contentType).essence;
 
@@ -142,7 +144,7 @@ export function HttpResponsePaneView({
       ...(onSaveBody != null
         ? [
             {
-              label: "Save to File",
+              label: t("response.saveToFile"),
               onSelect: onSaveBody,
               leftSlot: <Icon icon="save" />,
               hidden: bodyActionsHidden,
@@ -153,7 +155,7 @@ export function HttpResponsePaneView({
       ...(onCopyBody != null
         ? [
             {
-              label: "Copy Body",
+              label: t("response.copyBody"),
               onSelect: onCopyBody,
               leftSlot: <Icon icon="copy" />,
               hidden: bodyActionsHidden,
@@ -162,24 +164,30 @@ export function HttpResponsePaneView({
           ]
         : []),
       ...(onCopyAsCurl != null
-        ? [{ label: "Copy as cURL", onSelect: onCopyAsCurl, leftSlot: <Icon icon="copy" /> }]
+        ? [{ label: t("response.copyAsCurl"), onSelect: onCopyAsCurl, leftSlot: <Icon icon="copy" /> }]
         : []),
     ];
 
     const headerCount = response?.headers.length ?? 0;
     return [
       onViewModeChange == null && itemsAfter.length === 0
-        ? (bodyTab ?? { value: RESPONSE_TAB_BODY, label: "Response" })
+        ? (bodyTab ?? { value: RESPONSE_TAB_BODY, label: t("response.tabResponse") })
         : {
             value: RESPONSE_TAB_BODY,
             options: {
               value: viewMode,
               onChange: (v: string | null) => onViewModeChange?.(v === "raw" ? "raw" : "pretty"),
               items: [
-                { label: "Response", value: "pretty" },
+                { label: t("response.responseView"), value: "pretty" },
                 ...(onViewModeChange == null || mimeType?.startsWith("image")
                   ? []
-                  : [{ label: "Response (Raw)", shortLabel: "Raw", value: "raw" }]),
+                  : [
+                      {
+                        label: t("response.rawView"),
+                        shortLabel: t("response.rawShort"),
+                        value: "raw",
+                      },
+                    ]),
               ],
               itemsAfter: itemsAfter.length > 0 ? itemsAfter : undefined,
             },
@@ -189,14 +197,14 @@ export function HttpResponsePaneView({
         : [
             {
               value: RESPONSE_TAB_REQUEST,
-              label: "Request",
+              label: t("response.tabRequest"),
               rightSlot:
                 (response?.requestContentLength ?? 0) > 0 ? <CountBadge count={true} /> : null,
             },
           ]),
       {
         value: RESPONSE_TAB_HEADERS,
-        label: "Headers",
+        label: t("response.tabHeaders"),
         rightSlot: requestShownApart ? (
           <CountBadge count={headerCount} />
         ) : (
@@ -205,7 +213,7 @@ export function HttpResponsePaneView({
       },
       {
         value: RESPONSE_TAB_COOKIES,
-        label: "Cookies",
+        label: t("response.tabCookies"),
         rightSlot: requestShownApart ? (
           <CountBadge count={cookieCounts.received} />
         ) : cookieCounts.sent > 0 || cookieCounts.received > 0 ? (
@@ -226,6 +234,7 @@ export function HttpResponsePaneView({
     requestShownApart,
     response,
     viewMode,
+    t,
   ]);
 
   return (
@@ -265,7 +274,7 @@ export function HttpResponsePaneView({
             {/* Show tabs if we have any data (headers, body, etc.) even if there's an error */}
             <Tabs
               tabs={tabs}
-              label="Response"
+              label={t("response.responseAria")}
               className="ml-3 mr-3 mb-3 min-h-0 flex-1"
               tabListClassName="mt-0.5 -mb-1.5"
               storageKey={tabsStorageKey}
@@ -305,7 +314,7 @@ export function HttpResponsePaneView({
                   contentLength={response.requestContentLength}
                   contentType={response.contentType}
                   noun="content"
-                  revealLabel="Reveal Request Body"
+                  revealLabel={t("response.revealRequestBody")}
                   getText={requestBody?.getText}
                   renderCopyButton={renderCopyButton}
                 >

@@ -1,5 +1,6 @@
 import { linter } from "@codemirror/lint";
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { textLikelyContainsJsonComments } from "../../lib/jsonComments";
 import { replaceTemplateTags } from "../../lib/templateTags";
 import { Banner } from "../Banner";
@@ -40,6 +41,7 @@ export function JsonBodyEditor({
   readOnly,
 }: Props) {
   const { Editor, useStoredValue } = useEditorHost();
+  const { t } = useTranslation();
   const autoFix = sendJsonComments !== true;
 
   const lintExtension = useMemo(
@@ -75,7 +77,7 @@ export function JsonBodyEditor({
 
   const showBanner = hasComments && autoFix && !bannerDismissed;
 
-  const stripMessage = "Automatically strip comments and trailing commas before sending";
+  const stripMessage = t("request.autoFixDescription");
   const actions = useMemo<HostEditorProps["actions"]>(
     () =>
       readOnly
@@ -87,7 +89,7 @@ export function JsonBodyEditor({
                 className="opacity-100! h-sm py-0! px-2! flex items-center text-xs"
               >
                 <p className="inline-flex items-center gap-1 min-w-0">
-                  <span className="truncate">Auto-fix enabled</span>
+                  <span className="truncate">{t("request.autoFixEnabled")}</span>
                   <Icon icon="arrow_right" size="sm" className="opacity-disabled" />
                 </p>
               </Banner>
@@ -98,7 +100,7 @@ export function JsonBodyEditor({
                 items={
                   [
                     {
-                      label: "Automatically Fix JSON",
+                      label: t("request.autoFixJson"),
                       keepOpenOnSelect: true,
                       onSelect: handleToggleAutoFix,
                       rightSlot: <IconTooltip content={stripMessage} />,
@@ -109,11 +111,11 @@ export function JsonBodyEditor({
                   ] satisfies DropdownItem[]
                 }
               >
-                <IconButton size="sm" variant="border" icon="settings" title="JSON Settings" />
+                <IconButton size="sm" variant="border" icon="settings" title={t("request.jsonSettings")} />
               </Dropdown>
             </div>,
           ],
-    [handleDropdownOpen, handleToggleAutoFix, autoFix, readOnly, showBanner],
+    [handleDropdownOpen, handleToggleAutoFix, autoFix, readOnly, showBanner, t],
   );
 
   return (

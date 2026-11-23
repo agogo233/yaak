@@ -17,6 +17,7 @@ const searchDirs = [
   join(root, "apps/yaak-client/lib"),
   join(root, "apps/yaak-client/routes"),
   join(root, "apps/yaak-client/init"),
+  join(root, "packages/ui/src"),
 ];
 
 function flatten(obj, prefix = "", out = new Set()) {
@@ -57,7 +58,7 @@ function* walk(dir) {
   for (const entry of readdirSync(dir)) {
     const path = join(dir, entry);
     if (statSync(path).isDirectory()) yield* walk(path);
-    else if (/\.(ts|tsx)$/.test(entry)) yield path;
+    else if (/\.(ts|tsx)$/.test(entry) && !/\.(test|spec)\.[jt]sx?$/.test(entry)) yield path;
   }
 }
 

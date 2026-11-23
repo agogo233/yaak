@@ -1,5 +1,7 @@
 import { format, formatDistanceToNowStrict } from "date-fns";
+import { zhCN } from "date-fns/locale";
 import type { ReactElement } from "react";
+import { useTranslation } from "react-i18next";
 import { DetailsBanner } from "../DetailsBanner";
 import { useEditorHost } from "../EditorHost";
 import { EmptyStateText } from "../EmptyStateText";
@@ -19,11 +21,13 @@ interface Props {
 
 export function ResponseHeaders({ response, infoRows, responseOnly }: Props) {
   const { openUrl, useDetailsBannerStoredValue } = useEditorHost();
+  const { t } = useTranslation();
+  const dateLocale = useDateLocale();
   if (responseOnly) {
     return (
       <div className="overflow-auto h-full pb-4 pr-0.5">
         {response.headers.length === 0 ? (
-          <EmptyStateText>No Headers</EmptyStateText>
+          <EmptyStateText>{t("response.noHeaders")}</EmptyStateText>
         ) : (
           <KeyValueRows>
             {response.headers.map((h, i) => (
@@ -41,20 +45,23 @@ export function ResponseHeaders({ response, infoRows, responseOnly }: Props) {
     <div className="overflow-auto h-full pb-4 gap-y-3 flex flex-col pr-0.5">
       <DetailsBanner
         storageKey={`${response.ownerId}.general`}
-        summary={<h2>Info</h2>}
+        summary={<h2>{t("request.tabInfo")}</h2>}
         useStoredValue={useDetailsBannerStoredValue}
       >
         <KeyValueRows>
           {[
-            <KeyValueRow key="sent" labelColor="secondary" label="Sent">
+            <KeyValueRow key="sent" labelColor="secondary" label={t("response.sent")}>
               <time
                 dateTime={new Date(response.startedAt).toISOString()}
-                title={formatDistanceToNowStrict(response.startedAt, { addSuffix: true })}
+                title={formatDistanceToNowStrict(response.startedAt, {
+                  addSuffix: true,
+                  locale: dateLocale,
+                })}
               >
-                {format(response.startedAt, "MMM d, yyyy, h:mm:ss a O")}
+                {format(response.startedAt, "MMM d, yyyy, h:mm:ss a O", { locale: dateLocale })}
               </time>
             </KeyValueRow>,
-            <KeyValueRow key="url" labelColor="secondary" label="Request URL">
+            <KeyValueRow key="url" labelColor="secondary" label={t("response.requestUrl")}>
               <div className="flex items-center gap-1">
                 <span className="select-text cursor-text">{response.url}</span>
                 {openUrl != null && (
@@ -63,15 +70,15 @@ export function ResponseHeaders({ response, infoRows, responseOnly }: Props) {
                     className="inline-block w-auto h-auto! opacity-50 hover:opacity-100"
                     icon="external_link"
                     onClick={() => openUrl(response.url)}
-                    title="Open in browser"
+                    title={t("response.openInBrowser")}
                   />
                 )}
               </div>
             </KeyValueRow>,
-            <KeyValueRow key="remote" labelColor="secondary" label="Remote Address">
+            <KeyValueRow key="remote" labelColor="secondary" label={t("response.remoteAddress")}>
               {response.remoteAddr ?? <span className="text-text-subtlest">--</span>}
             </KeyValueRow>,
-            <KeyValueRow key="version" labelColor="secondary" label="Version">
+            <KeyValueRow key="version" labelColor="secondary" label={t("response.version")}>
               {response.version ?? <span className="text-text-subtlest">--</span>}
             </KeyValueRow>,
             ...(infoRows ?? []),
@@ -79,7 +86,7 @@ export function ResponseHeaders({ response, infoRows, responseOnly }: Props) {
         </KeyValueRows>
       </DetailsBanner>
       <HeadersTable
-        title="Request Headers"
+        title={t("response.requestHeaders")}
         headers={response.requestHeaders}
         labelColor="primary"
         storageKey={`${response.ownerId}.request_headers`}
@@ -87,7 +94,7 @@ export function ResponseHeaders({ response, infoRows, responseOnly }: Props) {
       />
       <HeadersTable
         defaultOpen
-        title="Response Headers"
+        title={t("response.responseHeaders")}
         headers={response.headers}
         labelColor="info"
         storageKey={`${response.ownerId}.response_headers`}
@@ -101,4 +108,10 @@ export function ResponseHeaders({ response, infoRows, responseOnly }: Props) {
 export function KeyValueRow(props: Omit<KeyValueRowProps, "copy">) {
   const { copy } = useEditorHost();
   return <BaseKeyValueRow {...props} copy={copy} />;
+}
+
+/** The date-fns locale matching the active UI language, for localized dates and relative times */
+function useDateLocale() {
+  const { i18n } = useTranslation();
+  return i18n.language?.startsWith("zh") ? zhCN : undefined;
 }

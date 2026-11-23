@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { ACTIONS_BAR_CONTAINER, ActionsBar } from "../ActionsBar";
 import { useEditorHost } from "../EditorHost";
 import { IconButton } from "../IconButton";
@@ -19,6 +20,7 @@ interface Props extends PairEditorProps {
 
 export function PairOrBulkEditor({ preferenceName, actions, ...props }: Props) {
   const { useStoredValue } = useEditorHost();
+  const { t } = useTranslation();
   const [useBulk, setUseBulk] = useStoredValue<boolean>(
     ["bulk_edit", preferenceName],
     false,
@@ -29,7 +31,7 @@ export function PairOrBulkEditor({ preferenceName, actions, ...props }: Props) {
   const toggleProps = {
     size: "sm",
     variant: "border",
-    title: useBulk ? "Enable form edit" : "Enable bulk edit",
+    title: useBulk ? t("pair.enableFormEdit") : t("pair.enableBulkEdit"),
     onClick: () => setUseBulk((b) => !b),
     icon: useBulk ? "table" : "file_code",
   } as const;

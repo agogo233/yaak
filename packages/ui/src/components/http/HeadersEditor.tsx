@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { acceptLanguages } from "../../lib/data/acceptLanguages";
 import { cacheControlDirectives } from "../../lib/data/cacheControl";
 import { charsets } from "../../lib/data/charsets";
@@ -35,12 +36,14 @@ export function HeadersEditor({
   stateKey,
   headers,
   inheritedHeaders,
-  inheritedHeadersLabel = "Inherited",
+  inheritedHeadersLabel,
   onChange = ignoreChange,
   readOnly,
   forceUpdateKey,
 }: Props) {
   const { useDetailsBannerStoredValue } = useEditorHost();
+  const { t } = useTranslation();
+  const resolvedInheritedLabel = inheritedHeadersLabel ?? t("request.inherited");
   // Get header names defined at current level (case-insensitive)
   const currentHeaderNames = new Set(
     headers.filter((h) => h.name).map((h) => h.name.toLowerCase()),
@@ -69,7 +72,7 @@ export function HeadersEditor({
           className="text-sm"
           summary={
             <HStack>
-              {inheritedHeadersLabel} <CountBadge count={validInheritedHeaders.length} />
+              {resolvedInheritedLabel} <CountBadge count={validInheritedHeaders.length} />
             </HStack>
           }
         >

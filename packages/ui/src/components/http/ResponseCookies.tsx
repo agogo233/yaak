@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { useMemo } from "react";
 import type { JSX } from "react/jsx-runtime";
+import { useTranslation } from "react-i18next";
 import { CountBadge } from "../CountBadge";
 import { DetailsBanner } from "../DetailsBanner";
 import { useEditorHost } from "../EditorHost";
@@ -106,6 +107,7 @@ export function parseCookieHeaders({ sent, received }: HttpResponseView["cookieH
 
 export function ResponseCookies({ response, side }: Props) {
   const { useDetailsBannerStoredValue } = useEditorHost();
+  const { t } = useTranslation();
   const { sentCookies, receivedCookies } = useMemo(
     () => parseCookieHeaders(response.cookieHeaders),
     [response.cookieHeaders],
@@ -120,7 +122,7 @@ export function ResponseCookies({ response, side }: Props) {
         storageKey={`${response.ownerId}.sent_cookies`}
         summary={
           <h2 className="flex items-center">
-            Sent Cookies <CountBadge showZero count={sentCookies.length} />
+            {t("cookies.sentCookies")} <CountBadge showZero count={sentCookies.length} />
           </h2>
         }
       >
@@ -128,8 +130,7 @@ export function ResponseCookies({ response, side }: Props) {
           <NoCookies />
         ) : (
           <KeyValueRows>
-            {sentCookies.map((cookie, i) => (
-              // oxlint-disable-next-line react/no-array-index-key
+            {sentCookies.map((cookie, i) => (              // oxlint-disable-next-line react/no-array-index-key
               <KeyValueRow labelColor="primary" key={i} label={cookie.name}>
                 {cookie.value}
               </KeyValueRow>
@@ -146,7 +147,7 @@ export function ResponseCookies({ response, side }: Props) {
         storageKey={`${response.ownerId}.received_cookies`}
         summary={
           <h2 className="flex items-center">
-            Received Cookies <CountBadge showZero count={receivedCookies.length} />
+            {t("cookies.receivedCookies")} <CountBadge showZero count={receivedCookies.length} />
           </h2>
         }
       >
@@ -170,44 +171,44 @@ export function ResponseCookies({ response, side }: Props) {
                   </span>
                   {cookie.isDeleted && (
                     <span className="text-xs font-sans text-danger bg-danger/10 px-1.5 py-0.5 rounded-sm">
-                      Deleted
+                      {t("cookies.deleted")}
                     </span>
                   )}
                 </div>
                 <KeyValueRows>
                   {[
                     cookie.domain && (
-                      <KeyValueRow labelColor="info" label="Domain" key="domain">
+                      <KeyValueRow labelColor="info" label={t("cookies.domain")} key="domain">
                         {cookie.domain}
                       </KeyValueRow>
                     ),
                     cookie.path && (
-                      <KeyValueRow labelColor="info" label="Path" key="path">
+                      <KeyValueRow labelColor="info" label={t("cookies.path")} key="path">
                         {cookie.path}
                       </KeyValueRow>
                     ),
                     cookie.expires && (
-                      <KeyValueRow labelColor="info" label="Expires" key="expires">
+                      <KeyValueRow labelColor="info" label={t("cookies.expires")} key="expires">
                         {cookie.expires}
                       </KeyValueRow>
                     ),
                     cookie.maxAge && (
-                      <KeyValueRow labelColor="info" label="Max-Age" key="maxAge">
+                      <KeyValueRow labelColor="info" label={t("cookies.maxAge")} key="maxAge">
                         {cookie.maxAge}
                       </KeyValueRow>
                     ),
                     cookie.secure && (
-                      <KeyValueRow labelColor="info" label="Secure" key="secure">
+                      <KeyValueRow labelColor="info" label={t("cookies.secure")} key="secure">
                         true
                       </KeyValueRow>
                     ),
                     cookie.httpOnly && (
-                      <KeyValueRow labelColor="info" label="HttpOnly" key="httpOnly">
+                      <KeyValueRow labelColor="info" label={t("cookies.httpOnly")} key="httpOnly">
                         true
                       </KeyValueRow>
                     ),
                     cookie.sameSite && (
-                      <KeyValueRow labelColor="info" label="SameSite" key="sameSite">
+                      <KeyValueRow labelColor="info" label={t("cookies.sameSite")} key="sameSite">
                         {cookie.sameSite}
                       </KeyValueRow>
                     ),
@@ -224,5 +225,6 @@ export function ResponseCookies({ response, side }: Props) {
 }
 
 function NoCookies() {
-  return <span className="text-text-subtlest text-sm italic">No Cookies</span>;
+  const { t } = useTranslation();
+  return <span className="text-text-subtlest text-sm italic">{t("cookies.noCookies")}</span>;
 }

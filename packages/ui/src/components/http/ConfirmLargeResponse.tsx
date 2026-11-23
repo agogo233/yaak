@@ -1,4 +1,5 @@
 import { type ReactNode, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useToggle } from "../../hooks/useToggle";
 import { isProbablyTextContentType } from "../../lib/mimeType";
 import { Banner } from "../Banner";
@@ -33,32 +34,36 @@ export function ConfirmLargeResponse({
   contentLength,
   contentType,
   noun = "responses",
-  revealLabel = "Reveal Response",
+  revealLabel,
   onSave,
   getText,
   renderCopyButton,
 }: Props) {
+  const { t } = useTranslation();
   const [showLargeResponse, toggleShowLargeResponse] = useToggle();
   const isProbablyText = useMemo(() => isProbablyTextContentType(contentType), [contentType]);
+  const revealText = revealLabel ?? t("response.revealResponse");
+  const nounLabel =
+    noun === "content" ? t("response.nounContent") : t("response.nounResponses");
 
   const isLarge = (contentLength ?? 0) > LARGE_BODY_BYTES;
   if (!showLargeResponse && isLarge) {
     return (
       <Banner color="primary" className="flex flex-col gap-3">
         <p>
-          Showing {noun} over{" "}
+          {t("response.largeBodyWarningPrefix", { noun: nounLabel })}{" "}
           <InlineCode>
             <SizeTag contentLength={LARGE_BODY_BYTES} />
           </InlineCode>{" "}
-          may impact performance
+          {t("response.largeBodyWarningSuffix", { noun: nounLabel })}
         </p>
         <HStack wrap space={2}>
           <Button color="primary" size="xs" onClick={toggleShowLargeResponse}>
-            {revealLabel}
+            {revealText}
           </Button>
           {onSave != null && (
             <Button color="secondary" variant="border" size="xs" onClick={onSave}>
-              Save to File
+              {t("response.saveToFile")}
             </Button>
           )}
           {isProbablyText && getText != null && renderCopyButton?.(getText)}

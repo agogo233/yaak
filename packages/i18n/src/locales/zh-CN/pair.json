@@ -17,6 +17,13 @@
     "setFileName": "设置文件名",
     "text": "文本",
     "unsetFile": "取消文件",
-    "value": "值"
+    "value": "值",
+    "showMore": "显示更多 {{count}} 项",
+    "editNamed": "编辑 {{name}}",
+    "enableItem": "启用该项",
+    "disableItem": "停用该项",
+    "noFile": "无文件",
+    "enableFormEdit": "启用表单编辑",
+    "enableBulkEdit": "启用批量编辑"
   }
 }

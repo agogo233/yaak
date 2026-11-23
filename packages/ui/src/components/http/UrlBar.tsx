@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import type { FormEvent, ReactNode } from "react";
 import { memo, useCallback, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { HotkeyAction } from "../../hooks/useHotKey";
 import { useFormattedHotkey, useHotKey } from "../../hooks/useHotKey";
 import type { HostInputProps } from "../EditorHost";
@@ -55,6 +56,7 @@ export const UrlBar = memo(function UrlBar({
   focusHotkeyAction,
 }: UrlBarProps) {
   const { Input } = useEditorHost();
+  const { t } = useTranslation();
   const inputRef = useRef<InputHandle>(null);
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
@@ -85,7 +87,7 @@ export const UrlBar = memo(function UrlBar({
         hideLabel
         language="url"
         className="px-1.5 py-0.5"
-        label="Enter URL"
+        label={t("request.enterUrl")}
         name="url"
         autocomplete={autocomplete}
         forceUpdateKey={forceUpdateKey}
@@ -125,6 +127,7 @@ function SendButton({
 }) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const hotkeyTrigger = useFormattedHotkey(hotkeyAction)?.join("");
+  const { t } = useTranslation();
   useHotKey(hotkeyAction, () => buttonRef.current?.click());
 
   return (
@@ -132,7 +135,11 @@ function SendButton({
       ref={buttonRef}
       size="xs"
       iconSize="md"
-      title={hotkeyTrigger ? `Send Request ${hotkeyTrigger}` : "Send Request"}
+      title={
+        hotkeyTrigger
+          ? `${t("request.sendRequest")} ${hotkeyTrigger}`
+          : t("request.sendRequest")
+      }
       type="submit"
       className="w-8 mr-0.5 h-full!"
       iconColor="secondary"
