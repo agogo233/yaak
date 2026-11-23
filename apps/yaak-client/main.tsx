@@ -6,6 +6,7 @@ import { setPlatformOnDocument } from "@yaakapp-internal/theme";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { initGit } from "./init/git";
+import { initI18nWatcher } from "./init/i18n";
 import { initSync } from "./init/sync";
 import { initGlobalListeners } from "./lib/initGlobalListeners";
 import { jotaiStore } from "./lib/jotai";
@@ -36,6 +37,7 @@ initGit();
 initSync();
 initModelStore(jotaiStore);
 initGlobalListeners();
+await initI18nWatcher();
 await changeModelStoreWorkspace(null); // Load global models
 
 console.log("Creating React root");

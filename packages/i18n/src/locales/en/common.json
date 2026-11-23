@@ -1,0 +1,16 @@
+{
+  "common": {
+    "actions": "Actions",
+    "or": "or",
+    "search": "Search",
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "rename": "Rename",
+    "duplicate": "Duplicate",
+    "move": "Move",
+    "send": "Send",
+    "settings": "Settings"
+  }
+}

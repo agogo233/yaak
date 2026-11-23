@@ -391,6 +391,7 @@ export type Settings = {
   interfaceFont: string | null;
   interfaceFontSize: number;
   interfaceScale: number;
+  language: string | null;
   openWorkspaceNewWindow: boolean | null;
   proxy: ProxySetting | null;
   themeDark: string;

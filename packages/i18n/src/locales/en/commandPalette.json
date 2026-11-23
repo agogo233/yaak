@@ -1,0 +1,25 @@
+{
+  "palette": {
+    "placeholder": "Search or type a command",
+    "command": "Command",
+    "actions": "Actions",
+    "switchRequest": "Switch Request",
+    "switchEnvironment": "Switch Environment",
+    "switchWorkspace": "Switch Workspace",
+    "openSettings": "Open Settings",
+    "openWorkspaceSettings": "Open Workspace Settings",
+    "createWorkspace": "Create Workspace",
+    "createHttpRequest": "Create HTTP Request",
+    "createGrpcRequest": "Create GRPC Request",
+    "createWebsocketRequest": "Create Websocket Request",
+    "createFolder": "Create Folder",
+    "showCookies": "Show Cookies",
+    "editEnvironment": "Edit Environment",
+    "createEnvironment": "Create Environment",
+    "toggleSidebar": "Toggle Sidebar",
+    "sendRequest": "Send Request",
+    "copyCliSendCommand": "Copy CLI Send Command",
+    "renameRequest": "Rename Request",
+    "deleteRequest": "Delete Request"
+  }
+}

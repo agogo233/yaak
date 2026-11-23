@@ -3,6 +3,7 @@ import { Heading, Icon, useDebouncedState } from "@yaakapp-internal/ui";
 import classNames from "classnames";
 import { fuzzyFilter } from "fuzzbunny";
 import { useAtomValue } from "jotai";
+import { useTranslation } from "react-i18next";
 import {
   Fragment,
   type KeyboardEvent,
@@ -83,6 +84,7 @@ export function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
   const [recentRequests] = useRecentRequests();
   const [, setSidebarHidden] = useSidebarHidden();
   const { mutate: sendRequest } = useSendAnyHttpRequest();
+  const { t } = useTranslation();
 
   const handleSetCommand = (command: string) => {
     setCommand(command);
@@ -95,44 +97,44 @@ export function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
     const commands: CommandPaletteItem[] = [
       {
         key: "settings.open",
-        label: "Open Settings",
+        label: t("palette.openSettings"),
         action: "settings.show",
         onSelect: () => openSettings.mutate(null),
       },
       {
         key: "workspace_settings.open",
-        label: "Open Workspace Settings",
+        label: t("palette.openWorkspaceSettings"),
         action: "workspace_settings.show",
         onSelect: () => openWorkspaceSettings(),
       },
       {
         key: "app.create",
-        label: "Create Workspace",
+        label: t("palette.createWorkspace"),
         onSelect: createWorkspace,
       },
       {
         key: "model.create",
-        label: "Create HTTP Request",
+        label: t("palette.createHttpRequest"),
         onSelect: () => createRequestAndNavigate({ model: "http_request", workspaceId }),
       },
       {
         key: "grpc_request.create",
-        label: "Create GRPC Request",
+        label: t("palette.createGrpcRequest"),
         onSelect: () => createRequestAndNavigate({ model: "grpc_request", workspaceId }),
       },
       {
         key: "websocket_request.create",
-        label: "Create Websocket Request",
+        label: t("palette.createWebsocketRequest"),
         onSelect: () => createRequestAndNavigate({ model: "websocket_request", workspaceId }),
       },
       {
         key: "folder.create",
-        label: "Create Folder",
+        label: t("palette.createFolder"),
         onSelect: () => createFolder.mutate({}),
       },
       {
         key: "cookies.show",
-        label: "Show Cookies",
+        label: t("palette.showCookies"),
         action: "cookies_editor.show",
         onSelect: async () => {
           CookieDialog.show(activeCookieJar?.id ?? null);
@@ -140,18 +142,18 @@ export function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
       },
       {
         key: "environment.edit",
-        label: "Edit Environment",
+        label: t("palette.editEnvironment"),
         action: "environment_editor.toggle",
         onSelect: () => editEnvironment(activeEnvironment),
       },
       {
         key: "environment.create",
-        label: "Create Environment",
+        label: t("palette.createEnvironment"),
         onSelect: () => createSubEnvironmentAndActivate.mutate(baseEnvironment),
       },
       {
         key: "sidebar.toggle",
-        label: "Toggle Sidebar",
+        label: t("palette.toggleSidebar"),
         action: "sidebar.focus",
         onSelect: () => setSidebarHidden((h) => !h),
       },
@@ -161,14 +163,14 @@ export function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
       commands.push({
         key: "request.send",
         action: "request.send",
-        label: "Send Request",
+        label: t("palette.sendRequest"),
         onSelect: () => sendRequest(activeRequest.id),
       });
       if (appInfo.cliVersion != null) {
         commands.push({
           key: "request.copy_cli_send",
           searchText: `copy cli send yaak request send ${activeRequest.id}`,
-          label: "Copy CLI Send Command",
+          label: t("palette.copyCliSendCommand"),
           onSelect: () => copyToClipboard(`yaak request send ${activeRequest.id}`),
         });
       }
@@ -194,13 +196,13 @@ export function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
     if (activeRequest != null) {
       commands.push({
         key: "http_request.rename",
-        label: "Rename Request",
+        label: t("palette.renameRequest"),
         onSelect: () => renameModelWithPrompt(activeRequest),
       });
 
       commands.push({
         key: "sidebar.selected.delete",
-        label: "Delete Request",
+        label: t("palette.deleteRequest"),
         onSelect: () => deleteModelWithConfirm(activeRequest),
       });
     }
@@ -220,6 +222,7 @@ export function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
     httpRequestActions,
     sendRequest,
     setSidebarHidden,
+    t,
     workspaceId,
   ]);
 
@@ -285,13 +288,13 @@ export function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
   const groups = useMemo<CommandPaletteGroup[]>(() => {
     const actionsGroup: CommandPaletteGroup = {
       key: "actions",
-      label: "Actions",
+      label: t("palette.actions"),
       items: workspaceCommands,
     };
 
     const requestGroup: CommandPaletteGroup = {
       key: "requests",
-      label: "Switch Request",
+      label: t("palette.switchRequest"),
       items: [],
     };
 
@@ -322,7 +325,7 @@ export function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
 
     const environmentGroup: CommandPaletteGroup = {
       key: "environments",
-      label: "Switch Environment",
+      label: t("palette.switchEnvironment"),
       items: [],
     };
 
@@ -339,7 +342,7 @@ export function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
 
     const workspaceGroup: CommandPaletteGroup = {
       key: "workspaces",
-      label: "Switch Workspace",
+      label: t("palette.switchWorkspace"),
       items: [],
     };
 
@@ -358,6 +361,7 @@ export function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
     sortedEnvironments,
     activeEnvironment?.id,
     sortedWorkspaces,
+    t,
   ]);
 
   const allItems = useMemo(() => groups.flatMap((g) => g.items), [groups]);
@@ -438,7 +442,7 @@ export function CommandPaletteDialog({ onClose }: { onClose: () => void }) {
           }
           name="command"
           label="Command"
-          placeholder="Search or type a command"
+          placeholder={t("palette.placeholder")}
           className="font-sans text-base!"
           defaultValue={command}
           onChange={handleSetCommand}

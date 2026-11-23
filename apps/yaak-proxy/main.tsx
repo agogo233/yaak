@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createStore, Provider } from "jotai";
 import { LazyMotion, MotionConfig } from "motion/react";
+import { initI18n } from "@yaakapp-internal/i18n";
 import { HotkeyProvider } from "@yaakapp-internal/ui";
 import { type ReactNode, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
@@ -12,6 +13,7 @@ import "./main.css";
 const queryClient = new QueryClient();
 const jotaiStore = createStore();
 
+initI18n(null);
 syncProxyState(jotaiStore);
 syncFlows(jotaiStore);
 

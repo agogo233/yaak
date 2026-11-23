@@ -43,6 +43,7 @@ fn default_settings() -> Settings {
         interface_font_size: 14,
         interface_scale: 1.0,
         interface_font: None,
+        language: None,
         hide_window_controls: false,
         use_native_titlebar: false,
         open_workspace_new_window: None,

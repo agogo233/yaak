@@ -8,6 +8,7 @@
   },
   "workspaces": [
     "packages/ui",
+    "packages/i18n",
     "packages/theme",
     "packages/tailwind-config",
     "packages/model-store",
@@ -91,6 +92,7 @@
     "migration": "node scripts/create-migration.cjs",
     "build": "npm run --workspaces --if-present build",
     "test": "npm run --workspaces --if-present test",
+    "i18n:check": "node scripts/i18n-check.mjs",
     "icons": "run-p client:icons:*",
     "client:icons:dev": "tauri icon crates-tauri/yaak-app-client/icons/icon-dev.png --output crates-tauri/yaak-app-client/icons/dev",
     "client:icons:release": "tauri icon crates-tauri/yaak-app-client/icons/icon.png --output crates-tauri/yaak-app-client/icons/release",

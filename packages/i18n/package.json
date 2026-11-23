@@ -1,0 +1,12 @@
+{
+  "name": "@yaakapp-internal/i18n",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "i18next": "^25.0.0",
+    "react-i18next": "^15.0.0"
+  }
+}

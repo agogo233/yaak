@@ -5,8 +5,8 @@ import { HeaderSize, HStack, Icon, CountBadge } from "@yaakapp-internal/ui";
 import classNames from "classnames";
 import { useAtomValue } from "jotai";
 import { useKeyPressEvent } from "react-use";
+import { useTranslation } from "react-i18next";
 import { appInfo } from "../../lib/appInfo";
-import { capitalize } from "../../lib/capitalize";
 import { TabContent, type TabItem, Tabs } from "../core/Tabs/Tabs";
 import { SettingsAgents } from "./SettingsAgents";
 import { SettingsCertificates } from "./SettingsCertificates";
@@ -53,6 +53,18 @@ export default function Settings({ tab, hide }: Props) {
   const settings = useAtomValue(settingsAtom);
   const plugins = useAtomValue(pluginsAtom);
   const licenseCheck = useLicense();
+  const { t } = useTranslation();
+  const tabLabels: Record<SettingsTab, string> = {
+    general: t("settings.tabs.general"),
+    theme: t("settings.tabs.theme"),
+    interface: t("settings.tabs.interface"),
+    shortcuts: t("settings.tabs.shortcuts"),
+    plugins: t("settings.tabs.plugins"),
+    agents: t("settings.tabs.agents"),
+    certificates: t("settings.tabs.certificates"),
+    proxy: t("settings.tabs.proxy"),
+    license: t("settings.tabs.license"),
+  };
 
   // Close settings window on escape. In a dialog, the dialog handles Escape itself.
   // TODO: Could this be put in a better place? Eg. in Rust key listener when creating the window
@@ -81,7 +93,7 @@ export default function Settings({ tab, hide }: Props) {
             justifyContent="center"
             className="w-full h-full grid grid-cols-[1fr_auto] pointer-events-none"
           >
-            <div className={classNames(platform.osType() === "macos" ? "text-center" : "pl-2")}>Settings</div>
+            <div className={classNames(platform.osType() === "macos" ? "text-center" : "pl-2")}>{t("settings.title")}</div>
           </HStack>
         </HeaderSize>
       )}
@@ -94,7 +106,7 @@ export default function Settings({ tab, hide }: Props) {
         tabs={tabs.map(
           (value): TabItem => ({
             value,
-            label: capitalize(value),
+            label: tabLabels[value],
             hidden:
               (!appInfo.featureLicense && value === TAB_LICENSE) ||
               (!platform.capabilities.agents && value === TAB_AGENTS),

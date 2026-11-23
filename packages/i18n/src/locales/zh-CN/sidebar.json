@@ -1,0 +1,25 @@
+{
+  "sidebar": {
+    "search": "搜索",
+    "clearFilter": "清除筛选",
+    "focusActiveRequest": "聚焦当前请求",
+    "expandAllFolders": "展开所有文件夹",
+    "collapseAllFolders": "折叠所有文件夹",
+    "actionsMenu": "显示侧边栏操作菜单",
+    "noResults": "没有匹配结果：",
+    "noResultsButMatches": "没有结果，但以下字段存在匹配：",
+    "folderSettings": "文件夹设置",
+    "send": "发送",
+    "rename": "重命名",
+    "duplicate": "复制",
+    "move": "移动",
+    "moveRequests": "移动 {{count}} 个请求",
+    "delete": "删除",
+    "viewHistory": "查看历史",
+    "fileHistory": "文件历史",
+    "restoreChanges": "还原更改",
+    "restoreConfirmOne": "这将丢弃所选项目的未提交更改。",
+    "restoreConfirmMany": "这将丢弃所选的 {{count}} 个项目的未提交更改。",
+    "restore": "还原"
+  }
+}

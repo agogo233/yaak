@@ -1,0 +1,16 @@
+{
+  "common": {
+    "actions": "操作",
+    "or": "或",
+    "search": "搜索",
+    "cancel": "取消",
+    "close": "关闭",
+    "confirm": "确认",
+    "delete": "删除",
+    "rename": "重命名",
+    "duplicate": "复制",
+    "move": "移动",
+    "send": "发送",
+    "settings": "设置"
+  }
+}

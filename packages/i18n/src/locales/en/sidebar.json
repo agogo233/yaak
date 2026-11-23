@@ -1,0 +1,25 @@
+{
+  "sidebar": {
+    "search": "Search",
+    "clearFilter": "Clear filter",
+    "focusActiveRequest": "Focus Active Request",
+    "expandAllFolders": "Expand All Folders",
+    "collapseAllFolders": "Collapse All Folders",
+    "actionsMenu": "Show sidebar actions menu",
+    "noResults": "No results for",
+    "noResultsButMatches": "No results, but found matches for",
+    "folderSettings": "Folder Settings",
+    "send": "Send",
+    "rename": "Rename",
+    "duplicate": "Duplicate",
+    "move": "Move",
+    "moveRequests": "Move {{count}} Requests",
+    "delete": "Delete",
+    "viewHistory": "View History",
+    "fileHistory": "File History",
+    "restoreChanges": "Restore Changes",
+    "restoreConfirmOne": "This will discard uncommitted changes for the selected item.",
+    "restoreConfirmMany": "This will discard uncommitted changes for {{count}} selected items.",
+    "restore": "Restore"
+  }
+}

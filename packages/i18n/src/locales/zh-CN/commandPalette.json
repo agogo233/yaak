@@ -1,0 +1,25 @@
+{
+  "palette": {
+    "placeholder": "搜索或输入命令",
+    "command": "命令",
+    "actions": "操作",
+    "switchRequest": "切换请求",
+    "switchEnvironment": "切换环境",
+    "switchWorkspace": "切换工作区",
+    "openSettings": "打开设置",
+    "openWorkspaceSettings": "打开工作区设置",
+    "createWorkspace": "创建工作区",
+    "createHttpRequest": "创建 HTTP 请求",
+    "createGrpcRequest": "创建 GRPC 请求",
+    "createWebsocketRequest": "创建 WebSocket 请求",
+    "createFolder": "创建文件夹",
+    "showCookies": "查看 Cookies",
+    "editEnvironment": "编辑环境",
+    "createEnvironment": "创建环境",
+    "toggleSidebar": "切换侧边栏",
+    "sendRequest": "发送请求",
+    "copyCliSendCommand": "复制 CLI 发送命令",
+    "renameRequest": "重命名请求",
+    "deleteRequest": "删除请求"
+  }
+}
