@@ -1,0 +1,34 @@
+{
+  "agents": {
+    "title": "Agents",
+    "titleDesc": "Connect AI coding agents like Claude Code and Cursor to Yaak.",
+    "agentLabel": "Agent",
+    "cliInstalledPrefix": "Yaak CLI",
+    "cliInstalledSuffix": "is installed.",
+    "installCliFirst": "Install the Yaak CLI first",
+    "installCliDesc": "Agents launch it to reach Yaak, even with the app closed.",
+    "docs": "Docs",
+    "checksAgain": "Checks again when you come back to Yaak.",
+    "mcpReplaceNote": "The two steps below replace it. Uninstall it once your agent is connected.",
+    "addMcp": "Add the MCP server",
+    "installSkill": "Install the skill",
+    "skillDescPrefix": "Lets",
+    "skillDescMid": "run the",
+    "skillDescSuffix": "command directly.",
+    "doneAdded": "Added",
+    "doneInstalled": "Installed",
+    "yourAgent": "your agent",
+    "client": {
+      "claude_code": "Claude Code",
+      "codex": "Codex",
+      "cursor": "Cursor",
+      "vscode": "VS Code",
+      "other": "Other"
+    },
+    "where": {
+      "cursor": "Add to ~/.cursor/mcp.json.",
+      "vscode": "Add to your user mcp.json (MCP: Open User Configuration).",
+      "other": "For clients that read an mcpServers config, like Claude Desktop and Windsurf."
+    }
+  }
+}

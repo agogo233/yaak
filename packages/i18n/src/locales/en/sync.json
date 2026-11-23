@@ -1,0 +1,13 @@
+{
+  "sync": {
+    "title": "Changes Detected",
+    "deletionWarning": "Changes contain a workspace deletion!",
+    "changed": "{{count}} files in the directory have changed. Do you want to update your workspace?",
+    "type": "Type",
+    "operation": "Operation",
+    "opCreate": "create",
+    "opUpdate": "update",
+    "opDelete": "delete",
+    "apply": "Apply Changes"
+  }
+}

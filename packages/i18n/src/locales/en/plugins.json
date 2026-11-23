@@ -1,0 +1,30 @@
+{
+  "plugins": {
+    "tabLabel": "Plugins",
+    "discover": "Discover",
+    "installed": "Installed",
+    "bundled": "Bundled",
+    "pluginNoun": "Plugin",
+    "addPlugin": "Add Plugin",
+    "reload": "Reload plugins",
+    "viewDocs": "View documentation",
+    "enablePlugin": "Enable plugin",
+    "disablePlugin": "Disable plugin",
+    "updateTo": "Update to {{version}}",
+    "update": "Update",
+    "installVersion": "Install {{version}}",
+    "install": "Install",
+    "uninstallPlugin": "Uninstall plugin",
+    "uninstall": "Uninstall",
+    "search": "Search",
+    "searchPlaceholder": "Search plugins...",
+    "noPluginsFound": "No plugins found",
+    "displayName": "Display Name",
+    "name": "Name",
+    "version": "Version",
+    "emptyLine1": "Plugins extend the functionality of Yaak.",
+    "emptyLine2": "Add your first plugin to get started.",
+    "deprecated": "The {{name}} plugin is deprecated.",
+    "noBundledFound": "No bundled plugins found."
+  }
+}

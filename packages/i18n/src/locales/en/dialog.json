@@ -1,0 +1,31 @@
+{
+  "dialog": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "done": "Done",
+    "copyName": "Copy name",
+    "delete": "Delete",
+    "save": "Save",
+    "renameRequest": "Rename Request",
+    "enterNewName": "Enter a new name",
+    "renamePrefix": "Enter a new name for",
+    "renameSuffix": "",
+    "name": "Name",
+    "newNamePlaceholder": "New Name",
+    "deleteTitleOne": "Delete {{type}}",
+    "deleteTitleMany": "Delete {{count}} items",
+    "deleteDescPrefix": "Permanently delete",
+    "deleteDescQuestion": "?",
+    "deleteDescTheFollowing": "the following?",
+    "deleteAll": "all {{count}} items?",
+    "moveTarget": "Target Workspace",
+    "moveCurrent": "(current)",
+    "movedTo": "moved to",
+    "movedManyCount": "{{count}} requests",
+    "switchToWorkspace": "Switch to Workspace",
+    "move": "Move",
+    "moveMany": "Move {{count}} Requests",
+    "typeToConfirmPrefix": "Type",
+    "typeToConfirmSuffix": "to confirm"
+  }
+}

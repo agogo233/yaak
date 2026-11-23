@@ -21,6 +21,7 @@ import {
 import classNames from "classnames";
 import { useAtomValue } from "jotai";
 import { type ReactNode, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useInstallPlugin } from "../../hooks/useInstallPlugin";
 import { usePluginInfo, usePluginInfos } from "../../hooks/usePluginInfo";
 import { usePluginsKey, useRefreshPlugins } from "../../hooks/usePlugins";
@@ -46,22 +47,23 @@ export function SettingsPlugins({ defaultSubtab }: SettingsPluginsProps) {
   const installedPlugins = plugins.filter((p) => p.source !== "bundled");
   const createPlugin = useInstallPlugin();
   const refreshPlugins = useRefreshPlugins();
+  const { t } = useTranslation();
   return (
     <div className="h-full">
       <Tabs
         defaultValue={defaultSubtab}
-        label="Plugins"
+        label={t("plugins.tabLabel")}
         addBorders
         tabListClassName="px-6 pt-2"
         tabs={[
-          { label: "Discover", value: "search" },
+          { label: t("plugins.discover"), value: "search" },
           {
-            label: "Installed",
+            label: t("plugins.installed"),
             value: "installed",
             rightSlot: <CountBadge count={installedPlugins.length} />,
           },
           {
-            label: "Bundled",
+            label: t("plugins.bundled"),
             value: "bundled",
             rightSlot: <CountBadge count={bundledPlugins.length} />,
           },
@@ -76,7 +78,7 @@ export function SettingsPlugins({ defaultSubtab }: SettingsPluginsProps) {
             <footer className="grid grid-cols-[minmax(0,1fr)_auto] py-2 px-4 border-t bg-surface-highlight border-border-subtle min-w-0">
               <SelectFile
                 size="xs"
-                noun="Plugin"
+                noun={t("plugins.pluginNoun")}
                 directory
                 onChange={({ filePath }) => setDirectory(filePath)}
                 filePath={directory}
@@ -93,20 +95,20 @@ export function SettingsPlugins({ defaultSubtab }: SettingsPluginsProps) {
                       setDirectory(null);
                     }}
                   >
-                    Add Plugin
+                    {t("plugins.addPlugin")}
                   </Button>
                 )}
                 <IconButton
                   size="sm"
                   icon="refresh"
-                  title="Reload plugins"
+                  title={t("plugins.reload")}
                   spin={refreshPlugins.isPending}
                   onClick={() => refreshPlugins.mutate()}
                 />
                 <IconButton
                   size="sm"
                   icon="help"
-                  title="View documentation"
+                  title={t("plugins.viewDocs")}
                   onClick={() =>
                     platform.openUrl("https://yaak.app/docs/plugin-development/plugins-quick-start")
                   }
@@ -202,6 +204,7 @@ function PluginTableRow({
   });
   const uninstall = usePromptUninstallPlugin(plugin?.id ?? null, displayName);
   const refreshPlugins = useRefreshPlugins();
+  const { t } = useTranslation();
 
   return (
     <TableRow>
@@ -209,7 +212,7 @@ function PluginTableRow({
         <TableCell className="py-0!">
           <Checkbox
             hideLabel
-            title={plugin?.enabled ? "Disable plugin" : "Enable plugin"}
+            title={plugin?.enabled ? t("plugins.disablePlugin") : t("plugins.enablePlugin")}
             checked={plugin?.enabled ?? false}
             disabled={plugin == null}
             onChange={async (enabled) => {
@@ -250,34 +253,34 @@ function PluginTableRow({
             <Button
               variant="border"
               color="success"
-              title={`Update to ${latestVersion}`}
+              title={t("plugins.updateTo", { version: latestVersion })}
               size="xs"
               isLoading={installPluginMutation.isPending}
               onClick={() => installPluginMutation.mutate(name)}
             >
-              Update
+              {t("plugins.update")}
             </Button>
           ) : plugin == null ? (
             <Button
               variant="border"
               color="primary"
-              title={`Install ${version}`}
+              title={t("plugins.installVersion", { version })}
               size="xs"
               isLoading={installPluginMutation.isPending}
               onClick={() => installPluginMutation.mutate(name)}
             >
-              Install
+              {t("plugins.install")}
             </Button>
           ) : null}
           {showUninstall && uninstall != null && (
             <Button
               size="xs"
-              title="Uninstall plugin"
+              title={t("plugins.uninstallPlugin")}
               variant="border"
               isLoading={uninstall.isPending}
               onClick={() => uninstall.mutate()}
             >
-              Uninstall
+              {t("plugins.uninstall")}
             </Button>
           )}
         </HStack>
@@ -289,6 +292,7 @@ function PluginTableRow({
 function PluginSearch() {
   const [query, setQuery] = useState<string>("");
   const debouncedQuery = useDebouncedValue(query);
+  const { t } = useTranslation();
   const results = useQuery({
     queryKey: ["plugins", debouncedQuery],
     queryFn: async () => {
@@ -302,8 +306,8 @@ function PluginSearch() {
       <HStack space={1.5}>
         <PlainInput
           hideLabel
-          label="Search"
-          placeholder="Search plugins..."
+          label={t("plugins.search")}
+          placeholder={t("plugins.searchPlaceholder")}
           onChange={setQuery}
           defaultValue={query}
         />
@@ -314,14 +318,14 @@ function PluginSearch() {
             <LoadingIcon size="xl" className="text-text-subtlest" />
           </EmptyStateText>
         ) : (results.data.plugins ?? []).length === 0 ? (
-          <EmptyStateText>No plugins found</EmptyStateText>
+          <EmptyStateText>{t("plugins.noPluginsFound")}</EmptyStateText>
         ) : (
           <Table scrollable>
             <TableHead>
               <TableRow>
-                <TableHeaderCell>Display Name</TableHeaderCell>
-                <TableHeaderCell>Name</TableHeaderCell>
-                <TableHeaderCell>Version</TableHeaderCell>
+                <TableHeaderCell>{t("plugins.displayName")}</TableHeaderCell>
+                <TableHeaderCell>{t("plugins.name")}</TableHeaderCell>
+                <TableHeaderCell>{t("plugins.version")}</TableHeaderCell>
                 <TableHeaderCell />
               </TableRow>
             </TableHead>
@@ -338,12 +342,13 @@ function PluginSearch() {
 }
 
 function InstalledPlugins({ plugins, className }: { plugins: Plugin[]; className?: string }) {
+  const { t } = useTranslation();
   return plugins.length === 0 ? (
     <div className={classNames(className, "pb-4")}>
       <EmptyStateText className="text-center">
-        Plugins extend the functionality of Yaak.
+        {t("plugins.emptyLine1")}
         <br />
-        Add your first plugin to get started.
+        {t("plugins.emptyLine2")}
       </EmptyStateText>
     </div>
   ) : (
@@ -353,9 +358,9 @@ function InstalledPlugins({ plugins, className }: { plugins: Plugin[]; className
         <TableHead>
           <TableRow>
             <TableHeaderCell className="w-0" />
-            <TableHeaderCell>Display Name</TableHeaderCell>
-            <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell>Version</TableHeaderCell>
+            <TableHeaderCell>{t("plugins.displayName")}</TableHeaderCell>
+            <TableHeaderCell>{t("plugins.name")}</TableHeaderCell>
+            <TableHeaderCell>{t("plugins.version")}</TableHeaderCell>
             <TableHeaderCell />
           </TableRow>
         </TableHead>
@@ -401,39 +406,41 @@ export function DeprecatedPluginBanner({
   plugin: Plugin;
 }) {
   const uninstall = usePromptUninstallPlugin(plugin.id, name);
+  const { t } = useTranslation();
   return (
     <Banner color="info" className="flex items-center gap-4">
       <div className="min-w-0 flex-1">
-        <div className="text text-text">The {name} plugin is deprecated.</div>
+        <div className="text text-text">{t("plugins.deprecated", { name })}</div>
         <p className="mt-1 text-sm text-text-subtle">{children}</p>
       </div>
       <Button
         size="xs"
         variant="border"
-        title="Uninstall plugin"
+        title={t("plugins.uninstallPlugin")}
         className="shrink-0"
         isLoading={uninstall?.isPending}
         onClick={() => uninstall?.mutate()}
       >
-        Uninstall
+        {t("plugins.uninstall")}
       </Button>
     </Banner>
   );
 }
 
 function BundledPlugins({ plugins }: { plugins: Plugin[] }) {
+  const { t } = useTranslation();
   return plugins.length === 0 ? (
     <div className="pb-4">
-      <EmptyStateText className="text-center">No bundled plugins found.</EmptyStateText>
+      <EmptyStateText className="text-center">{t("plugins.noBundledFound")}</EmptyStateText>
     </div>
   ) : (
     <Table scrollable>
       <TableHead>
         <TableRow>
           <TableHeaderCell className="w-0" />
-          <TableHeaderCell>Display Name</TableHeaderCell>
-          <TableHeaderCell>Name</TableHeaderCell>
-          <TableHeaderCell>Version</TableHeaderCell>
+          <TableHeaderCell>{t("plugins.displayName")}</TableHeaderCell>
+          <TableHeaderCell>{t("plugins.name")}</TableHeaderCell>
+          <TableHeaderCell>{t("plugins.version")}</TableHeaderCell>
           <TableHeaderCell />
         </TableRow>
       </TableHead>

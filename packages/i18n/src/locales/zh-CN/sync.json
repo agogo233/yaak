@@ -1,0 +1,13 @@
+{
+  "sync": {
+    "title": "检测到更改",
+    "deletionWarning": "更改中包含工作区删除操作！",
+    "changed": "目录中 {{count}} 个文件已更改。要更新你的工作区吗？",
+    "type": "类型",
+    "operation": "操作",
+    "opCreate": "创建",
+    "opUpdate": "更新",
+    "opDelete": "删除",
+    "apply": "应用更改"
+  }
+}

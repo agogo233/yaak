@@ -1,9 +1,9 @@
 import type { AnyModel } from "@yaakapp-internal/models";
 import { deleteModel, modelTypeLabel } from "@yaakapp-internal/models";
 import { InlineCode } from "@yaakapp-internal/ui";
+import { i18n } from "@yaakapp-internal/i18n";
 import { Prose } from "../components/Prose";
 import { showConfirmDelete } from "./confirm";
-import { pluralizeCount } from "@yaakapp-internal/lib/pluralize";
 import { resolvedModelName } from "./resolvedModelName";
 
 export async function deleteModelWithConfirm(
@@ -18,22 +18,25 @@ export async function deleteModelWithConfirm(
   const firstModel = models[0];
   if (firstModel == null) return false;
 
-  const descriptor =
-    models.length === 1 ? modelTypeLabel(firstModel) : pluralizeCount("Item", models.length);
+  const title =
+    models.length === 1
+      ? i18n.t("dialog.deleteTitleOne", { type: modelTypeLabel(firstModel) })
+      : i18n.t("dialog.deleteTitleMany", { count: models.length });
   const confirmed = await showConfirmDelete({
     id: `delete-model-${models.map((m) => m.id).join(",")}`,
-    title: `Delete ${descriptor}`,
+    title,
     requireTyping: options.confirmName,
     description: (
       <>
-        Permanently delete{" "}
+        {i18n.t("dialog.deleteDescPrefix")}{" "}
         {models.length === 1 ? (
           <>
-            <InlineCode>{resolvedModelName(firstModel)}</InlineCode>?
+            <InlineCode>{resolvedModelName(firstModel)}</InlineCode>
+            {i18n.t("dialog.deleteDescQuestion")}
           </>
         ) : models.length < 10 ? (
           <>
-            the following?
+            {i18n.t("dialog.deleteDescTheFollowing")}
             <Prose className="mt-2">
               <ul className="space-y-1">
                 {models.map((m) => (
@@ -50,7 +53,7 @@ export async function deleteModelWithConfirm(
             </Prose>
           </>
         ) : (
-          `all ${pluralizeCount("item", models.length)}?`
+          i18n.t("dialog.deleteAll", { count: models.length })
         )}
       </>
     ),

@@ -1,0 +1,20 @@
+{
+  "toast": {
+    "copied": "已复制到剪贴板",
+    "copy": "复制",
+    "copiedLabel": "已复制",
+    "copyFailed": "复制失败",
+    "exportFailed": "导出失败",
+    "exportData": "导出数据",
+    "exportSuccess": "数据导出成功",
+    "staleSync": "同步期间文件已发生变化。请重新查看更改。",
+    "feedbackThanks": "感谢你的反馈！",
+    "feedbackLabel": "反馈",
+    "feedbackPlaceholder": "你的想法...",
+    "dismiss": "关闭",
+    "send": "发送",
+    "gitReset": "更改已重置",
+    "gitCredentials": "未找到凭据",
+    "gitUpToDate": "已是最新"
+  }
+}

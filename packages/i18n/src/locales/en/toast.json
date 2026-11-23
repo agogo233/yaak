@@ -1,0 +1,20 @@
+{
+  "toast": {
+    "copied": "Copied to clipboard",
+    "copy": "Copy",
+    "copiedLabel": "Copied",
+    "copyFailed": "Failed to copy",
+    "exportFailed": "Export Failed",
+    "exportData": "Export Data",
+    "exportSuccess": "Data export successful",
+    "staleSync": "Files changed while syncing. Review the changes again.",
+    "feedbackThanks": "Thanks for the feedback!",
+    "feedbackLabel": "Feedback",
+    "feedbackPlaceholder": "Your thoughts...",
+    "dismiss": "Dismiss",
+    "send": "Send",
+    "gitReset": "Changes have been reset",
+    "gitCredentials": "Credentials not found",
+    "gitUpToDate": "Already up-to-date"
+  }
+}

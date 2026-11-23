@@ -1,6 +1,7 @@
 import type { AnyModel } from "@yaakapp-internal/models";
 import { patchModel } from "@yaakapp-internal/models";
 import { InlineCode } from "@yaakapp-internal/ui";
+import { i18n } from "@yaakapp-internal/i18n";
 import { showPrompt } from "./prompt";
 
 export async function renameModelWithPrompt(model: Extract<AnyModel, { name: string }> | null) {
@@ -10,20 +11,21 @@ export async function renameModelWithPrompt(model: Extract<AnyModel, { name: str
 
   const name = await showPrompt({
     id: "rename-request",
-    title: "Rename Request",
+    title: i18n.t("dialog.renameRequest"),
     required: false,
     description:
       model.name === "" ? (
-        "Enter a new name"
+        i18n.t("dialog.enterNewName")
       ) : (
         <>
-          Enter a new name for <InlineCode>{model.name}</InlineCode>
+          {i18n.t("dialog.renamePrefix")} <InlineCode>{model.name}</InlineCode>{" "}
+          {i18n.t("dialog.renameSuffix")}
         </>
       ),
-    label: "Name",
-    placeholder: "New Name",
+    label: i18n.t("dialog.name"),
+    placeholder: i18n.t("dialog.newNamePlaceholder"),
     defaultValue: model.name,
-    confirmText: "Save",
+    confirmText: i18n.t("dialog.save"),
   });
 
   if (name == null) return;

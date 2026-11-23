@@ -1,0 +1,31 @@
+{
+  "dialog": {
+    "cancel": "取消",
+    "confirm": "确认",
+    "done": "完成",
+    "copyName": "复制名称",
+    "delete": "删除",
+    "save": "保存",
+    "renameRequest": "重命名请求",
+    "enterNewName": "输入新名称",
+    "renamePrefix": "为",
+    "renameSuffix": "输入新名称",
+    "name": "名称",
+    "newNamePlaceholder": "新名称",
+    "deleteTitleOne": "删除 {{type}}",
+    "deleteTitleMany": "删除 {{count}} 个项目",
+    "deleteDescPrefix": "要永久删除",
+    "deleteDescQuestion": "？",
+    "deleteDescTheFollowing": "以下项目？",
+    "deleteAll": "全部 {{count}} 个项目？",
+    "moveTarget": "目标工作区",
+    "moveCurrent": "（当前）",
+    "movedTo": "已移动至",
+    "movedManyCount": "{{count}} 个请求",
+    "switchToWorkspace": "切换到该工作区",
+    "move": "移动",
+    "moveMany": "移动 {{count}} 个请求",
+    "typeToConfirmPrefix": "输入",
+    "typeToConfirmSuffix": "以确认"
+  }
+}

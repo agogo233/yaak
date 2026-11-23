@@ -1,6 +1,7 @@
 import type { ConfirmProps } from "../components/core/Confirm";
 import { Confirm } from "../components/core/Confirm";
 import type { DialogProps } from "../components/core/Dialog";
+import { i18n } from "@yaakapp-internal/i18n";
 import { showDialog } from "./dialog";
 
 type ConfirmArgs = {
@@ -28,7 +29,7 @@ export async function showConfirm({
 export async function showConfirmDelete({ confirmText, color, ...extraProps }: ConfirmArgs) {
   return showConfirm({
     color: color ?? "danger",
-    confirmText: confirmText ?? "Delete",
+    confirmText: confirmText ?? i18n.t("dialog.delete"),
     ...extraProps,
   });
 }

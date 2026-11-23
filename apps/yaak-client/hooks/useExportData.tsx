@@ -1,4 +1,5 @@
 import { workspacesAtom } from "@yaakapp-internal/models";
+import { i18n } from "@yaakapp-internal/i18n";
 import { ExportDataDialog } from "../components/ExportDataDialog";
 import { showAlert } from "../lib/alert";
 import { showDialog } from "../lib/dialog";
@@ -11,7 +12,7 @@ export function useExportData() {
   return useFastMutation({
     mutationKey: ["export_data"],
     onError: (err: string) => {
-      showAlert({ id: "export-failed", title: "Export Failed", body: err });
+      showAlert({ id: "export-failed", title: i18n.t("toast.exportFailed"), body: err });
     },
     mutationFn: async () => {
       const activeWorkspace = jotaiStore.get(activeWorkspaceAtom);
@@ -21,7 +22,7 @@ export function useExportData() {
 
       showDialog({
         id: "export-data",
-        title: "Export Data",
+        title: i18n.t("toast.exportData"),
         size: "md",
         render: ({ hide }) => (
           <ExportDataDialog
@@ -29,7 +30,7 @@ export function useExportData() {
             onSuccess={() => {
               showToast({
                 color: "success",
-                message: "Data export successful",
+                message: i18n.t("toast.exportSuccess"),
               });
             }}
           />

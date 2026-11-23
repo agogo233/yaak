@@ -1,6 +1,7 @@
 import type { Color } from "@yaakapp-internal/plugins";
 import type { FormEvent } from "react";
 import { useId, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { CopyIconButton } from "../CopyIconButton";
 import { DialogFooter } from "./Dialog";
 import { PlainInput } from "./PlainInput";
@@ -22,6 +23,7 @@ export function Confirm({
 }: ConfirmProps) {
   const [confirm, setConfirm] = useState<string>("");
   const formId = useId();
+  const { t } = useTranslation();
   const handleHide = () => {
     onResult(false);
     onHide();
@@ -48,7 +50,7 @@ export function Confirm({
             <CopyIconButton
               tabIndex={-1}
               text={requireTyping}
-              title="Copy name"
+              title={t("dialog.copyName")}
               className="text-text-subtlest"
               iconSize="sm"
               size="2xs"
@@ -56,7 +58,8 @@ export function Confirm({
           }
           label={
             <>
-              Type <strong>{requireTyping}</strong> to confirm
+              {t("dialog.typeToConfirmPrefix")}{" "}
+              <strong>{requireTyping}</strong> {t("dialog.typeToConfirmSuffix")}
             </>
           }
         />
@@ -64,9 +67,9 @@ export function Confirm({
       <DialogFooter
         inline
         actions={[
-          { label: "Cancel", onClick: handleHide },
+          { label: t("dialog.cancel"), onClick: handleHide },
           {
-            label: confirmText ?? "Confirm",
+            label: confirmText ?? t("dialog.confirm"),
             color,
             form: formId,
             disabled: !didConfirm,

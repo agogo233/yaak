@@ -3,12 +3,12 @@ import { patchModel, workspacesAtom } from "@yaakapp-internal/models";
 import { InlineCode, VStack } from "@yaakapp-internal/ui";
 import { useAtomValue } from "jotai";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { resolvedModelName } from "../lib/resolvedModelName";
 import { router } from "../lib/router";
 import { showToast } from "../lib/toast";
 import { Button } from "./core/Button";
 import { Select } from "./core/Select";
-import { pluralizeCount } from "@yaakapp-internal/lib/pluralize";
 
 interface Props {
   activeWorkspaceId: string;
@@ -19,6 +19,7 @@ interface Props {
 export function MoveToWorkspaceDialog({ onDone, requests, activeWorkspaceId }: Props) {
   const workspaces = useAtomValue(workspacesAtom);
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState<string>(activeWorkspaceId);
+  const { t } = useTranslation();
 
   const targetWorkspace = workspaces.find((w) => w.id === selectedWorkspaceId);
   const isSameWorkspace = selectedWorkspaceId === activeWorkspaceId;
@@ -26,12 +27,15 @@ export function MoveToWorkspaceDialog({ onDone, requests, activeWorkspaceId }: P
   return (
     <VStack space={4} className="mb-4">
       <Select
-        label="Target Workspace"
+        label={t("dialog.moveTarget")}
         name="workspace"
         value={selectedWorkspaceId}
         onChange={setSelectedWorkspaceId}
         options={workspaces.map((w) => ({
-          label: w.id === activeWorkspaceId ? `${w.name} (current)` : w.name,
+          label:
+            w.id === activeWorkspaceId
+              ? `${w.name} ${t("dialog.moveCurrent")}`
+              : w.name,
           value: w.id,
         }))}
       />
@@ -53,12 +57,14 @@ export function MoveToWorkspaceDialog({ onDone, requests, activeWorkspaceId }: P
             message:
               requests.length === 1 && requests[0] != null ? (
                 <>
-                  <InlineCode>{resolvedModelName(requests[0])}</InlineCode> moved to{" "}
+                  <InlineCode>{resolvedModelName(requests[0])}</InlineCode>{" "}
+                  {t("dialog.movedTo")}{" "}
                   <InlineCode>{targetWorkspace?.name ?? "unknown"}</InlineCode>
                 </>
               ) : (
                 <>
-                  {pluralizeCount("request", requests.length)} moved to{" "}
+                  {t("dialog.movedManyCount", { count: requests.length })}{" "}
+                  {t("dialog.movedTo")}{" "}
                   <InlineCode>{targetWorkspace?.name ?? "unknown"}</InlineCode>
                 </>
               ),
@@ -75,13 +81,15 @@ export function MoveToWorkspaceDialog({ onDone, requests, activeWorkspaceId }: P
                   hide();
                 }}
               >
-                Switch to Workspace
+                {t("dialog.switchToWorkspace")}
               </Button>
             ),
           });
         }}
       >
-        {requests.length === 1 ? "Move" : `Move ${pluralizeCount("Request", requests.length)}`}
+        {requests.length === 1
+          ? t("dialog.move")
+          : t("dialog.moveMany", { count: requests.length })}
       </Button>
     </VStack>
   );

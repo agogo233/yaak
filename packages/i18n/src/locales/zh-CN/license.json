@@ -1,0 +1,29 @@
+{
+  "license": {
+    "activeBanner": "你的许可证已激活 🥳",
+    "trialDaysLeft": "内可评估 Yaak 的商业用途。",
+    "personalAlwaysFree": "个人使用永远免费。",
+    "learnMore": "了解更多",
+    "trialEnded": "你的商业用途试用已结束。",
+    "personalOnly": "你可以继续将 Yaak 用于个人用途。",
+    "commercialNeedsLicense": "商业用途需要许可证。",
+    "invalidPrefix": "你的许可证无效。请",
+    "signIn": "登录",
+    "invalidSuffix": "以获取更多详情",
+    "expiredPrefix": "你的许可证已于",
+    "expiredMid": "过期。请",
+    "resubscribe": "重新订阅",
+    "expiredSuffix": "以继续接收更新。",
+    "whatsNew": "最新版本更新内容",
+    "paymentAttention": "你的付款方式需要处理。",
+    "reactivatePrefix": "要重新激活许可证，请",
+    "updateBilling": "更新你的付款信息",
+    "checkFailed": "许可证检查失败：{{message}}（代码：{{code}}）",
+    "deactivate": "停用许可证",
+    "directSupport": "直接支持",
+    "activate": "激活许可证",
+    "purchase": "购买许可证",
+    "licenseKey": "许可证密钥",
+    "submit": "提交"
+  }
+}

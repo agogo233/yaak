@@ -2,6 +2,7 @@ import { getModel, settingsAtom, workspacesAtom } from "@yaakapp-internal/models
 import classNames from "classnames";
 import { useAtomValue } from "jotai";
 import { memo, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { openWorkspaceFromSyncDir } from "../commands/openWorkspaceFromSyncDir";
 import { openWorkspaceSettings } from "../commands/openWorkspaceSettings";
 import { switchWorkspace } from "../commands/switchWorkspace";
@@ -39,15 +40,16 @@ export const WorkspaceActionsDropdown = memo(function WorkspaceActionsDropdown({
   const workspaceMeta = useAtomValue(activeWorkspaceMetaAtom);
   const { mutate: deleteSendHistory } = useDeleteSendHistory();
   const workspaceActions = useWorkspaceActions();
+  const { t } = useTranslation();
 
   const openCloneGitRepositoryDialog = useCallback(() => {
     showDialog({
       id: "clone-git-repository",
       size: "md",
-      title: "Clone Git Repository",
+      title: t("workspace.cloneGitRepository"),
       render: ({ hide }) => <CloneGitRepositoryDialog hide={hide} />,
     });
-  }, []);
+  }, [t]);
 
   const { workspaceItems, itemsAfter, itemsBefore } = useMemo<{
     workspaceItems: RadioDropdownItem[];
@@ -63,20 +65,20 @@ export const WorkspaceActionsDropdown = memo(function WorkspaceActionsDropdown({
 
     const itemsBefore: DropdownItem[] = [
       {
-        label: "New Workspace",
+        label: t("workspace.newWorkspace"),
         leftSlot: <Icon icon="plus" />,
         submenu: [
           {
-            label: "Create Empty",
+            label: t("workspace.createEmpty"),
             leftSlot: <Icon icon="plus_circle" />,
             onSelect: createWorkspace,
           },
           {
-            label: "Open Folder",
+            label: t("workspace.openFolder"),
             leftSlot: <Icon icon="folder_open" />,
             onSelect: async () => {
               const dir = await platform.dialog.open({
-                title: "Select Workspace Directory",
+                title: t("workspace.selectWorkspaceDir"),
                 directory: true,
                 multiple: false,
               });
@@ -86,12 +88,12 @@ export const WorkspaceActionsDropdown = memo(function WorkspaceActionsDropdown({
             },
           },
           {
-            label: "Clone Git Repository",
+            label: t("workspace.cloneGitRepository"),
             leftSlot: <Icon icon="hard_drive_download" />,
             onSelect: openCloneGitRepositoryDialog,
           },
           {
-            label: "Import Data",
+            label: t("workspace.importData"),
             leftSlot: <Icon icon="folder_input" />,
             onSelect: () => importData.mutate(),
           },
@@ -108,7 +110,7 @@ export const WorkspaceActionsDropdown = memo(function WorkspaceActionsDropdown({
       })),
       ...(workspaceActions.length > 0 ? [{ type: "separator" as const }] : []),
       {
-        label: "Workspace Settings",
+        label: t("workspace.workspaceSettings"),
         leftSlot: <Icon icon="settings" />,
         hotKeyAction: "workspace_settings.show",
         onSelect: openWorkspaceSettings,
@@ -123,7 +125,7 @@ export const WorkspaceActionsDropdown = memo(function WorkspaceActionsDropdown({
         },
       },
       {
-        label: "Clear Send History",
+        label: t("workspace.clearSendHistory"),
         color: "warning",
         leftSlot: <Icon icon="history" />,
         onSelect: deleteSendHistory,
@@ -141,6 +143,7 @@ export const WorkspaceActionsDropdown = memo(function WorkspaceActionsDropdown({
     workspace,
     workspaceActions.map,
     workspaceActions.length,
+    t,
   ]);
 
   const handleSwitchWorkspace = useCallback(async (workspaceId: string | null) => {
@@ -164,10 +167,10 @@ export const WorkspaceActionsDropdown = memo(function WorkspaceActionsDropdown({
     showDialog({
       id: "switch-workspace",
       size: "sm",
-      title: "Switch Workspace",
+      title: t("workspace.switchWorkspace"),
       render: ({ hide }) => <SwitchWorkspaceDialog workspace={workspace} hide={hide} />,
     });
-  }, []);
+  }, [t]);
 
   return (
     <RadioDropdown
@@ -186,7 +189,7 @@ export const WorkspaceActionsDropdown = memo(function WorkspaceActionsDropdown({
         )}
         {...buttonProps}
       >
-        {workspace?.name ?? "Workspace"}
+        {workspace?.name ?? t("workspace.workspaceFallback")}
       </Button>
     </RadioDropdown>
   );

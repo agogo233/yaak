@@ -1,5 +1,6 @@
 import { HStack, VStack } from "@yaakapp-internal/ui";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { FeedbackFeature } from "../lib/featureFeedbackConstants";
 import { FEEDBACK_FEATURES } from "../lib/featureFeedbackConstants";
 import { rpc } from "../lib/rpc";
@@ -16,6 +17,7 @@ export function FeedbackToast({ feature, onDone }: Props) {
   const [text, setText] = useState<string>("");
   const [sent, setSent] = useState(false);
   const sentRef = useRef(false);
+  const { t } = useTranslation();
 
   const handleDismiss = () => {
     onDone();
@@ -36,31 +38,33 @@ export function FeedbackToast({ feature, onDone }: Props) {
       id: `feature-feedback-${feature}`,
       timeout: 3000,
       color: "success",
-      message: "Thanks for the feedback!",
+      message: t("toast.feedbackThanks"),
     });
   };
 
   return (
     <VStack space={2}>
-      <p className="text-sm font-semibold">{FEEDBACK_FEATURES[feature]}</p>
+      <p className="text-sm font-semibold">
+        {t(`feedback.${feature}`, { defaultValue: FEEDBACK_FEATURES[feature] })}
+      </p>
       <div className="h-20">
         <Input
           size="xs"
           // The editor forces its mono font on the scroller, so the override
           // has to target it directly
           className="[&_.cm-scroller]:font-sans! [&_.cm-scroller]:text-sm!"
-          label="Feedback"
+          label={t("toast.feedbackLabel")}
           hideLabel
           stateKey={null}
           multiLine
           fullHeight
-          placeholder="Your thoughts..."
+          placeholder={t("toast.feedbackPlaceholder")}
           onChange={setText}
         />
       </div>
       <HStack space={1.5} justifyContent="end">
         <Button size="xs" color="secondary" variant="border" onClick={handleDismiss}>
-          Dismiss
+          {t("toast.dismiss")}
         </Button>
         <Button
           size="xs"
@@ -68,7 +72,7 @@ export function FeedbackToast({ feature, onDone }: Props) {
           disabled={sent || text.trim().length === 0}
           onClick={handleSend}
         >
-          Send
+          {t("toast.send")}
         </Button>
       </HStack>
     </VStack>

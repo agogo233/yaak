@@ -1,0 +1,18 @@
+{
+  "theme": {
+    "title": "Theme",
+    "makeOwn": "Make Yaak your own by selecting a theme, or",
+    "createYourOwn": "Create Your Own",
+    "appearance": "Appearance",
+    "appearanceDesc": "Choose whether Yaak follows your system appearance or uses a fixed mode.",
+    "automatic": "Automatic",
+    "light": "Light",
+    "dark": "Dark",
+    "lightTheme": "Light theme",
+    "lightThemeDesc": "Theme used when Yaak is in light mode.",
+    "darkTheme": "Dark theme",
+    "darkThemeDesc": "Theme used when Yaak is in dark mode.",
+    "preview": "Preview",
+    "previewLabel": "preview"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "hotkeys": {
+    "title": "Keyboard Shortcuts",
+    "titleDesc": "Click the menu button to add, remove, or reset keyboard shortcuts.",
+    "filter": "Filter",
+    "filterPlaceholder": "Filter shortcuts...",
+    "scope": "Scope",
+    "action": "Action",
+    "shortcut": "Shortcut",
+    "addShortcut": "Add Keyboard Shortcut",
+    "remove": "Remove",
+    "removeAllShortcuts": "Remove All Shortcuts",
+    "resetToDefault": "Reset to Default",
+    "disabled": "Disabled",
+    "actionsMenu": "Hotkey actions",
+    "recordPrefix": "Record a key combination for",
+    "recordSuffix": "",
+    "inputAria": "Keyboard shortcut input",
+    "pressKeys": "Press keys...",
+    "cancel": "Cancel",
+    "save": "Save"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "workspace": {
+    "newWorkspace": "New Workspace",
+    "createEmpty": "Create Empty",
+    "openFolder": "Open Folder",
+    "selectWorkspaceDir": "Select Workspace Directory",
+    "cloneGitRepository": "Clone Git Repository",
+    "importData": "Import Data",
+    "workspaceSettings": "Workspace Settings",
+    "clearSendHistory": "Clear Send History",
+    "switchWorkspace": "Switch Workspace",
+    "workspaceFallback": "Workspace"
+  }
+}

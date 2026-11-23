@@ -1,0 +1,30 @@
+{
+  "plugins": {
+    "tabLabel": "插件",
+    "discover": "发现",
+    "installed": "已安装",
+    "bundled": "内置",
+    "pluginNoun": "插件",
+    "addPlugin": "添加插件",
+    "reload": "重新加载插件",
+    "viewDocs": "查看文档",
+    "enablePlugin": "启用插件",
+    "disablePlugin": "禁用插件",
+    "updateTo": "更新到 {{version}}",
+    "update": "更新",
+    "installVersion": "安装 {{version}}",
+    "install": "安装",
+    "uninstallPlugin": "卸载插件",
+    "uninstall": "卸载",
+    "search": "搜索",
+    "searchPlaceholder": "搜索插件...",
+    "noPluginsFound": "未找到插件",
+    "displayName": "显示名称",
+    "name": "名称",
+    "version": "版本",
+    "emptyLine1": "插件可扩展 Yaak 的功能。",
+    "emptyLine2": "添加你的第一个插件以开始使用。",
+    "deprecated": "{{name}} 插件已弃用。",
+    "noBundledFound": "未找到内置插件。"
+  }
+}

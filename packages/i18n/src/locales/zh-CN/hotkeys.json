@@ -1,0 +1,23 @@
+{
+  "hotkeys": {
+    "title": "键盘快捷键",
+    "titleDesc": "点击菜单按钮可添加、删除或重置键盘快捷键。",
+    "filter": "筛选",
+    "filterPlaceholder": "筛选快捷键...",
+    "scope": "作用域",
+    "action": "操作",
+    "shortcut": "快捷键",
+    "addShortcut": "添加快捷键",
+    "remove": "删除",
+    "removeAllShortcuts": "删除所有快捷键",
+    "resetToDefault": "恢复默认",
+    "disabled": "已禁用",
+    "actionsMenu": "快捷键操作",
+    "recordPrefix": "为",
+    "recordSuffix": "录制按键组合",
+    "inputAria": "键盘快捷键输入",
+    "pressKeys": "按下按键...",
+    "cancel": "取消",
+    "save": "保存"
+  }
+}

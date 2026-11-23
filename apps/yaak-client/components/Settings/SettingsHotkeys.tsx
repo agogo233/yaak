@@ -15,6 +15,7 @@ import classNames from "classnames";
 import { fuzzyMatch } from "fuzzbunny";
 import { useAtomValue } from "jotai";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   defaultHotkeys,
   formatHotkeyString,
@@ -76,6 +77,7 @@ export function SettingsHotkeys() {
   const settings = useAtomValue(settingsAtom);
   const hotkeys = useAtomValue(hotkeysAtom);
   const [filter, setFilter] = useState("");
+  const { t } = useTranslation();
 
   const filteredActions = useMemo(() => {
     if (!filter.trim()) {
@@ -96,14 +98,12 @@ export function SettingsHotkeys() {
   return (
     <VStack space={3} className="mb-4">
       <div className="mb-3">
-        <Heading>Keyboard Shortcuts</Heading>
-        <p className="text-text-subtle">
-          Click the menu button to add, remove, or reset keyboard shortcuts.
-        </p>
+        <Heading>{t("hotkeys.title")}</Heading>
+        <p className="text-text-subtle">{t("hotkeys.titleDesc")}</p>
       </div>
       <PlainInput
-        label="Filter"
-        placeholder="Filter shortcuts..."
+        label={t("hotkeys.filter")}
+        placeholder={t("hotkeys.filterPlaceholder")}
         defaultValue={filter}
         onChange={setFilter}
         hideLabel
@@ -112,9 +112,9 @@ export function SettingsHotkeys() {
       <Table>
         <TableHead>
           <TableRow>
-            <TableHeaderCell>Scope</TableHeaderCell>
-            <TableHeaderCell>Action</TableHeaderCell>
-            <TableHeaderCell>Shortcut</TableHeaderCell>
+            <TableHeaderCell>{t("hotkeys.scope")}</TableHeaderCell>
+            <TableHeaderCell>{t("hotkeys.action")}</TableHeaderCell>
+            <TableHeaderCell>{t("hotkeys.shortcut")}</TableHeaderCell>
             <TableHeaderCell></TableHeaderCell>
           </TableRow>
         </TableHead>
@@ -159,6 +159,7 @@ interface HotkeyRowProps {
 }
 
 function HotkeyRow({ action, currentKeys, defaultKeys, onSave, onReset }: HotkeyRowProps) {
+  const { t } = useTranslation();
   const label = useHotkeyLabel(action);
   const scope = capitalize(getHotkeyScope(action).replace(/_/g, " "));
   const isCustomized = !arraysEqual(currentKeys, defaultKeys);
@@ -197,7 +198,7 @@ function HotkeyRow({ action, currentKeys, defaultKeys, onSave, onReset }: Hotkey
   // Build dropdown items dynamically
   const dropdownItems: DropdownItem[] = [
     {
-      label: "Add Keyboard Shortcut",
+      label: t("hotkeys.addShortcut"),
       leftSlot: <Icon icon="plus" />,
       onSelect: handleStartRecording,
     },
@@ -209,7 +210,7 @@ function HotkeyRow({ action, currentKeys, defaultKeys, onSave, onReset }: Hotkey
       dropdownItems.push({
         label: (
           <HStack space={1.5}>
-            <span>Remove</span>
+            <span>{t("hotkeys.remove")}</span>
             <HotkeyRaw labelParts={formatHotkeyString(key)} variant="with-bg" className="text-xs" />
           </HStack>
         ),
@@ -224,7 +225,7 @@ function HotkeyRow({ action, currentKeys, defaultKeys, onSave, onReset }: Hotkey
           type: "separator",
         },
         {
-          label: "Remove All Shortcuts",
+          label: t("hotkeys.removeAllShortcuts"),
           leftSlot: <Icon icon="trash" />,
           onSelect: handleClearAll,
         },
@@ -237,7 +238,7 @@ function HotkeyRow({ action, currentKeys, defaultKeys, onSave, onReset }: Hotkey
       type: "separator",
     });
     dropdownItems.push({
-      label: "Reset to Default",
+      label: t("hotkeys.resetToDefault"),
       leftSlot: <Icon icon="refresh" />,
       onSelect: onReset,
     });
@@ -254,7 +255,7 @@ function HotkeyRow({ action, currentKeys, defaultKeys, onSave, onReset }: Hotkey
       <TableCell>
         <HStack space={1.5} className="py-1">
           {isDisabled ? (
-            <span className="text-text-subtlest">Disabled</span>
+            <span className="text-text-subtlest">{t("hotkeys.disabled")}</span>
           ) : (
             currentKeys.map((k) => (
               <HotkeyRaw key={k} labelParts={formatHotkeyString(k)} variant="with-bg" />
@@ -267,7 +268,7 @@ function HotkeyRow({ action, currentKeys, defaultKeys, onSave, onReset }: Hotkey
           <IconButton
             icon="ellipsis_vertical"
             size="sm"
-            title="Hotkey actions"
+            title={t("hotkeys.actionsMenu")}
             className="ml-auto text-text-subtlest"
           />
         </Dropdown>
@@ -292,6 +293,7 @@ interface RecordHotkeyDialogProps {
 function RecordHotkeyDialog({ label, onSave, onCancel }: RecordHotkeyDialogProps) {
   const [recordedKey, setRecordedKey] = useState<string | null>(null);
   const [isFocused, setIsFocused] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!isFocused) return;
@@ -327,12 +329,14 @@ function RecordHotkeyDialog({ label, onSave, onCancel }: RecordHotkeyDialogProps
     <VStack space={4}>
       <div>
         <p className="text-text-subtle mb-2">
-          Record a key combination for <span className="font-semibold">{label}</span>
+          {t("hotkeys.recordPrefix")}{" "}
+          <span className="font-semibold">{label}</span>{" "}
+          {t("hotkeys.recordSuffix")}
         </p>
         <button
           type="button"
           data-disable-hotkey
-          aria-label="Keyboard shortcut input"
+          aria-label={t("hotkeys.inputAria")}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onClick={(e) => {
@@ -348,16 +352,16 @@ function RecordHotkeyDialog({ label, onSave, onCancel }: RecordHotkeyDialogProps
           {recordedKey ? (
             <HotkeyRaw labelParts={formatHotkeyString(recordedKey)} />
           ) : (
-            <span className="text-text-subtlest">Press keys...</span>
+            <span className="text-text-subtlest">{t("hotkeys.pressKeys")}</span>
           )}
         </button>
       </div>
       <HStack space={2} justifyContent="end">
         <Button color="secondary" onClick={onCancel}>
-          Cancel
+          {t("hotkeys.cancel")}
         </Button>
         <Button color="primary" onClick={handleSave} disabled={!recordedKey}>
-          Save
+          {t("hotkeys.save")}
         </Button>
       </HStack>
     </VStack>

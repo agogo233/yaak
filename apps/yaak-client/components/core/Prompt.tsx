@@ -1,6 +1,7 @@
 import type { FormInput, JsonPrimitive } from "@yaakapp-internal/plugins";
 import type { FormEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DynamicForm } from "../DynamicForm";
 import { DialogFooter } from "./Dialog";
 import { generateId } from "@yaakapp-internal/lib/generateId";
@@ -19,13 +20,14 @@ export function Prompt({
   onCancel,
   inputs: initialInputs,
   onResult,
-  confirmText = "Confirm",
-  cancelText = "Cancel",
+  confirmText,
+  cancelText,
   onValuesChange,
   onInputsUpdated,
 }: PromptProps) {
   const [value, setValue] = useState<Record<string, JsonPrimitive>>({});
   const [inputs, setInputs] = useState<FormInput[]>(initialInputs);
+  const { t } = useTranslation();
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -52,8 +54,8 @@ export function Prompt({
       <DialogFooter
         inline
         actions={[
-          { label: cancelText || "Cancel", onClick: onCancel },
-          { label: confirmText || "Done", color: "primary", form: id },
+          { label: cancelText ?? t("dialog.cancel"), onClick: onCancel },
+          { label: confirmText ?? t("dialog.confirm"), color: "primary", form: id },
         ]}
       />
     </form>

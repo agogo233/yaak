@@ -1,0 +1,25 @@
+{
+  "certificates": {
+    "disable": "Disable certificate",
+    "enable": "Enable certificate",
+    "configure": "Configure Certificate",
+    "remove": "Remove certificate",
+    "host": "Host",
+    "port": "Port",
+    "crtFile": "CRT File",
+    "crtNoun": "Cert",
+    "keyFile": "KEY File",
+    "keyNoun": "Key",
+    "pfxFile": "PFX File",
+    "passphrase": "Passphrase",
+    "thisCertificate": "this certificate",
+    "deleteTitle": "Delete Certificate",
+    "deleteDesc": "Permanently delete certificate for",
+    "deleteMid": "",
+    "deleteDescSuffix": "?",
+    "heading": "Client Certificates",
+    "headingDesc": "Add and manage TLS certificates on a per domain basis",
+    "add": "Add Certificate",
+    "usingForWork": "Using certificates for work?"
+  }
+}

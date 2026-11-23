@@ -1,4 +1,5 @@
 import { useTimedBoolean } from "@yaakapp-internal/ui";
+import { useTranslation } from "react-i18next";
 import { copyToClipboard } from "../lib/copy";
 import { showToast } from "../lib/toast";
 import type { ButtonProps } from "./core/Button";
@@ -10,6 +11,7 @@ interface Props extends Omit<ButtonProps, "onClick"> {
 
 export function CopyButton({ text, ...props }: Props) {
   const [copied, setCopied] = useTimedBoolean();
+  const { t } = useTranslation();
   return (
     <Button
       {...props}
@@ -19,7 +21,7 @@ export function CopyButton({ text, ...props }: Props) {
           showToast({
             id: "failed-to-copy",
             color: "danger",
-            message: "Failed to copy",
+            message: t("toast.copyFailed"),
           });
         } else {
           copyToClipboard(content, { disableToast: true });
@@ -27,7 +29,7 @@ export function CopyButton({ text, ...props }: Props) {
         }
       }}
     >
-      {copied ? "Copied" : "Copy"}
+      {copied ? t("toast.copiedLabel") : t("toast.copy")}
     </Button>
   );
 }

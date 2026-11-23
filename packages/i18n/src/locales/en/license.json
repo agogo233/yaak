@@ -1,0 +1,29 @@
+{
+  "license": {
+    "activeBanner": "Your license is active 🥳",
+    "trialDaysLeft": "left to evaluate Yaak for commercial use.",
+    "personalAlwaysFree": "Personal use is always free, forever.",
+    "learnMore": "Learn More",
+    "trialEnded": "Your commercial-use trial has ended.",
+    "personalOnly": "You may continue using Yaak for personal use only.",
+    "commercialNeedsLicense": "A license is required for commercial use.",
+    "invalidPrefix": "Your license is invalid. Please",
+    "signIn": "Sign In",
+    "invalidSuffix": "for more details",
+    "expiredPrefix": "Your license expired",
+    "expiredMid": ". Please",
+    "resubscribe": "Resubscribe",
+    "expiredSuffix": "to continue receiving updates.",
+    "whatsNew": "What's new in latest builds",
+    "paymentAttention": "Your payment method needs attention.",
+    "reactivatePrefix": "To re-activate your license, please",
+    "updateBilling": "update your billing info",
+    "checkFailed": "License check failed: {{message}} (Code: {{code}})",
+    "deactivate": "Deactivate License",
+    "directSupport": "Direct Support",
+    "activate": "Activate License",
+    "purchase": "Purchase License",
+    "licenseKey": "License Key",
+    "submit": "Submit"
+  }
+}
