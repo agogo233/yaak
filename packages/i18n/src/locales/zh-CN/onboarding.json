@@ -1,0 +1,14 @@
+{
+  "onboarding": {
+    "cloneGitRepo": "克隆 Git 仓库",
+    "getStartedTitle": "你想如何开始？",
+    "migrateDesc": "Postman、Insomnia、Bruno、OpenAPI 或 curl",
+    "migrateTitle": "从其他工具迁移",
+    "realApiDesc": "开箱即用、可直接发送的请求",
+    "realApiTitle": "用真实 API 体验 Yaak",
+    "selectWorkspaceDir": "选择工作区目录",
+    "somethingWentWrong": "出错了",
+    "startFreshDesc": "为你的第一个请求准备一个空工作区",
+    "startFreshTitle": "从零开始"
+  }
+}

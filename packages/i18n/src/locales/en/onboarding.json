@@ -1,0 +1,14 @@
+{
+  "onboarding": {
+    "cloneGitRepo": "Clone Git Repository",
+    "getStartedTitle": "How would you like to get started?",
+    "migrateDesc": "Postman, Insomnia, Bruno, OpenAPI, or curl",
+    "migrateTitle": "Migrate from another tool",
+    "realApiDesc": "Ready-made requests you can send right away",
+    "realApiTitle": "Try Yaak with a real API",
+    "selectWorkspaceDir": "Select Workspace Directory",
+    "somethingWentWrong": "Something went wrong",
+    "startFreshDesc": "An empty workspace for your first request",
+    "startFreshTitle": "Start fresh"
+  }
+}

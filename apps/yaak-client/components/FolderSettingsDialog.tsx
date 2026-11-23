@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { createWorkspaceModel, foldersAtom, patchModel } from "@yaakapp-internal/models";
 import { HStack, Icon, InlineCode, VStack, CountBadge } from "@yaakapp-internal/ui";
 import { useAtomValue } from "jotai";
@@ -61,18 +62,18 @@ export function FolderSettingsDialog({ folderId, tab }: Props) {
     return [
       {
         value: TAB_GENERAL,
-        label: "General",
+        label: i18n.t("settings.folderTabGeneral"),
       },
       {
         value: TAB_SETTINGS,
-        label: "Settings",
+        label: i18n.t("settings.title"),
         rightSlot: <CountBadge count={numSettingsOverrides} />,
       },
       ...headersTab,
       ...authTab,
       {
         value: TAB_VARIABLES,
-        label: "Variables",
+        label: i18n.t("import.variables"),
         rightSlot: numVars > 0 ? <CountBadge count={numVars} /> : null,
       },
     ];
@@ -106,7 +107,7 @@ export function FolderSettingsDialog({ folderId, tab }: Props) {
 
       <Tabs
         defaultValue={tab ?? TAB_GENERAL}
-        label="Folder Settings"
+        label={i18n.t("settings.folderSettings")}
         className="pt-2 pb-2 pl-3 pr-1 flex-1"
         layout="horizontal"
         addBorders
@@ -118,14 +119,14 @@ export function FolderSettingsDialog({ folderId, tab }: Props) {
         <TabContent value={TAB_GENERAL} className="overflow-y-auto h-full px-4">
           <div className="grid grid-rows-[auto_minmax(0,1fr)_auto] gap-3 pb-3 h-full">
             <Input
-              label="Folder Name"
+              label={i18n.t("settings.folderName")}
               defaultValue={folder.name}
               onChange={(name) => patchModel(folder, { name })}
               stateKey={`name.${folder.id}`}
             />
             <MarkdownEditor
               name="folder-description"
-              placeholder="Folder description"
+              placeholder={i18n.t("settings.folderDescPlaceholder")}
               className="border border-border px-2"
               defaultValue={folder.description}
               stateKey={`description.${folder.id}`}
@@ -151,7 +152,7 @@ export function FolderSettingsDialog({ folderId, tab }: Props) {
                   className="opacity-70 text-primary!"
                   size="2xs"
                   iconSize="sm"
-                  title="Copy folder ID"
+                  title={i18n.t("settings.copyFolderId")}
                   text={folder.id}
                 />
               </InlineCode>

@@ -1,0 +1,8 @@
+{
+  "create": {
+    "customMethod": "自定义方法",
+    "customMethodDesc": "输入自定义方法名",
+    "folder": "文件夹",
+    "httpMethod": "HTTP 方法"
+  }
+}

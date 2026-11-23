@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type {
   Folder,
   GrpcRequest,
@@ -44,7 +45,7 @@ export function HttpAuthenticationEditor({ model }: Props) {
   );
 
   if (model.authenticationType === "none") {
-    return <EmptyStateText>No authentication</EmptyStateText>;
+    return <EmptyStateText>{i18n.t("auth.none")}</EmptyStateText>;
   }
 
   if (model.authenticationType != null && authConfig.data == null) {
@@ -78,11 +79,11 @@ export function HttpAuthenticationEditor({ model }: Props) {
         </EmptyStateText>
       );
     }
-    return <EmptyStateText>No authentication</EmptyStateText>;
+    return <EmptyStateText>{i18n.t("auth.none")}</EmptyStateText>;
   }
 
   if (inheritedAuth.authenticationType === "none") {
-    return <EmptyStateText>No authentication</EmptyStateText>;
+    return <EmptyStateText>{i18n.t("auth.none")}</EmptyStateText>;
   }
 
   const wasAuthInherited = inheritedAuth?.id !== model.id;
@@ -114,7 +115,7 @@ export function HttpAuthenticationEditor({ model }: Props) {
       <div>
         <HStack space={2} alignItems="start">
           <SegmentedControl
-            label="Enabled"
+            label={i18n.t("auth.enabled")}
             hideLabel
             name="enabled"
             value={
@@ -126,9 +127,9 @@ export function HttpAuthenticationEditor({ model }: Props) {
                   : "__DYNAMIC__"
             }
             options={[
-              { label: "Enabled", value: "__TRUE__" },
-              { label: "Disabled", value: "__FALSE__" },
-              { label: "Enabled when...", value: "__DYNAMIC__" },
+              { label: i18n.t("auth.enabled"), value: "__TRUE__" },
+              { label: i18n.t("auth.disabled"), value: "__FALSE__" },
+              { label: i18n.t("auth.enabledWhen"), value: "__DYNAMIC__" },
             ]}
             onChange={async (enabled) => {
               let disabled: boolean | string;
@@ -153,7 +154,7 @@ export function HttpAuthenticationEditor({ model }: Props) {
               )}
             >
               <IconButton
-                title="Authentication Actions"
+                title={i18n.t("auth.actions")}
                 icon="settings"
                 size="xs"
                 className="text-secondary!"
@@ -236,10 +237,10 @@ function AuthenticationDisabledInput({
     <Input
       size="sm"
       className={className}
-      label="Dynamic Disabled"
+      label={i18n.t("auth.dynamicDisabled")}
       hideLabel
       defaultValue={value}
-      placeholder="Enabled when this renders a non-empty value"
+      placeholder={i18n.t("auth.enabledWhenPlaceholder")}
       rightSlot={
         <div className="px-1 flex items-center">
           <div className="rounded-full bg-surface-highlight text-xs px-1.5 py-0.5 text-text-subtle whitespace-nowrap">

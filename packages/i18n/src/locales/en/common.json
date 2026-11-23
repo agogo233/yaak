@@ -1,18 +1,22 @@
 {
   "common": {
     "actions": "Actions",
-    "or": "or",
-    "yes": "Yes",
-    "no": "No",
-    "search": "Search",
     "cancel": "Cancel",
     "close": "Close",
     "confirm": "Confirm",
+    "copiedAsPng": "Copied as PNG",
+    "copyImage": "Copy Image",
     "delete": "Delete",
-    "rename": "Rename",
     "duplicate": "Duplicate",
     "move": "Move",
+    "no": "No",
+    "or": "or",
+    "rename": "Rename",
+    "saveToFile": "Save to File",
+    "savedTo": "Saved to {{path}}",
+    "search": "Search",
     "send": "Send",
-    "settings": "Settings"
+    "settings": "Settings",
+    "yes": "Yes"
   }
 }

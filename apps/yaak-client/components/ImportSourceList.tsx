@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { platform } from "@yaakapp-internal/platform";
 import { Icon, LoadingIcon } from "@yaakapp-internal/ui";
 import classNames from "classnames";
@@ -122,12 +123,12 @@ export function ImportSourceList({
   const pathInputEl = (
     <PlainInput
       ref={pathInputRef}
-      label="URL or file path"
+      label={i18n.t("import.urlOrFilePath")}
       hideLabel
       size="sm"
       autoFocus
       disabled={disabled}
-      placeholder="Paste a URL or a file path"
+      placeholder={i18n.t("import.pasteUrlOrPath")}
       onChange={setPathInput}
       onKeyDownCapture={handlePathKeyDown}
       rightSlot={
@@ -155,7 +156,7 @@ export function ImportSourceList({
         >
           <Icon icon="folder_input" className="text-text-subtlest w-10! h-10! mb-1" />
           {isHovering ? (
-            <span>Drop to add</span>
+            <span>{i18n.t("import.dropToAdd")}</span>
           ) : (
             <span>
               Choose{" "}

@@ -22,6 +22,11 @@ import timelineEn from "./locales/en/timeline.json";
 import cookiesEn from "./locales/en/cookies.json";
 import importEn from "./locales/en/import.json";
 import gitEn from "./locales/en/git.json";
+import pairEn from "./locales/en/pair.json";
+import authEn from "./locales/en/auth.json";
+import onboardingEn from "./locales/en/onboarding.json";
+import envEn from "./locales/en/env.json";
+import createEn from "./locales/en/create.json";
 import agentsZh from "./locales/zh-CN/agents.json";
 import certificatesZh from "./locales/zh-CN/certificates.json";
 import commonZh from "./locales/zh-CN/common.json";
@@ -46,6 +51,11 @@ import timelineZh from "./locales/zh-CN/timeline.json";
 import cookiesZh from "./locales/zh-CN/cookies.json";
 import importZh from "./locales/zh-CN/import.json";
 import gitZh from "./locales/zh-CN/git.json";
+import pairZh from "./locales/zh-CN/pair.json";
+import authZh from "./locales/zh-CN/auth.json";
+import onboardingZh from "./locales/zh-CN/onboarding.json";
+import envZh from "./locales/zh-CN/env.json";
+import createZh from "./locales/zh-CN/create.json";
 
 export const resources = {
   en: {
@@ -74,6 +84,11 @@ export const resources = {
       ...cookiesEn,
       ...importEn,
       ...gitEn,
+      ...pairEn,
+      ...authEn,
+      ...onboardingEn,
+      ...envEn,
+      ...createEn,
     },
   },
   "zh-CN": {
@@ -102,6 +117,11 @@ export const resources = {
       ...cookiesZh,
       ...importZh,
       ...gitZh,
+      ...pairZh,
+      ...authZh,
+      ...onboardingZh,
+      ...envZh,
+      ...createZh,
     },
   },
 };

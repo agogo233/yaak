@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import {
   disableEncryption,
   enableEncryption,
@@ -133,8 +134,8 @@ export function WorkspaceEncryptionSetting({
           </Banner>
         )}
         <SettingRow
-          title="Workspace encryption"
-          description="Encrypt workspace secrets and sensitive values at rest."
+          title={i18n.t("settings.encryptionTitle")}
+          description={i18n.t("settings.encryptionDesc")}
         >
           <Button
             color="secondary"
@@ -213,9 +214,9 @@ function EnterWorkspaceKey({
   const handleForgotKey = async () => {
     const confirmed = await showConfirm({
       id: "disable-encryption",
-      title: "Disable Encryption",
+      title: i18n.t("settings.disableEncryption"),
       color: "danger",
-      confirmText: "Disable Encryption",
+      confirmText: i18n.t("settings.disableEncryption"),
       description: (
         <>
           This will disable encryption for this workspace. Any previously encrypted values will fail
@@ -262,7 +263,7 @@ function EnterWorkspaceKey({
         <PlainInput
           required
           onChange={setKey}
-          label="Workspace encryption key"
+          label={i18n.t("settings.encryptionKeyLabel")}
           placeholder="YK0000-111111-222222-333333-444444-AAAAAA-BBBBBB-CCCCCC-DDDDDD"
         />
         <Button variant="border" type="submit" color="secondary">
@@ -308,7 +309,7 @@ function KeyRevealer({
         {encryptionKey && <HighlightedKey keyText={encryptionKey} show={show} />}
       </VStack>
       <HStack>
-        {encryptionKey && <CopyIconButton text={encryptionKey} title="Copy workspace key" />}
+        {encryptionKey && <CopyIconButton text={encryptionKey} title={i18n.t("settings.copyWorkspaceKey")} />}
         <IconButton
           title={show ? "Hide" : "Reveal" + "workspace key"}
           icon={show ? "eye_closed" : "eye"}

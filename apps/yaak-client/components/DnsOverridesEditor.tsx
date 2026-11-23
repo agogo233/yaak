@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { DnsOverride, Workspace } from "@yaakapp-internal/models";
 import { patchModel } from "@yaakapp-internal/models";
 import { fireAndForget } from "../lib/fireAndForget";
@@ -136,7 +137,7 @@ function DnsOverrideRow({ override, onUpdate, onDelete }: DnsOverrideRowProps) {
         <PlainInput
           size="sm"
           hideLabel
-          label="Hostname"
+          label={i18n.t("settings.dnsHostname")}
           placeholder="api.example.com"
           defaultValue={override.hostname}
           onChange={(hostname) => onUpdate({ hostname })}
@@ -146,7 +147,7 @@ function DnsOverrideRow({ override, onUpdate, onDelete }: DnsOverrideRowProps) {
         <PlainInput
           size="sm"
           hideLabel
-          label="IPv4 addresses"
+          label={i18n.t("settings.ipv4")}
           placeholder="127.0.0.1"
           defaultValue={ipv4Value}
           onChange={(value) =>
@@ -163,7 +164,7 @@ function DnsOverrideRow({ override, onUpdate, onDelete }: DnsOverrideRowProps) {
         <PlainInput
           size="sm"
           hideLabel
-          label="IPv6 addresses"
+          label={i18n.t("settings.ipv6")}
           placeholder="::1"
           defaultValue={ipv6Value}
           onChange={(value) =>
@@ -181,7 +182,7 @@ function DnsOverrideRow({ override, onUpdate, onDelete }: DnsOverrideRowProps) {
           size="xs"
           iconSize="sm"
           icon="trash"
-          title="Delete override"
+          title={i18n.t("settings.deleteOverride")}
           onClick={onDelete}
         />
       </TableCell>

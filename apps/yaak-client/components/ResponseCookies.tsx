@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { HttpResponse } from "@yaakapp-internal/models";
 import classNames from "classnames";
 import { useMemo } from "react";
@@ -175,17 +176,17 @@ export function ResponseCookies({ response }: Props) {
                 <KeyValueRows>
                   {[
                     cookie.domain && (
-                      <KeyValueRow labelColor="info" label="Domain" key="domain">
+                      <KeyValueRow labelColor="info" label={i18n.t("cookies.domain")} key="domain">
                         {cookie.domain}
                       </KeyValueRow>
                     ),
                     cookie.path && (
-                      <KeyValueRow labelColor="info" label="Path" key="path">
+                      <KeyValueRow labelColor="info" label={i18n.t("cookies.path")} key="path">
                         {cookie.path}
                       </KeyValueRow>
                     ),
                     cookie.expires && (
-                      <KeyValueRow labelColor="info" label="Expires" key="expires">
+                      <KeyValueRow labelColor="info" label={i18n.t("cookies.expires")} key="expires">
                         {cookie.expires}
                       </KeyValueRow>
                     ),
@@ -195,7 +196,7 @@ export function ResponseCookies({ response }: Props) {
                       </KeyValueRow>
                     ),
                     cookie.secure && (
-                      <KeyValueRow labelColor="info" label="Secure" key="secure">
+                      <KeyValueRow labelColor="info" label={i18n.t("cookies.secure")} key="secure">
                         true
                       </KeyValueRow>
                     ),
@@ -205,7 +206,7 @@ export function ResponseCookies({ response }: Props) {
                       </KeyValueRow>
                     ),
                     cookie.sameSite && (
-                      <KeyValueRow labelColor="info" label="SameSite" key="sameSite">
+                      <KeyValueRow labelColor="info" label={i18n.t("cookies.sameSite")} key="sameSite">
                         {cookie.sameSite}
                       </KeyValueRow>
                     ),

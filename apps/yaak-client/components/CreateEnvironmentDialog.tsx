@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { createWorkspaceModel } from "@yaakapp-internal/models";
 import { useId, useState } from "react";
 import { useToggle } from "../hooks/useToggle";
@@ -39,23 +40,23 @@ export function CreateEnvironmentDialog({ workspaceId, hide, onCreate }: Props) 
       }}
     >
       <PlainInput
-        label="Name"
+        label={i18n.t("dialog.name")}
         required
         defaultValue={name}
         onChange={setName}
-        placeholder="Production"
+        placeholder={i18n.t("env.productionPlaceholder")}
       />
       <Checkbox
         checked={sharable}
-        title="Share this environment"
-        help="Sharable environments are included in data export and directory sync."
+        title={i18n.t("env.shareTitle")}
+        help={i18n.t("env.shareHelp")}
         onChange={toggleSharable}
       />
       <div>
         <Label
           htmlFor="color"
           className="mb-1.5"
-          help="Select a color to be displayed when this environment is active, to help identify it."
+          help={i18n.t("env.colorHelp")}
         >
           Color
         </Label>
@@ -65,7 +66,7 @@ export function CreateEnvironmentDialog({ workspaceId, hide, onCreate }: Props) 
         inline
         actions={[
           {
-            label: "Create Environment",
+            label: i18n.t("env.create"),
             color: "secondary",
             form: formId,
             leftSlot: color != null ? <ColorIndicator color={color} /> : undefined,

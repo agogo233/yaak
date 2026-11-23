@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { AnyModel, Workspace } from "@yaakapp-internal/models";
 
 type ModelType = AnyModel["model"];
@@ -37,58 +38,58 @@ function defineRequestSetting<const K extends RequestSettingKey>(
 
 export const SETTING_REQUEST_TIMEOUT = defineRequestSetting({
   defaultValue: 0,
-  description: "Maximum request duration in milliseconds. Set to 0 to disable.",
+  description: i18n.t("settings.requestTimeoutDesc"),
   modelKey: "settingRequestTimeout",
   models: ["workspace", "folder", "http_request"],
-  title: "Request Timeout",
+  title: i18n.t("settings.requestTimeout"),
 });
 
 export const SETTING_REQUEST_MESSAGE_SIZE = defineRequestSetting({
   defaultValue: 64 * 1024 * 1024,
-  description: "Maximum gRPC or WebSocket message size in MB. Set to 0 to disable.",
+  description: i18n.t("settings.messageSizeLimitDesc"),
   modelKey: "settingRequestMessageSize",
   models: ["workspace", "folder", "websocket_request", "grpc_request"],
-  title: "Message Size Limit",
+  title: i18n.t("settings.messageSizeLimit"),
 });
 
 export const SETTING_VALIDATE_CERTIFICATES = defineRequestSetting({
   defaultValue: true,
-  description: "When disabled, skip validation of server certificates.",
+  description: i18n.t("settings.validateTlsDesc"),
   modelKey: "settingValidateCertificates",
   models: ["workspace", "folder", "http_request", "websocket_request", "grpc_request"],
-  title: "Validate TLS certificates",
+  title: i18n.t("settings.validateTls"),
 });
 
 export const SETTING_FOLLOW_REDIRECTS = defineRequestSetting({
   defaultValue: true,
-  description: "Follow HTTP redirects automatically.",
+  description: i18n.t("settings.followRedirectsDesc"),
   modelKey: "settingFollowRedirects",
   models: ["workspace", "folder", "http_request"],
-  title: "Follow redirects",
+  title: i18n.t("settings.followRedirects"),
 });
 
 export const SETTING_HTTP_VERSION = defineRequestSetting({
   defaultValue: "auto",
-  description: "Force HTTP/1.1 or HTTP/2 for servers that don't negotiate the version correctly.",
+  description: i18n.t("settings.httpVersionDesc"),
   modelKey: "settingHttpVersion",
   models: ["workspace", "folder", "http_request"],
-  title: "HTTP version",
+  title: i18n.t("settings.httpVersion"),
 });
 
 export const SETTING_SEND_COOKIES = defineRequestSetting({
   defaultValue: true,
-  description: "Attach matching cookies from the active cookie jar to outgoing requests.",
+  description: i18n.t("settings.sendCookiesDesc"),
   modelKey: "settingSendCookies",
   models: ["workspace", "folder", "http_request", "websocket_request"],
-  title: "Automatically send cookies",
+  title: i18n.t("settings.sendCookies"),
 });
 
 export const SETTING_STORE_COOKIES = defineRequestSetting({
   defaultValue: true,
-  description: "Save cookies from Set-Cookie response headers to the active cookie jar.",
+  description: i18n.t("settings.storeCookiesDesc"),
   modelKey: "settingStoreCookies",
   models: ["workspace", "folder", "http_request", "websocket_request"],
-  title: "Automatically store cookies",
+  title: i18n.t("settings.storeCookies"),
 });
 
 export function modelSupportsSetting<K extends RequestSettingKey>(

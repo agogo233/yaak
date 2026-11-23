@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import {
   type BatchUpsertResult,
   type ImportDestination,
@@ -41,7 +42,7 @@ export const importData = createFastMutation({
   onError: (err: string) => {
     showAlert({
       id: "import-failed",
-      title: "Import Failed",
+      title: i18n.t("import.failed"),
       size: "md",
       body: <FormattedError>{err}</FormattedError>,
     });
@@ -52,7 +53,7 @@ export const importData = createFastMutation({
       const workspaces = jotaiStore.get(workspacesAtom);
       showDialog({
         id: "import",
-        title: "Import Data",
+        title: i18n.t("import.title"),
         size: "lg",
         className: "h-[36rem]",
         disableClose: true,
@@ -95,7 +96,7 @@ async function finishImport(imported: BatchUpsertResult): Promise<void> {
 
   showDialog({
     id: "import-complete",
-    title: "Import Complete",
+    title: i18n.t("import.complete"),
     size: "sm",
     hideX: true,
     render: ({ hide }) => {

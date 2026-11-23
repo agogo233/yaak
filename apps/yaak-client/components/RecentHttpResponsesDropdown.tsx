@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { HttpResponse } from "@yaakapp-internal/models";
 import { deleteModel } from "@yaakapp-internal/models";
 import { HStack, Icon, formatMillis, HttpStatusTag, SizeTag } from "@yaakapp-internal/ui";
@@ -106,18 +107,18 @@ export const RecentHttpResponsesDropdown = function ResponsePane({
     <Dropdown
       items={[
         {
-          label: "Delete",
+          label: i18n.t("common.delete"),
           leftSlot: <Icon icon="trash" />,
           onSelect: () => deleteModel(activeResponse),
         },
         {
-          label: "Delete all",
+          label: i18n.t("response.deleteAll"),
           leftSlot: <Icon icon="trash" />,
           onSelect: deleteAllResponses.mutate,
           disabled: responses.length === 0,
         },
         {
-          label: "Unpin Response",
+          label: i18n.t("response.unpinResponse"),
           onSelect: () => onPinnedResponseId(activeResponse.id),
           leftSlot: <Icon icon="unpin" />,
           hidden: latestResponseId === activeResponse.id,
@@ -133,19 +134,19 @@ export const RecentHttpResponsesDropdown = function ResponsePane({
               size="xs"
               className="max-w-72"
             >
-              <p>Copy and save actions moved to the Response tab menu.</p>
+              <p>{i18n.t("response.actionsMovedToResponseMenu")}</p>
             </DismissibleBanner>
           ),
         },
         {
           type: "separator",
-          label: "Recent",
+          label: i18n.t("response.recent"),
         },
         ...responseHistoryItems,
       ]}
     >
       <IconButton
-        title="Show response history"
+        title={i18n.t("response.showResponseHistory")}
         icon={activeResponse?.id === latestResponseId ? "history" : "pin"}
         className="m-0.5 text-text-subtle"
         size="sm"

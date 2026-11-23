@@ -1,0 +1,8 @@
+{
+  "create": {
+    "customMethod": "Custom Method",
+    "customMethodDesc": "Enter a custom method name",
+    "folder": "Folder",
+    "httpMethod": "Http Method"
+  }
+}

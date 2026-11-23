@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { DragEndEvent, DragMoveEvent, DragStartEvent } from "@dnd-kit/core";
 import {
   DndContext,
@@ -622,12 +623,12 @@ export function PairEditorRow({
   const defaultItems = useMemo(
     (): DropdownItem[] => [
       {
-        label: "Edit Multi-line",
+        label: i18n.t("pair.editMultiline"),
         onSelect: handleEditMultiLineValue,
         hidden: !allowMultilineValues,
       },
       {
-        label: "Delete",
+        label: i18n.t("pair.delete"),
         onSelect: handleDelete,
         color: "danger",
       },
@@ -711,7 +712,7 @@ export function PairEditorRow({
           forceUpdateKey={forceUpdateKey}
           containerClassName={classNames("bg-surface", isLast && "border-dashed")}
           defaultValue={pair.name}
-          label="Name"
+          label={i18n.t("pair.name")}
           name={`name[${index}]`}
           onBlur={handleBlurName}
           onChange={handleChangeName}
@@ -756,7 +757,7 @@ export function PairEditorRow({
               forcedEnvironmentId={forcedEnvironmentId}
               forceUpdateKey={forceUpdateKey}
               defaultValue={pair.value}
-              label="Value"
+              label={i18n.t("pair.value")}
               name={`value[${index}]`}
               onChange={handleChangeValueText}
               onFocus={handleFocusValue}
@@ -788,7 +789,7 @@ export function PairEditorRow({
             // Ellipsis rather than a chevron: the name and value fields now carry chevrons for
             // picking a suggestion, and this menu acts on the row instead of filling in a field.
             icon={isLast || disabled ? "empty" : "ellipsis_vertical"}
-            title="More actions"
+            title={i18n.t("pair.moreActions")}
             className="text-text-subtlest"
           />
         </Dropdown>
@@ -798,8 +799,8 @@ export function PairEditorRow({
 }
 
 const fileItems: RadioDropdownItem<string>[] = [
-  { label: "Text", value: "text" },
-  { label: "File", value: "file" },
+  { label: i18n.t("pair.text"), value: "text" },
+  { label: i18n.t("pair.file"), value: "file" },
 ];
 
 function FileActionsDropdown({
@@ -830,51 +831,51 @@ function FileActionsDropdown({
   const itemsAfter = useMemo<DropdownItem[]>(
     () => [
       {
-        label: "Edit Multi-Line",
+        label: i18n.t("pair.editMultiline"),
         leftSlot: <Icon icon="file_code" />,
         hidden: pair.isFile,
         onSelect: editMultiLine,
       },
       {
-        label: "Set Content-Type",
+        label: i18n.t("pair.setContentType"),
         leftSlot: <Icon icon="pencil" />,
         onSelect: async () => {
           const contentType = await showPrompt({
             id: "content-type",
-            title: "Override Content-Type",
-            label: "Content-Type",
+            title: i18n.t("pair.overrideContentType"),
+            label: i18n.t("pair.contentType"),
             required: false,
             placeholder: "text/plain",
             defaultValue: pair.contentType ?? "",
-            confirmText: "Set",
-            description: "Leave blank to auto-detect",
+            confirmText: i18n.t("pair.set"),
+            description: i18n.t("pair.leaveBlankAutoDetect"),
           });
           if (contentType == null) return;
           onChangeContentType(contentType);
         },
       },
       {
-        label: "Set File Name",
+        label: i18n.t("pair.setFileName"),
         leftSlot: <Icon icon="file_code" />,
         onSelect: async () => {
           console.log("PAIR", pair);
           const defaultFilename = await platform.files.basename(pair.value ?? "");
           const filename = await showPrompt({
             id: "filename",
-            title: "Override Filename",
-            label: "Filename",
+            title: i18n.t("pair.overrideFilename"),
+            label: i18n.t("pair.filename"),
             required: false,
             placeholder: defaultFilename ?? "myfile.png",
             defaultValue: pair.filename,
-            confirmText: "Set",
-            description: "Leave blank to use the name of the selected file",
+            confirmText: i18n.t("pair.set"),
+            description: i18n.t("pair.leaveBlankFilename"),
           });
           if (filename == null) return;
           onChangeFilename(filename);
         },
       },
       {
-        label: "Unset File",
+        label: i18n.t("pair.unsetFile"),
         leftSlot: <Icon icon="x" />,
         hidden: pair.isFile,
         onSelect: async () => {
@@ -882,7 +883,7 @@ function FileActionsDropdown({
         },
       },
       {
-        label: "Delete",
+        label: i18n.t("pair.delete"),
         onSelect: onDelete,
         variant: "danger",
         leftSlot: <Icon icon="trash" />,
@@ -914,7 +915,7 @@ function FileActionsDropdown({
         size="xs"
         // Matches the plain row menu, so the actions column reads the same for file and text rows
         icon="ellipsis_vertical"
-        title="Select form data type"
+        title={i18n.t("pair.selectFormDataType")}
         className="text-text-subtlest"
       />
     </RadioDropdown>

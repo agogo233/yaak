@@ -1,18 +1,22 @@
 {
   "common": {
     "actions": "操作",
-    "or": "或",
-    "yes": "是",
-    "no": "否",
-    "search": "搜索",
     "cancel": "取消",
     "close": "关闭",
     "confirm": "确认",
+    "copiedAsPng": "已复制为 PNG",
+    "copyImage": "复制图片",
     "delete": "删除",
-    "rename": "重命名",
     "duplicate": "复制",
     "move": "移动",
+    "no": "否",
+    "or": "或",
+    "rename": "重命名",
+    "saveToFile": "保存到文件",
+    "savedTo": "已保存到 {{path}}",
+    "search": "搜索",
     "send": "发送",
-    "settings": "设置"
+    "settings": "设置",
+    "yes": "是"
   }
 }

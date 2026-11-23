@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Environment, Workspace } from "@yaakapp-internal/models";
 import { duplicateModel, patchModel } from "@yaakapp-internal/models";
 import type { TreeHandle, TreeNode, TreeProps } from "@yaakapp-internal/ui";
@@ -236,7 +237,7 @@ function EnvironmentEditDialogSidebar({
     (items: TreeModel[]): ContextMenuProps["items"] => {
       const environment = items[0];
       const addEnvironmentItem: DropdownItem = {
-        label: "Create Sub Environment",
+        label: i18n.t("env.createSub"),
         leftSlot: <Icon icon="plus" />,
         onSelect: handleCreateSubEnvironment,
       };
@@ -255,7 +256,7 @@ function EnvironmentEditDialogSidebar({
 
       const menuItems: DropdownItem[] = [
         {
-          label: "Rename",
+          label: i18n.t("common.rename"),
           leftSlot: <Icon icon="pencil" />,
           hidden: isBaseEnvironment(environment) || !singleEnvironment,
           hotKeyAction: "sidebar.selected.rename",
@@ -267,7 +268,7 @@ function EnvironmentEditDialogSidebar({
           },
         },
         {
-          label: "Duplicate",
+          label: i18n.t("common.duplicate"),
           leftSlot: <Icon icon="copy" />,
           hidden: isBaseEnvironment(environment),
           hotKeyAction: "sidebar.selected.duplicate",
@@ -281,7 +282,7 @@ function EnvironmentEditDialogSidebar({
           onSelect: async () => showColorPicker(environment),
         },
         {
-          label: `Make ${environment.public ? "Private" : "Sharable"}`,
+          label: environment.public ? i18n.t("env.makePrivate") : i18n.t("env.makeSharable"),
           leftSlot: <Icon icon={environment.public ? "eye_closed" : "eye"} />,
           rightSlot: <EnvironmentSharableTooltip />,
           hidden: items.length > 1,
@@ -291,7 +292,7 @@ function EnvironmentEditDialogSidebar({
         },
         {
           color: "danger",
-          label: "Delete",
+          label: i18n.t("common.delete"),
           hotKeyAction: "sidebar.selected.delete",
           hotKeyLabelOnly: true,
           hidden: !canDeleteEnvironment,
@@ -462,7 +463,7 @@ function ItemRightSlot({ item }: { item: TreeModel }) {
           iconSize="sm"
           icon="plus_circle"
           className="opacity-50 hover:opacity-100"
-          title="Add Sub-Environment"
+          title={i18n.t("env.addSub")}
           onClick={handleCreateSubEnvironment}
         />
       )}
@@ -486,7 +487,7 @@ function ItemInner({ item }: { item: TreeModel }) {
 function getEditOptions(item: TreeModel) {
   const options: ReturnType<NonNullable<TreeProps<TreeModel>["getEditOptions"]>> = {
     defaultValue: item.name,
-    placeholder: "Name",
+    placeholder: i18n.t("dialog.name"),
     async onChange(item, name) {
       await patchModel(item, { name });
     },

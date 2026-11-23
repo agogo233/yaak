@@ -1,7 +1,11 @@
 {
   "folder": {
-    "promptTitle": "新建文件夹",
     "create": "创建",
-    "defaultName": "文件夹"
+    "defaultName": "文件夹",
+    "noResponses": "无响应",
+    "promptTitle": "新建文件夹",
+    "responsePreview": "响应预览",
+    "sendRequest": "发送请求",
+    "unknownModel": "未知模型"
   }
 }

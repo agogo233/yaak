@@ -1,0 +1,22 @@
+{
+  "pair": {
+    "contentType": "Content-Type",
+    "delete": "Delete",
+    "editMultiline": "Edit Multi-line",
+    "file": "File",
+    "filename": "Filename",
+    "leaveBlankAutoDetect": "Leave blank to auto-detect",
+    "leaveBlankFilename": "Leave blank to use the name of the selected file",
+    "moreActions": "More actions",
+    "name": "Name",
+    "overrideContentType": "Override Content-Type",
+    "overrideFilename": "Override Filename",
+    "selectFormDataType": "Select form data type",
+    "set": "Set",
+    "setContentType": "Set Content-Type",
+    "setFileName": "Set File Name",
+    "text": "Text",
+    "unsetFile": "Unset File",
+    "value": "Value"
+  }
+}

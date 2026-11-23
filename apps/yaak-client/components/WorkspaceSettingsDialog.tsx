@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { patchModel, workspaceMetasAtom, workspacesAtom } from "@yaakapp-internal/models";
 import { Banner, HStack, InlineCode, CountBadge } from "@yaakapp-internal/ui";
 import { useAtomValue } from "jotai";
@@ -66,15 +67,15 @@ export function WorkspaceSettingsDialog({ workspaceId, hide, tab }: Props) {
   return (
     <Tabs
       defaultValue={tab ?? DEFAULT_TAB}
-      label="Folder Settings"
+      label={i18n.t("settings.folderSettings")}
       className="pt-4 pb-2 px-3"
       tabListClassName="pl-4"
       addBorders
       tabs={[
-        { value: TAB_GENERAL, label: "Workspace" },
+        { value: TAB_GENERAL, label: i18n.t("settings.workspaceTab") },
         {
           value: TAB_SETTINGS,
-          label: "Settings",
+          label: i18n.t("settings.title"),
         },
         ...headersTab,
         ...authTab,
@@ -123,8 +124,8 @@ export function WorkspaceSettingsDialog({ workspaceId, hide, tab }: Props) {
           <PlainInput
             required
             hideLabel
-            placeholder="Workspace Name"
-            label="Name"
+            placeholder={i18n.t("settings.workspaceNamePlaceholder")}
+            label={i18n.t("dialog.name")}
             defaultValue={workspace.name}
             className="text-base! font-sans"
             onChange={(name) => patchModel(workspace, { name })}
@@ -132,7 +133,7 @@ export function WorkspaceSettingsDialog({ workspaceId, hide, tab }: Props) {
 
           <MarkdownEditor
             name="workspace-description"
-            placeholder="Workspace description"
+            placeholder={i18n.t("settings.workspaceDescPlaceholder")}
             className="border border-border px-2"
             defaultValue={workspace.description}
             stateKey={`description.${workspace.id}`}
@@ -163,7 +164,7 @@ export function WorkspaceSettingsDialog({ workspaceId, hide, tab }: Props) {
                 className="opacity-70 text-primary!"
                 size="2xs"
                 iconSize="sm"
-                title="Copy workspace ID"
+                title={i18n.t("settings.copyWorkspaceId")}
                 text={workspaceId}
               />
             </InlineCode>

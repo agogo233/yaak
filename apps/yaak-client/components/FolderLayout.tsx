@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Folder, GrpcRequest, HttpRequest, WebsocketRequest } from "@yaakapp-internal/models";
 import { foldersAtom } from "@yaakapp-internal/models";
 import {
@@ -89,7 +90,7 @@ function ChildCard({ child }: { child: Folder | HttpRequest | GrpcRequest | Webs
   } else if (child.model === "websocket_request") {
     card = <RequestCard request={child} />;
   } else {
-    card = <div>Unknown model</div>;
+    card = <div>{i18n.t("folder.unknownModel")}</div>;
   }
 
   const navigate = useCallback(async () => {
@@ -115,7 +116,7 @@ function ChildCard({ child }: { child: Folder | HttpRequest | GrpcRequest | Webs
         <HStack space={0.5} className="ml-auto -mr-1.5">
           <IconButton
             color="custom"
-            title="Send Request"
+            title={i18n.t("folder.sendRequest")}
             size="sm"
             icon="external_link"
             className="opacity-70 hover:opacity-100"
@@ -123,7 +124,7 @@ function ChildCard({ child }: { child: Folder | HttpRequest | GrpcRequest | Webs
           />
           <IconButton
             color="custom"
-            title="Send Request"
+            title={i18n.t("folder.sendRequest")}
             size="sm"
             icon="send_horizontal"
             className="opacity-70 hover:opacity-100"
@@ -180,7 +181,7 @@ function HttpRequestCard({ request }: { request: HttpRequest }) {
             e.stopPropagation();
             showDialog({
               id: "response-preview",
-              title: "Response Preview",
+              title: i18n.t("folder.responsePreview"),
               size: "md",
               className: "h-full",
               render: () => {
@@ -210,7 +211,7 @@ function HttpRequestCard({ request }: { request: HttpRequest }) {
           </HStack>
         </button>
       ) : (
-        <div>No Responses</div>
+        <div>{i18n.t("folder.noResponses")}</div>
       )}
     </div>
   );

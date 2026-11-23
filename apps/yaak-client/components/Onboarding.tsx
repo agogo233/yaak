@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Color } from "@yaakapp-internal/plugins";
 import { platform } from "@yaakapp-internal/platform";
 import { settingsAtom } from "@yaakapp-internal/models";
@@ -34,7 +35,7 @@ export function Onboarding() {
     } catch (err) {
       showErrorToast({
         id: "onboarding-failed",
-        title: "Something went wrong",
+        title: i18n.t("onboarding.somethingWentWrong"),
         message: String(err),
       });
     } finally {
@@ -56,7 +57,7 @@ export function Onboarding() {
       <div className="overflow-auto px-6 py-10 grid">
         <div className="m-auto w-full max-w-lg flex flex-col gap-7">
           <div className="flex flex-col gap-1.5">
-            <Heading>How would you like to get started?</Heading>
+            <Heading>{i18n.t("onboarding.getStartedTitle")}</Heading>
             <p className="text-text-subtle">
               {canImport
                 ? "Bring over existing work, try a real API, or start fresh."
@@ -69,8 +70,8 @@ export function Onboarding() {
               <StartOption
                 color="primary"
                 icon="folder_input"
-                title="Migrate from another tool"
-                description="Postman, Insomnia, Bruno, OpenAPI, or curl"
+                title={i18n.t("onboarding.migrateTitle")}
+                description={i18n.t("onboarding.migrateDesc")}
                 busy={busy === "import"}
                 disabled={busy != null}
                 onClick={choose("import", () => importData.mutateAsync())}
@@ -79,8 +80,8 @@ export function Onboarding() {
             <StartOption
               color="info"
               icon="flask"
-              title="Try Yaak with a real API"
-              description="Ready-made requests you can send right away"
+              title={i18n.t("onboarding.realApiTitle")}
+              description={i18n.t("onboarding.realApiDesc")}
               busy={busy === "example"}
               disabled={busy != null}
               onClick={choose("example", createExampleWorkspace)}
@@ -88,8 +89,8 @@ export function Onboarding() {
             <StartOption
               color="success"
               icon="plus"
-              title="Start fresh"
-              description="An empty workspace for your first request"
+              title={i18n.t("onboarding.startFreshTitle")}
+              description={i18n.t("onboarding.startFreshDesc")}
               busy={busy === "fresh"}
               disabled={busy != null}
               onClick={choose("fresh", createFreshWorkspace)}
@@ -109,7 +110,7 @@ export function Onboarding() {
                     disabled={busy != null}
                     onClick={choose("open_folder", async () => {
                       const dir = await platform.dialog.open({
-                        title: "Select Workspace Directory",
+                        title: i18n.t("onboarding.selectWorkspaceDir"),
                         directory: true,
                         multiple: false,
                       });
@@ -131,7 +132,7 @@ export function Onboarding() {
                       showDialog({
                         id: "clone-git-repository",
                         size: "md",
-                        title: "Clone Git Repository",
+                        title: i18n.t("onboarding.cloneGitRepo"),
                         render: ({ hide }) => <CloneGitRepositoryDialog hide={hide} />,
                       });
                     })}

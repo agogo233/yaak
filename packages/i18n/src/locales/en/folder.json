@@ -1,7 +1,11 @@
 {
   "folder": {
-    "promptTitle": "New Folder",
     "create": "Create",
-    "defaultName": "Folder"
+    "defaultName": "Folder",
+    "noResponses": "No Responses",
+    "promptTitle": "New Folder",
+    "responsePreview": "Response Preview",
+    "sendRequest": "Send Request",
+    "unknownModel": "Unknown model"
   }
 }

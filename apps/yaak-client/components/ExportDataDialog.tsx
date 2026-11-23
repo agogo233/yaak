@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Workspace } from "@yaakapp-internal/models";
 import { workspacesAtom } from "@yaakapp-internal/models";
 import { VStack } from "@yaakapp-internal/ui";
@@ -89,7 +90,7 @@ function ExportDataDialogContent({
   return (
     <>
       <VStack space={3} className="pb-4">
-        <CommercialUseBanner source="data-export" title="Exporting work data?" />
+        <CommercialUseBanner source="data-export" title={i18n.t("import.exportingWorkData")} />
 
         <table className="w-full mb-auto min-w-full max-w-full divide-y divide-surface-highlight">
           <thead>
@@ -98,7 +99,7 @@ function ExportDataDialogContent({
                 <Checkbox
                   checked={!allSelected && !noneSelected ? "indeterminate" : allSelected}
                   hideLabel
-                  title="All workspaces"
+                  title={i18n.t("import.allWorkspaces")}
                   onChange={handleToggleAll}
                 />
               </th>
@@ -136,8 +137,8 @@ function ExportDataDialogContent({
           <Checkbox
             checked={includePrivateEnvironments}
             onChange={setIncludePrivateEnvironments}
-            title="Include private environments"
-            help='Environments marked as "sharable" will be exported by default'
+            title={i18n.t("import.includePrivateEnvs")}
+            help={i18n.t('import.sharableExportHint')}
           />
         </DetailsBanner>
       </VStack>
@@ -148,7 +149,7 @@ function ExportDataDialogContent({
           </Link>
         }
         actions={[
-          { label: "Cancel", onClick: onHide },
+          { label: i18n.t("dialog.cancel"), onClick: onHide },
           {
             label: `Export ${pluralizeCount("Workspace", numSelected, { omitSingle: true, noneWord: "Nothing" })}`,
             color: "primary",

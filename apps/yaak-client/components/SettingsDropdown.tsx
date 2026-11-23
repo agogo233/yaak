@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { useLicense } from "@yaakapp-internal/license";
 import { useRef } from "react";
 import { openSettings } from "../commands/openSettings";
@@ -25,54 +26,54 @@ export function SettingsDropdown() {
       ref={dropdownRef}
       items={[
         {
-          label: "Settings",
+          label: i18n.t("settings.title"),
           hotKeyAction: "settings.show",
           leftSlot: <Icon icon="settings" />,
           onSelect: () => openSettings.mutate(null),
         },
         {
-          label: "Keyboard shortcuts",
+          label: i18n.t("settings.keyboardShortcuts"),
           hotKeyAction: "hotkeys.showHelp",
           leftSlot: <Icon icon="keyboard" />,
           onSelect: () => {
             showDialog({
               id: "hotkey",
-              title: "Keyboard Shortcuts",
+              title: i18n.t("settings.keyboardShortcuts"),
               size: "dynamic",
               render: () => <KeyboardShortcutsDialog />,
             });
           },
         },
         {
-          label: "Plugins",
+          label: i18n.t("settings.plugins"),
           leftSlot: <Icon icon="puzzle" />,
           onSelect: () => openSettings.mutate("plugins"),
         },
-        { type: "separator", label: "Share Workspace(s)" },
+        { type: "separator", label: i18n.t("settings.shareWorkspaces") },
         {
-          label: "Import Data",
+          label: i18n.t("settings.importData"),
           leftSlot: <Icon icon="folder_input" />,
           onSelect: () => importData.mutate(),
         },
         {
-          label: "Export Data",
+          label: i18n.t("settings.exportData"),
           leftSlot: <Icon icon="folder_output" />,
           onSelect: () => exportData.mutate(),
         },
         {
-          label: "Create Run Button",
+          label: i18n.t("settings.createRunButton"),
           leftSlot: <Icon icon="rocket" />,
           onSelect: () => platform.openUrl("https://yaak.app/button/new"),
         },
         { type: "separator", label: `Yaak v${appInfo.version}` },
         {
-          label: "Check for Updates",
+          label: i18n.t("settings.checkForUpdates"),
           leftSlot: <Icon icon="update" />,
           hidden: !appInfo.featureUpdater,
           onSelect: () => checkForUpdates.mutate(),
         },
         {
-          label: "Purchase License",
+          label: i18n.t("settings.purchaseLicense"),
           color: "success",
           hidden: check.data == null || check.data.status === "active",
           leftSlot: <Icon icon="circle_dollar_sign" />,
@@ -81,19 +82,19 @@ export function SettingsDropdown() {
             platform.openUrl(pricingUrl(`app.menu.purchase.${check.data?.status ?? "unknown"}`)),
         },
         {
-          label: "Install CLI",
+          label: i18n.t("settings.installCli"),
           hidden: appInfo.cliVersion != null || !platform.capabilities.agents,
           leftSlot: <Icon icon="square_terminal" />,
           onSelect: () => openSettings.mutate("agents"),
         },
         {
-          label: "Feedback",
+          label: i18n.t("settings.feedback"),
           leftSlot: <Icon icon="chat" />,
           rightSlot: <Icon icon="external_link" color="secondary" />,
           onSelect: () => platform.openUrl("https://yaak.app/feedback"),
         },
         {
-          label: "Changelog",
+          label: i18n.t("settings.changelog"),
           leftSlot: <Icon icon="cake" />,
           rightSlot: <Icon icon="external_link" color="secondary" />,
           onSelect: () => platform.openUrl(`https://yaak.app/changelog/${appInfo.version}`),
@@ -102,7 +103,7 @@ export function SettingsDropdown() {
     >
       <IconButton
         size="sm"
-        title="Main Menu"
+        title={i18n.t("settings.mainMenu")}
         icon="settings"
         iconColor="secondary"
         className="pointer-events-auto"

@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { HttpRequest } from "@yaakapp-internal/models";
 import { patchModel } from "@yaakapp-internal/models";
 import classNames from "classnames";
@@ -49,10 +50,10 @@ export const RequestMethodDropdown = memo(function RequestMethodDropdown({
         onSelect: async () => {
           const newMethod = await showPrompt({
             id: "custom-method",
-            label: "Http Method",
-            title: "Custom Method",
-            confirmText: "Save",
-            description: "Enter a custom method name",
+            label: i18n.t("create.httpMethod"),
+            title: i18n.t("create.customMethod"),
+            confirmText: i18n.t("dialog.save"),
+            description: i18n.t("create.customMethodDesc"),
             placeholder: "CUSTOM",
           });
           if (newMethod == null) return;

@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { Banner, VStack } from "@yaakapp-internal/ui";
 import { useState } from "react";
 import { openWorkspaceFromSyncDir } from "../commands/openWorkspaceFromSyncDir";
@@ -40,7 +41,7 @@ export function SyncToFilesystemSetting({
       <VStack className="w-full" space={0}>
         {syncDir && (
           <Banner color="notice" className="mb-3 flex flex-col gap-1.5">
-            <p>Directory is not empty. Do you want to open it instead?</p>
+            <p>{i18n.t("git.directoryNotEmpty")}</p>
             <div>
               <Button
                 variant="border"
@@ -59,8 +60,8 @@ export function SyncToFilesystemSetting({
         )}
 
         <SettingRowDirectory
-          title="Local directory sync"
-          description="Sync data to a folder for backup and Git integration."
+          title={i18n.t("settings.localDirSync")}
+          description={i18n.t("settings.syncDirDesc")}
           filePath={value.filePath}
           onChange={handleFilePathChange}
         />
@@ -68,8 +69,8 @@ export function SyncToFilesystemSetting({
         {value.filePath && typeof value.initGit === "boolean" && (
           <SettingRowBoolean
             checked={value.initGit}
-            title="Initialize Git Repo"
-            description="Create a Git repository in the selected sync directory."
+            title={i18n.t("git.initializeGitRepo")}
+            description={i18n.t("git.initRepoDesc")}
             onChange={(initGit) => onChange({ ...value, initGit })}
           />
         )}
@@ -81,7 +82,7 @@ export function SyncToFilesystemSetting({
     <VStack className="w-full my-2" space={3}>
       {syncDir && (
         <Banner color="notice" className="flex flex-col gap-1.5">
-          <p>Directory is not empty. Do you want to open it instead?</p>
+          <p>{i18n.t("git.directoryNotEmpty")}</p>
           <div>
             <Button
               variant="border"
@@ -101,10 +102,10 @@ export function SyncToFilesystemSetting({
 
       <SelectFile
         directory
-        label="Local directory sync"
+        label={i18n.t("settings.localDirSync")}
         size="xs"
         noun="Directory"
-        help="Sync data to a folder for backup and Git integration."
+        help={i18n.t("settings.syncDirDesc")}
         filePath={value.filePath}
         onChange={async ({ filePath }) => handleFilePathChange(filePath)}
       />
@@ -113,7 +114,7 @@ export function SyncToFilesystemSetting({
         <Checkbox
           checked={value.initGit}
           onChange={(initGit) => onChange({ ...value, initGit })}
-          title="Initialize Git Repo"
+          title={i18n.t("git.initializeGitRepo")}
         />
       )}
     </VStack>
