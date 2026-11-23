@@ -32,7 +32,6 @@ import { CheckboxTree } from "./core/CheckboxTree";
 import { Chip } from "./core/Chip";
 import { DialogFooter } from "./core/Dialog";
 import { Select } from "./core/Select";
-import { SegmentedControl } from "./core/SegmentedControl";
 
 interface Props {
   currentWorkspace: Workspace | null;
