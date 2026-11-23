@@ -389,14 +389,14 @@ function getEventDisplay(event: HttpResponseEventData): EventDisplay {
       return {
         icon: "settings",
         color: "secondary",
-        label: "Setting",
+        label: i18n.t("timeline.setting"),
         summary: `${event.name} = ${event.value}${sourceModel == null ? "" : ` (${sourceModel})`}`,
       };
     case "info":
       return {
         icon: "info",
         color: "secondary",
-        label: "Info",
+        label: i18n.t("timeline.info"),
         summary: event.message,
       };
     case "redirect": {
@@ -412,7 +412,7 @@ function getEventDisplay(event: HttpResponseEventData): EventDisplay {
       return {
         icon: "arrow_big_right_dash",
         color: "success",
-        label: "Redirect",
+        label: i18n.t("timeline.redirect"),
         summary: `Redirecting ${event.status} ${event.url}${dropped ? ` (${dropped})` : ""}`,
       };
     }
@@ -420,28 +420,28 @@ function getEventDisplay(event: HttpResponseEventData): EventDisplay {
       return {
         icon: "arrow_big_up_dash",
         color: "primary",
-        label: "Request",
+        label: i18n.t("timeline.request"),
         summary: `${event.method} ${event.path}${event.query ? `?${event.query}` : ""}${event.fragment ? `#${event.fragment}` : ""}`,
       };
     case "receive_url":
       return {
         icon: "arrow_big_down_dash",
         color: "info",
-        label: "Response",
+        label: i18n.t("timeline.response"),
         summary: `${event.version} ${event.status}`,
       };
     case "header_up":
       return {
         icon: "arrow_big_up_dash",
         color: "primary",
-        label: "Header",
+        label: i18n.t("timeline.header"),
         summary: `${event.name}: ${event.value}`,
       };
     case "header_down":
       return {
         icon: "arrow_big_down_dash",
         color: "info",
-        label: "Header",
+        label: i18n.t("timeline.header"),
         summary: `${event.name}: ${event.value}`,
       };
 
@@ -449,14 +449,14 @@ function getEventDisplay(event: HttpResponseEventData): EventDisplay {
       return {
         icon: "info",
         color: "secondary",
-        label: "Chunk",
+        label: i18n.t("timeline.chunk"),
         summary: `${formatBytes(event.bytes)} chunk sent`,
       };
     case "chunk_received":
       return {
         icon: "info",
         color: "secondary",
-        label: "Chunk",
+        label: i18n.t("timeline.chunk"),
         summary: `${formatBytes(event.bytes)} chunk received`,
       };
     case "dns_resolved":
@@ -472,7 +472,7 @@ function getEventDisplay(event: HttpResponseEventData): EventDisplay {
       return {
         icon: "info",
         color: "secondary",
-        label: "Unknown",
+        label: i18n.t("timeline.unknown"),
         summary: "Unknown event",
       };
   }

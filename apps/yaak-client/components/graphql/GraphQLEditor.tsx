@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { HttpRequest } from "@yaakapp-internal/models";
 import { platform } from "@yaakapp-internal/platform";
 
@@ -66,7 +67,7 @@ function GraphQLEditorInner({ request, onChange, baseRequest, ...extraEditorProp
   // which is what keeps automatic introspection from overwriting it.
   const handleLoadFromFile = useCallback(async () => {
     const selected = await platform.dialog.open({
-      title: "Load GraphQL Schema",
+      title: i18n.t("graphql.loadSchema"),
       multiple: false,
       filters: [
         {
@@ -170,7 +171,7 @@ function GraphQLEditorInner({ request, onChange, baseRequest, ...extraEditorProp
             value={currentBody.operationName ?? operationNames[0] ?? OPERATION_NAME_NOT_SPECIFIED}
             onChange={handleChangeOperationName}
             items={[
-              { type: "separator", label: "Operation Name" },
+              { type: "separator", label: i18n.t("graphql.operationName") },
               {
                 label: <span className="text-text-subtle italic">Not specified</span>,
                 value: OPERATION_NAME_NOT_SPECIFIED,
@@ -198,7 +199,7 @@ function GraphQLEditorInner({ request, onChange, baseRequest, ...extraEditorProp
               ...((schema != null
                 ? [
                     {
-                      label: "Clear Schema",
+                      label: i18n.t("graphql.clearSchema"),
                       onSelect: clear,
                       color: "danger",
                       leftSlot: <Icon icon="trash" />,
@@ -240,7 +241,7 @@ function GraphQLEditorInner({ request, onChange, baseRequest, ...extraEditorProp
                       variant="border"
                       onClick={() => {
                         showDialog({
-                          title: "Introspection Failed",
+                          title: i18n.t("graphql.introspectionFailed"),
                           size: "sm",
                           id: "introspection-failed",
                           render: ({ hide }) => (
@@ -273,7 +274,7 @@ function GraphQLEditorInner({ request, onChange, baseRequest, ...extraEditorProp
               {
                 // One refresh action for either source: re-read the file, or
                 // re-introspect the server.
-                label: "Reload Schema",
+                label: i18n.t("graphql.reloadSchema"),
                 leftSlot: <Icon icon="refresh" spin={isLoading} />,
                 keepOpenOnSelect: true,
                 // Failures surface through the hook's error state either way.
@@ -289,11 +290,11 @@ function GraphQLEditorInner({ request, onChange, baseRequest, ...extraEditorProp
               },
               {
                 hidden: filePath == null,
-                label: "Stop Using File",
+                label: i18n.t("graphql.stopUsingFile"),
                 leftSlot: <Icon icon="x" />,
                 onSelect: removeSchemaFile,
               },
-              { type: "separator", label: "Settings" },
+              { type: "separator", label: i18n.t("settings.title") },
               {
                 // Governs both sources: re-introspecting the server, and
                 // re-reading the file when the request is opened.
@@ -320,7 +321,7 @@ function GraphQLEditorInner({ request, onChange, baseRequest, ...extraEditorProp
             <Button
               size="sm"
               variant="border"
-              title="Refetch Schema"
+              title={i18n.t("graphql.refetchSchema")}
               isLoading={isLoading}
               color={error ? "danger" : "default"}
               forDropdown

@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { Icon } from "@yaakapp-internal/ui";
 import type { RecentFilter } from "../../hooks/useRecentFilters";
 import { Dropdown, type DropdownItem } from "../core/Dropdown";
@@ -40,7 +41,7 @@ export function RecentFiltersDropdown({
         onSelect: () => onTogglePin(filter.value),
       },
       {
-        label: "Remove",
+        label: i18n.t("common.remove"),
         icon: "trash",
         color: "danger",
         keepOpenOnSelect: true,
@@ -63,18 +64,18 @@ export function RecentFiltersDropdown({
   }
 
   if (pinned.length > 0) {
-    items.push({ type: "separator", label: "Pinned" }, ...pinned.map(toItem));
+    items.push({ type: "separator", label: i18n.t("response.pinned") }, ...pinned.map(toItem));
   }
 
   if (unpinned.length > 0) {
-    items.push({ type: "separator", label: "Recent" }, ...unpinned.map(toItem));
+    items.push({ type: "separator", label: i18n.t("response.recent") }, ...unpinned.map(toItem));
   }
 
   if (recentFilters.length > 0) {
     items.push(
       { type: "separator" },
       {
-        label: "Clear All",
+        label: i18n.t("response.clearAll"),
         leftSlot: <Icon icon="trash" />,
         color: "danger",
         onSelect: onClear,
@@ -87,7 +88,7 @@ export function RecentFiltersDropdown({
       <IconButton
         size="xs"
         icon="filter"
-        title="Recent filters"
+        title={i18n.t("response.recentFilters")}
         iconColor="secondary"
         className="w-8 ml-0.5 mr-1 h-auto!"
       />

@@ -20,6 +20,7 @@
     "deleteOverride": "Delete override",
     "disableEncryption": "Disable Encryption",
     "dnsHostname": "Hostname",
+    "enableEncryption": "Enable Encryption",
     "encryptionDesc": "Encrypt workspace secrets and sensitive values at rest.",
     "encryptionKeyLabel": "Workspace encryption key",
     "encryptionTitle": "Workspace encryption",
@@ -88,6 +89,7 @@
     "versionDesc": "Current Yaak version.",
     "workspaceDescPlaceholder": "Workspace description",
     "workspaceNamePlaceholder": "Workspace Name",
-    "workspaceTab": "Workspace"
+    "workspaceTab": "Workspace",
+    "yaakSettings": "Yaak Settings"
   }
 }

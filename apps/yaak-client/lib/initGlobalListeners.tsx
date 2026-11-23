@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { debounce } from "@yaakapp-internal/lib";
 import type {
   FormInput,
@@ -12,7 +13,7 @@ import type {
   UpdateResponse,
   YaakNotification,
 } from "@yaakapp-internal/tauri-client";
-import { HStack, Icon, InlineCode, VStack } from "@yaakapp-internal/ui";
+import { HStack, Icon, VStack } from "@yaakapp-internal/ui";
 import { openSettings } from "../commands/openSettings";
 import { Button } from "../components/core/Button";
 import { ButtonInfiniteLoading } from "../components/core/ButtonInfiniteLoading";
@@ -41,7 +42,7 @@ export function initGlobalListeners() {
         id: `plugin-init-error-${name}`,
         color: "danger",
         timeout: null,
-        message: `Failed to load plugin "${name}": ${err}`,
+        message: i18n.t("plugins.loadFailed", { name, err }),
         action: ({ hide }) => (
           <Button
             size="xs"
@@ -211,7 +212,7 @@ async function showUpdateAvailableToast(updateInfo: UpdateInfo) {
           <p className="text-text-subtle text-sm">
             {flatpak ? (
               <>
-                Update with <InlineCode>flatpak update</InlineCode> or your software center.
+                {i18n.t("plugins.updateViaFlatpak")}
               </>
             ) : (
               "Download the new version to upgrade."
@@ -311,7 +312,7 @@ function showPluginUpdatesToast(updateInfo: PluginUpdateNotification) {
             if (updated.length > 0) {
               showToast({
                 color: "success",
-                message: `Successfully updated ${updated.length} plugin${updated.length === 1 ? "" : "s"}`,
+                message: i18n.t("plugins.updatedCount", { n: updated.length }),
               });
             }
           }}

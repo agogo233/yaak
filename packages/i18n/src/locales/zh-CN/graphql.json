@@ -1,0 +1,18 @@
+{
+  "graphql": {
+    "allSchemaTypes": "所有 Schema 类型",
+    "clearSchema": "清除 Schema",
+    "defaultValue": "默认值",
+    "implementedBy": "实现于",
+    "introspectionFailed": "自省失败",
+    "loadSchema": "加载 GraphQL Schema",
+    "operationName": "操作名称",
+    "possibleTypes": "可能类型",
+    "refetchSchema": "重新获取 Schema",
+    "reloadSchema": "重新加载 Schema",
+    "rootTypes": "根类型",
+    "stopUsingFile": "停止使用该文件",
+    "unknownType": "未知 GraphQL 类型",
+    "unknownTypeShort": "未知类型"
+  }
+}

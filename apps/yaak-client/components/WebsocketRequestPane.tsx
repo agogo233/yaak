@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { WebsocketRequest } from "@yaakapp-internal/models";
 import {
   flushAllModelWrites,
@@ -115,23 +116,23 @@ export function WebsocketRequestPane({ style, fullHeight, className, activeReque
     return [
       {
         value: TAB_MESSAGE,
-        label: "Message",
+        label: i18n.t("websocket.message"),
       } as TabItem,
       {
         value: TAB_PARAMS,
         rightSlot: <CountBadge count={urlParameterPairs.length} />,
-        label: "Params",
+        label: i18n.t("websocket.params"),
       },
       ...headersTab,
       ...authTab,
       {
         value: TAB_SETTINGS,
-        label: "Settings",
+        label: i18n.t("settings.title"),
         rightSlot: <CountBadge count={numSettingsOverrides} />,
       },
       {
         value: TAB_DESCRIPTION,
-        label: "Info",
+        label: i18n.t("websocket.info"),
         rightSlot: hasDescription && <CountBadge count={true} />,
       },
     ];
@@ -221,7 +222,7 @@ export function WebsocketRequestPane({ style, fullHeight, className, activeReque
                 isLoading && (
                   <IconButton
                     size="xs"
-                    title="Close connection"
+                    title={i18n.t("websocket.closeConnection")}
                     icon="x"
                     iconColor="secondary"
                     className="w-8 mr-0.5 h-full!"
@@ -241,7 +242,7 @@ export function WebsocketRequestPane({ style, fullHeight, className, activeReque
           </div>
           <Tabs
             ref={tabsRef}
-            label="Request"
+            label={i18n.t("websocket.request")}
             tabs={tabs}
             tabListClassName="mt-1 mb-1.5!"
             storageKey={TABS_STORAGE_KEY}
@@ -286,7 +287,7 @@ export function WebsocketRequestPane({ style, fullHeight, className, activeReque
             <TabContent value={TAB_DESCRIPTION}>
               <div className="grid grid-rows-[auto_minmax(0,1fr)] h-full">
                 <PlainInput
-                  label="Request Name"
+                  label={i18n.t("websocket.requestName")}
                   hideLabel
                   forceUpdateKey={forceUpdateKey}
                   defaultValue={activeRequest.name}
@@ -297,7 +298,7 @@ export function WebsocketRequestPane({ style, fullHeight, className, activeReque
                 />
                 <MarkdownEditor
                   name="request-description"
-                  placeholder="Request description"
+                  placeholder={i18n.t("websocket.requestDescription")}
                   defaultValue={activeRequest.description}
                   stateKey={`description.${activeRequest.id}`}
                   forceUpdateKey={forceUpdateKey}

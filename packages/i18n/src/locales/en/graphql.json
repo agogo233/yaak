@@ -1,0 +1,18 @@
+{
+  "graphql": {
+    "allSchemaTypes": "All Schema Types",
+    "clearSchema": "Clear Schema",
+    "defaultValue": "Default Value",
+    "implementedBy": "Implemented By",
+    "introspectionFailed": "Introspection Failed",
+    "loadSchema": "Load GraphQL Schema",
+    "operationName": "Operation Name",
+    "possibleTypes": "Possible Types",
+    "refetchSchema": "Refetch Schema",
+    "reloadSchema": "Reload Schema",
+    "rootTypes": "Root Types",
+    "stopUsingFile": "Stop Using File",
+    "unknownType": "Unknown GraphQL type",
+    "unknownTypeShort": "Unknown Type"
+  }
+}

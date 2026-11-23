@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { gitMutations } from "@yaakapp-internal/git";
 import type { WorkspaceMeta } from "@yaakapp-internal/models";
 import { createGlobalModel, updateModel } from "@yaakapp-internal/models";
@@ -53,7 +54,7 @@ export function CreateWorkspaceDialog({ hide }: Props) {
             .catch((err) => {
               showErrorToast({
                 id: "git-init-error",
-                title: "Error initializing Git",
+                title: i18n.t("git.initError"),
                 message: String(err),
               });
             });
@@ -86,7 +87,7 @@ export function CreateWorkspaceDialog({ hide }: Props) {
         <Checkbox
           checked={setupEncryption}
           onChange={setSetupEncryption}
-          title="Enable Encryption"
+          title={i18n.t("settings.enableEncryption")}
         />
       </div>
       <DialogFooter actions={[{ label: "Create Workspace", color: "primary", form: formId }]} />

@@ -11,6 +11,7 @@
     "move": "Move",
     "no": "No",
     "or": "or",
+    "remove": "Remove",
     "rename": "Rename",
     "saveToFile": "Save to File",
     "savedTo": "Saved to {{path}}",

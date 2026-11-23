@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { WebsocketConnection } from "@yaakapp-internal/models";
 import { deleteModel, getModel } from "@yaakapp-internal/models";
 import { HStack, Icon, formatMillis } from "@yaakapp-internal/ui";
@@ -87,7 +88,7 @@ export function RecentWebsocketConnectionsDropdown({
     <Dropdown
       items={[
         {
-          label: "Clear Connection",
+          label: i18n.t("history.clearConnection"),
           onSelect: () => deleteModel(activeConnection),
           disabled: connections.length === 0,
         },
@@ -102,12 +103,12 @@ export function RecentWebsocketConnectionsDropdown({
           hidden: connections.length <= 1,
           disabled: connections.length === 0,
         },
-        { type: "separator", label: "History" },
+        { type: "separator", label: i18n.t("history.history") },
         ...connectionHistoryItems,
       ]}
     >
       <IconButton
-        title="Show connection history"
+        title={i18n.t("history.showConnectionHistory")}
         icon={activeConnection?.id === latestConnectionId ? "history" : "pin"}
         className="m-0.5 text-text-subtle"
         size="sm"

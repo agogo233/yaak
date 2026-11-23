@@ -1,0 +1,27 @@
+{
+  "grpc": {
+    "commit": "提交",
+    "configureSchema": "配置 Schema",
+    "couldntFindMethod": "未找到方法",
+    "couldntFindService": "未找到服务",
+    "error": "错误",
+    "failedToParseSchema": "解析 Schema 失败",
+    "generate": "生成",
+    "generateExample": "生成示例",
+    "generateExampleDesc": "当前消息将被替换为示例。",
+    "generateExampleMessage": "生成示例消息",
+    "importFolder": "导入文件夹",
+    "info": "信息",
+    "message": "消息",
+    "protoFiles": "Proto 文件",
+    "reflectionFailed": "反射失败",
+    "refreshSchema": "刷新 Schema",
+    "reloadSchema": "重新加载 Schema",
+    "request": "请求",
+    "requestDescription": "请求描述",
+    "requestName": "请求名称",
+    "selectProtoDirectory": "选择 Proto 目录",
+    "selectProtoFiles": "选择 Proto 文件",
+    "serviceOrMethodNotSelected": "未选择服务或方法"
+  }
+}

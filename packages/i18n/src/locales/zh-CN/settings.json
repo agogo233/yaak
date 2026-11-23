@@ -20,6 +20,7 @@
     "deleteOverride": "删除覆盖",
     "disableEncryption": "禁用加密",
     "dnsHostname": "主机名",
+    "enableEncryption": "启用加密",
     "encryptionDesc": "对工作区中的机密和敏感数据进行静态加密。",
     "encryptionKeyLabel": "工作区加密密钥",
     "encryptionTitle": "工作区加密",
@@ -88,6 +89,7 @@
     "versionDesc": "当前 Yaak 版本。",
     "workspaceDescPlaceholder": "工作区描述",
     "workspaceNamePlaceholder": "工作区名称",
-    "workspaceTab": "工作区"
+    "workspaceTab": "工作区",
+    "yaakSettings": "Yaak 设置"
   }
 }

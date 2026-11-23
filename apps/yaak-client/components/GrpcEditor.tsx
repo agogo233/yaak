@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { linter } from "@codemirror/lint";
 import type { EditorView } from "@codemirror/view";
 import { jsoncLanguage } from "@shopify/lang-jsonc";
@@ -65,7 +66,7 @@ export function GrpcEditor({
       return {
         type: "error",
         id: "grpc-find-service-error",
-        title: "Couldn't Find Service",
+        title: i18n.t("grpc.couldntFindService"),
         body: (
           <>
             Failed to find service <InlineCode>{request.service}</InlineCode> in schema
@@ -80,7 +81,7 @@ export function GrpcEditor({
       return {
         type: "error",
         id: "grpc-find-schema-error",
-        title: "Couldn't Find Method",
+        title: i18n.t("grpc.couldntFindMethod"),
         body: (
           <>
             Failed to find method <InlineCode>{request.method}</InlineCode> for{" "}
@@ -97,7 +98,7 @@ export function GrpcEditor({
       return {
         type: "error",
         id: "grpc-parse-schema-error",
-        title: "Failed to Parse Schema",
+        title: i18n.t("grpc.failedToParseSchema"),
         body: (
           <VStack space={4}>
             <p>
@@ -147,9 +148,9 @@ export function GrpcEditor({
     if (request.message.trim() !== "") {
       const confirmed = await showConfirm({
         id: "grpc-generate-example",
-        title: "Generate Example",
-        description: "The current message will be replaced with an example.",
-        confirmText: "Generate",
+        title: i18n.t("grpc.generateExample"),
+        description: i18n.t("grpc.generateExampleDesc"),
+        confirmText: i18n.t("grpc.generate"),
       });
       if (!confirmed) return;
     }
@@ -171,7 +172,7 @@ export function GrpcEditor({
   const handleShowReflectionError = useCallback(() => {
     showDialog({
       id: "grpc-reflection-error",
-      title: "Reflection Failed",
+      title: i18n.t("grpc.reflectionFailed"),
       size: "sm",
       render: ({ hide }) => (
         <>
@@ -220,14 +221,14 @@ export function GrpcEditor({
               ),
             },
             {
-              label: "Generate Example Message",
+              label: i18n.t("grpc.generateExampleMessage"),
               leftSlot: <Icon icon="magic_wand" />,
               disabled: methodSchema.type !== "schema",
               onSelect: handleGenerateExample,
             },
             { type: "separator" },
             {
-              label: "Reload Schema",
+              label: i18n.t("grpc.reloadSchema"),
               leftSlot: <Icon icon="refresh" spin={reflectionLoading} />,
               keepOpenOnSelect: true,
               onSelect: handleReloadSchema,
@@ -237,7 +238,7 @@ export function GrpcEditor({
               leftSlot: <Icon icon="settings" />,
               onSelect: () => {
                 showDialog({
-                  title: "Configure Schema",
+                  title: i18n.t("grpc.configureSchema"),
                   size: "md",
                   className: "h-[30rem]",
                   id: "grpc-configure-schema",

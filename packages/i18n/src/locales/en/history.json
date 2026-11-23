@@ -1,0 +1,10 @@
+{
+  "history": {
+    "clearConnection": "Clear Connection",
+    "clearSendHistory": "Clear Send History",
+    "history": "History",
+    "nothingToDelete": "Nothing to Delete",
+    "nothingToDeleteBody": "There is no Http, Grpc, or Websocket history",
+    "showConnectionHistory": "Show connection history"
+  }
+}

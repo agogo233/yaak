@@ -1,0 +1,11 @@
+{
+  "websocket": {
+    "closeConnection": "关闭连接",
+    "info": "信息",
+    "message": "消息",
+    "params": "参数",
+    "request": "请求",
+    "requestDescription": "请求描述",
+    "requestName": "请求名称"
+  }
+}

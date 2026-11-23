@@ -11,6 +11,7 @@
     "move": "移动",
     "no": "否",
     "or": "或",
+    "remove": "移除",
     "rename": "重命名",
     "saveToFile": "保存到文件",
     "savedTo": "已保存到 {{path}}",

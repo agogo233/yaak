@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Color } from "@yaakapp-internal/plugins";
 import classNames from "classnames";
 import { fuzzyMatch } from "fuzzbunny";
@@ -106,7 +107,7 @@ export const GraphQLDocsExplorer = memo(function GraphQLDocsExplorer({
         />
         {activeItem == null ? (
           <div className="flex flex-col gap-3 overflow-y-auto h-full w-full px-3 pb-6">
-            <Heading>Root Types</Heading>
+            <Heading>{i18n.t("graphql.rootTypes")}</Heading>
             <GqlTypeRow
               name={{ value: "query", color: "primary" }}
               item={qryItem}
@@ -125,7 +126,7 @@ export const GraphQLDocsExplorer = memo(function GraphQLDocsExplorer({
               setItem={setActiveItem}
               className="my-0!"
             />
-            <Subheading count={Object.keys(allTypes).length}>All Schema Types</Subheading>
+            <Subheading count={Object.keys(allTypes).length}>{i18n.t("graphql.allSchemaTypes")}</Subheading>
             <DocMarkdown>{schema.description ?? null}</DocMarkdown>
             <div className="flex flex-col gap-1">
               {Object.values(allTypes).map((t) => {
@@ -278,7 +279,7 @@ function GqlTypeInfo({
 
         {possibleTypes.length > 0 && (
           <>
-            <Subheading>Implemented By</Subheading>
+            <Subheading>{i18n.t("graphql.implementedBy")}</Subheading>
             {possibleTypes.map((t) => (
               <GqlTypeRow key={t.name} item={toExplorerItem(t, item)} setItem={setItem} />
             ))}
@@ -294,7 +295,7 @@ function GqlTypeInfo({
       <div>
         {heading}
 
-        <Subheading>Possible Types</Subheading>
+        <Subheading>{i18n.t("graphql.possibleTypes")}</Subheading>
         {types.map((t) => (
           <GqlTypeRow key={t.name} item={{ kind: "type", type: t, from: item }} setItem={setItem} />
         ))}
@@ -324,7 +325,7 @@ function GqlTypeInfo({
 
         {item.type.defaultValue !== undefined && (
           <div>
-            <Subheading>Default Value</Subheading>
+            <Subheading>{i18n.t("graphql.defaultValue")}</Subheading>
             <div className="font-mono text-editor">{JSON.stringify(item.type.defaultValue)}</div>
           </div>
         )}
@@ -441,7 +442,7 @@ function GqlTypeInfo({
   }
 
   console.log("Unknown GraphQL Type", item);
-  return <div>Unknown GraphQL type</div>;
+  return <div>{i18n.t("graphql.unknownType")}</div>;
 }
 
 function GqlTypeRow({
@@ -461,7 +462,7 @@ function GqlTypeRow({
 }) {
   if (item == null) return null;
 
-  let child: ReactNode = <>Unknown Type</>;
+  let child: ReactNode = <>{i18n.t("graphql.unknownTypeShort")}</>;
 
   if (item.kind === "type") {
     child = (
@@ -791,7 +792,7 @@ function GqlSchemaSearch({
       <PlainInput
         ref={inputRef}
         size="sm"
-        label="search"
+        label={i18n.t("common.search")}
         hideLabel
         defaultValue={value}
         placeholder={

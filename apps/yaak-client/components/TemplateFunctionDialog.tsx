@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { EditorView } from "@codemirror/view";
 import type {
   Folder,
@@ -186,7 +187,7 @@ function InitializedTemplateFunctionDialog({
         {name === "secure" ? (
           <PlainInput
             required
-            label="Value"
+            label={i18n.t("pair.value")}
             name="value"
             type="password"
             placeholder="••••••••••••"
@@ -249,7 +250,7 @@ function InitializedTemplateFunctionDialog({
                 size="xs"
                 icon="refresh"
                 className="text-text-subtle"
-                title="Refresh preview"
+                title={i18n.t("template.refreshPreview")}
                 spin={rendered.isPending}
                 onClick={() => {
                   setRenderKey(new Date().toISOString());
@@ -264,7 +265,7 @@ function InitializedTemplateFunctionDialog({
       <DialogFooter
         actions={[
           ...(templateFunction.data.name === "secure"
-            ? [{ label: "Reveal Encryption Key", onClick: setupOrConfigureEncryption }]
+            ? [{ label: i18n.t("template.revealEncryptionKey"), onClick: setupOrConfigureEncryption }]
             : []),
           { label: "Save", color: "primary", form: formId },
         ]}

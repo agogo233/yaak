@@ -1,14 +1,16 @@
 {
   "workspace": {
-    "newWorkspace": "新建工作区",
-    "createEmpty": "创建空白工作区",
-    "openFolder": "打开文件夹",
-    "selectWorkspaceDir": "选择工作区目录",
-    "cloneGitRepository": "克隆 Git 仓库",
-    "importData": "导入数据",
-    "workspaceSettings": "工作区设置",
     "clearSendHistory": "清除发送历史",
+    "cloneGitRepository": "克隆 Git 仓库",
+    "createEmpty": "创建空白工作区",
+    "importData": "导入数据",
+    "newWindow": "新窗口",
+    "newWorkspace": "新建工作区",
+    "openFolder": "打开文件夹",
+    "rememberChoice": "记住我的选择",
+    "selectWorkspaceDir": "选择工作区目录",
     "switchWorkspace": "切换工作区",
-    "workspaceFallback": "工作区"
+    "workspaceFallback": "工作区",
+    "workspaceSettings": "工作区设置"
   }
 }

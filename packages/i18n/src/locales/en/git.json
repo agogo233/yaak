@@ -59,6 +59,7 @@
     "hideGitSetup": "Hide Git Setup",
     "hideSetupMessage": "Hide Setup Message",
     "hideThisMessage": "Hide This Message",
+    "initError": "Error initializing Git",
     "initOutsideYaak": "You can initialize a git repo outside of Yaak to bring this back",
     "initRepoBanner": "Initialize local repo to start versioning with Git",
     "initRepoDesc": "Create a Git repository in the selected sync directory.",

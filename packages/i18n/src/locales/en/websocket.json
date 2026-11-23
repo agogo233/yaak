@@ -1,0 +1,11 @@
+{
+  "websocket": {
+    "closeConnection": "Close connection",
+    "info": "Info",
+    "message": "Message",
+    "params": "Params",
+    "request": "Request",
+    "requestDescription": "Request description",
+    "requestName": "Request Name"
+  }
+}

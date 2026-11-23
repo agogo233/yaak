@@ -27,6 +27,11 @@ import authEn from "./locales/en/auth.json";
 import onboardingEn from "./locales/en/onboarding.json";
 import envEn from "./locales/en/env.json";
 import createEn from "./locales/en/create.json";
+import grpcEn from "./locales/en/grpc.json";
+import websocketEn from "./locales/en/websocket.json";
+import graphqlEn from "./locales/en/graphql.json";
+import historyEn from "./locales/en/history.json";
+import templateEn from "./locales/en/template.json";
 import agentsZh from "./locales/zh-CN/agents.json";
 import certificatesZh from "./locales/zh-CN/certificates.json";
 import commonZh from "./locales/zh-CN/common.json";
@@ -56,6 +61,11 @@ import authZh from "./locales/zh-CN/auth.json";
 import onboardingZh from "./locales/zh-CN/onboarding.json";
 import envZh from "./locales/zh-CN/env.json";
 import createZh from "./locales/zh-CN/create.json";
+import grpcZh from "./locales/zh-CN/grpc.json";
+import websocketZh from "./locales/zh-CN/websocket.json";
+import graphqlZh from "./locales/zh-CN/graphql.json";
+import historyZh from "./locales/zh-CN/history.json";
+import templateZh from "./locales/zh-CN/template.json";
 
 export const resources = {
   en: {
@@ -89,6 +99,11 @@ export const resources = {
       ...onboardingEn,
       ...envEn,
       ...createEn,
+      ...grpcEn,
+      ...websocketEn,
+      ...graphqlEn,
+      ...historyEn,
+      ...templateEn,
     },
   },
   "zh-CN": {
@@ -122,6 +137,11 @@ export const resources = {
       ...onboardingZh,
       ...envZh,
       ...createZh,
+      ...grpcZh,
+      ...websocketZh,
+      ...graphqlZh,
+      ...historyZh,
+      ...templateZh,
     },
   },
 };

@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import {
   grpcConnectionsAtom,
   httpResponsesAtom,
@@ -31,15 +32,15 @@ export function useDeleteSendHistory() {
       if (labels.length === 0) {
         showAlert({
           id: "no-responses",
-          title: "Nothing to Delete",
-          body: "There is no Http, Grpc, or Websocket history",
+          title: i18n.t("history.nothingToDelete"),
+          body: i18n.t("history.nothingToDeleteBody"),
         });
         return;
       }
 
       const confirmed = await showConfirmDelete({
         id: "delete-send-history",
-        title: "Clear Send History",
+        title: i18n.t("history.clearSendHistory"),
         description: <>Delete {labels.join(" and ")}?</>,
       });
       if (!confirmed) return false;

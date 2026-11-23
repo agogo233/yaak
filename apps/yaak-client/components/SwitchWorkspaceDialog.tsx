@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { Workspace } from "@yaakapp-internal/models";
 import { patchModel, settingsAtom } from "@yaakapp-internal/models";
 import { Icon, InlineCode, VStack } from "@yaakapp-internal/ui";
@@ -30,13 +31,13 @@ export function SwitchWorkspaceDialog({ hide, workspace }: Props) {
         Where would you like to open <InlineCode>{workspace.name}</InlineCode>?
       </p>
       {settings && (
-        <Checkbox checked={remember} title="Remember my choice" onChange={setRemember} />
+        <Checkbox checked={remember} title={i18n.t("workspace.rememberChoice")} onChange={setRemember} />
       )}
       <DialogFooter
         inline
         actions={[
           {
-            label: "New Window",
+            label: i18n.t("workspace.newWindow"),
             rightSlot: <Icon icon="external_link" />,
             onClick: () => open(true),
           },

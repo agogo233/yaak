@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import { platform } from "@yaakapp-internal/platform";
 import { InlineCode } from "@yaakapp-internal/ui";
 import { Link } from "../components/core/Link";
@@ -24,8 +25,8 @@ export function confirmWebProxy(): Promise<boolean> {
 
   const confirmation = showConfirm({
     id: "web-proxy-consent",
-    title: "Requests in Yaak Web use a proxy",
-    confirmText: "Send via Proxy",
+    title: i18n.t("proxy.webProxyTitle"),
+    confirmText: i18n.t("proxy.sendViaProxy"),
     description: (
       <div className="space-y-3">
         <p>

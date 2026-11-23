@@ -59,6 +59,7 @@
     "hideGitSetup": "隐藏 Git 设置",
     "hideSetupMessage": "隐藏设置提示",
     "hideThisMessage": "隐藏此消息",
+    "initError": "初始化 Git 出错",
     "initOutsideYaak": "你可以在 Yaak 之外初始化 git 仓库来恢复此菜单",
     "initRepoBanner": "初始化本地仓库，开始使用 Git 进行版本管理",
     "initRepoDesc": "在所选同步目录中创建 Git 仓库。",

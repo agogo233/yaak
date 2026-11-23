@@ -1,0 +1,27 @@
+{
+  "grpc": {
+    "commit": "Commit",
+    "configureSchema": "Configure Schema",
+    "couldntFindMethod": "Couldn't Find Method",
+    "couldntFindService": "Couldn't Find Service",
+    "error": "Error",
+    "failedToParseSchema": "Failed to Parse Schema",
+    "generate": "Generate",
+    "generateExample": "Generate Example",
+    "generateExampleDesc": "The current message will be replaced with an example.",
+    "generateExampleMessage": "Generate Example Message",
+    "importFolder": "Import folder",
+    "info": "Info",
+    "message": "Message",
+    "protoFiles": "Proto files",
+    "reflectionFailed": "Reflection Failed",
+    "refreshSchema": "Refresh Schema",
+    "reloadSchema": "Reload Schema",
+    "request": "Request",
+    "requestDescription": "Request description",
+    "requestName": "Request Name",
+    "selectProtoDirectory": "Select Proto Directory",
+    "selectProtoFiles": "Select Proto Files",
+    "serviceOrMethodNotSelected": "Service or method not selected"
+  }
+}

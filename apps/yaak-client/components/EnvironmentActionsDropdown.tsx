@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import classNames from "classnames";
 import { memo, useMemo } from "react";
 import { useActiveEnvironment } from "../hooks/useActiveEnvironment";
@@ -41,10 +42,10 @@ export const EnvironmentActionsDropdown = memo(function EnvironmentActionsDropdo
         [activeEnvironment?.id],
       ),
       ...((subEnvironments.length > 0
-        ? [{ type: "separator", label: "Environments" }]
+        ? [{ type: "separator", label: i18n.t("env.environments") }]
         : []) as DropdownItem[]),
       {
-        label: "Manage Environments",
+        label: i18n.t("env.manage"),
         hotKeyAction: "environment_editor.toggle",
         leftSlot: <Icon icon="box" />,
         onSelect: () => editEnvironment(activeEnvironment),

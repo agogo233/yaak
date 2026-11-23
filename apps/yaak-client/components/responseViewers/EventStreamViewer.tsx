@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { HttpResponse } from "@yaakapp-internal/models";
 import { extractSseValueAtPath, type ServerSentEvent } from "@yaakapp-internal/sse";
 import { HStack, Icon, InlineCode, SplitLayout, VStack, IconTooltip } from "@yaakapp-internal/ui";
@@ -77,7 +78,7 @@ function ActualEventStreamViewer({ response }: Props) {
   const settingsItems = useMemo<DropdownItem[]>(
     () => [
       {
-        label: "Apply to Previews",
+        label: i18n.t("response.applyToPreviews"),
         keepOpenOnSelect: true,
         onSelect: () => filterEventPreviewsSetting.set(filterEventPreviewsSetting.value !== true),
         leftSlot: (
@@ -91,7 +92,7 @@ function ActualEventStreamViewer({ response }: Props) {
         ),
       },
       {
-        label: "Apply to Details",
+        label: i18n.t("response.applyToDetails"),
         keepOpenOnSelect: true,
         onSelect: () => applyToDetailsSetting.set(applyToDetailsSetting.value !== true),
         leftSlot: (
@@ -117,12 +118,12 @@ function ActualEventStreamViewer({ response }: Props) {
         <div className={classNames(summarySettings.enabled ? "w-44 shrink-0" : "min-w-40 flex-1")}>
           <Select
             name={`sse-summary-result-key-path-enabled::${response.requestId}`}
-            label="Extracted text"
+            label={i18n.t("response.extractedText")}
             hideLabel
             size="xs"
             value={summarySettings.enabled ? "jsonpath" : "off"}
             options={[
-              { label: "Full events", value: "off" },
+              { label: i18n.t("response.fullEvents"), value: "off" },
               { label: "JSONPath", value: "jsonpath" },
             ]}
             onChange={(value) => summarySettings.setEnabled(value === "jsonpath")}
@@ -132,7 +133,7 @@ function ActualEventStreamViewer({ response }: Props) {
           <>
             <div className="min-w-40 flex-1">
               <Input
-                label="Result JSON path"
+                label={i18n.t("response.resultJsonPath")}
                 hideLabel
                 size="xs"
                 autocomplete={sseSummaryResultKeyPathAutocomplete}
@@ -161,7 +162,7 @@ function ActualEventStreamViewer({ response }: Props) {
                 size="xs"
                 variant="border"
                 icon="settings"
-                title="Extracted text settings"
+                title={i18n.t("response.extractedTextSettings")}
               />
             </Dropdown>
           </>
@@ -257,11 +258,11 @@ function SseSummaryFooter({
     () => [
       {
         key: "sse-summary-format",
-        label: "Extracted text format",
+        label: i18n.t("response.extractedTextFormat"),
         type: "select" as const,
         value: renderMarkdown ? "markdown" : "text",
         options: [
-          { label: "Text", value: "text" },
+          { label: i18n.t("response.text"), value: "text" },
           { label: "Markdown", value: "markdown" },
         ],
         onChange: (value: string) => onRenderMarkdownChange(value === "markdown"),
@@ -278,7 +279,7 @@ function SseSummaryFooter({
       <div className="pt-2">
         <EventDetailHeader
           actions={actions}
-          title="Extracted Text"
+          title={i18n.t("response.extractedText")}
           copyText={hasSummary ? summary : undefined}
         />
       </div>
@@ -360,7 +361,7 @@ function EventDetail({
   return (
     <div className="flex flex-col h-full">
       <EventDetailHeader
-        title="Message Received"
+        title={i18n.t("response.messageReceived")}
         prefix={<EventLabels event={event} index={index} />}
         onClose={onClose}
       />

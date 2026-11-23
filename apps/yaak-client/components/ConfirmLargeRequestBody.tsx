@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { HttpRequest } from "@yaakapp-internal/models";
 import { patchModel } from "@yaakapp-internal/models";
 import { Banner, HStack, InlineCode, SizeTag } from "@yaakapp-internal/ui";
@@ -52,9 +53,9 @@ export function ConfirmLargeRequestBody({ children, request }: Props) {
             onClick={async () => {
               const confirm = await showConfirm({
                 id: `delete-body-${request.id}`,
-                confirmText: "Delete Body",
-                title: "Delete Body Text",
-                description: "Are you sure you want to delete the request body text?",
+                confirmText: i18n.t("request.deleteBody"),
+                title: i18n.t("request.deleteBodyTitle"),
+                description: i18n.t("request.deleteBodyDesc"),
                 color: "danger",
               });
               if (confirm) {

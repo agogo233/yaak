@@ -1,3 +1,4 @@
+import { i18n } from "@yaakapp-internal/i18n";
 import type { GrpcRequest } from "@yaakapp-internal/models";
 import { Banner, InlineCode, VStack } from "@yaakapp-internal/ui";
 import { useActiveRequest } from "../hooks/useActiveRequest";
@@ -97,11 +98,11 @@ function GrpcProtoSelectionDialogWithRequest({
           addLabel="Add proto files or an import folder"
           addItems={[
             {
-              label: "Proto files",
+              label: i18n.t("grpc.protoFiles"),
               icon: "file_code",
               onSelect: async () => {
                 const selected = await platform.dialog.open({
-                  title: "Select Proto Files",
+                  title: i18n.t("grpc.selectProtoFiles"),
                   multiple: true,
                   filters: [{ name: "Proto Files", extensions: ["proto"] }],
                 });
@@ -112,11 +113,11 @@ function GrpcProtoSelectionDialogWithRequest({
               },
             },
             {
-              label: "Import folder",
+              label: i18n.t("grpc.importFolder"),
               icon: "folder_code",
               onSelect: async () => {
                 const selected = await platform.dialog.open({
-                  title: "Select Proto Directory",
+                  title: i18n.t("grpc.selectProtoDirectory"),
                   directory: true,
                 });
                 if (selected == null) return;
@@ -139,7 +140,7 @@ function GrpcProtoSelectionDialogWithRequest({
       <DialogFooter
         actions={[
           {
-            label: "Refresh Schema",
+            label: i18n.t("grpc.refreshSchema"),
             isLoading: grpc.reflect.isFetching,
             disabled: grpc.reflect.isFetching,
             onClick: () => grpc.reflect.refetch(),
